@@ -1,0 +1,27 @@
+name: RSLang CI
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.x
+          cache: npm
+
+      - name: Install modules
+        run: npm install
+
+      - name: Linter
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
