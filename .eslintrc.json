@@ -20,7 +20,8 @@
     "import/default": 2,
     "import/export": 2,
     "no-console": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "eol-last": "error"
   },
   "settings": {
     "import/resolver": {
