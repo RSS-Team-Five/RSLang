@@ -1,6 +1,5 @@
 import IWord from "../../types/IWord";
 
-
 const words = 'http://host1836051.hostland.pro/words';
 
 async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
