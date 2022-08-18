@@ -1,6 +1,7 @@
-const hostBase = 'http://host1836051.hostland.pro';
-const users = `${hostBase}/users`;
-const sign = `${hostBase}/signin`;
+import config from "../../models/Config";
+
+const users = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
+const sign = `${config.API.URL}/${config.API.ENDPOINTS.SIGNIN}`;
 
 export const createUser = async ({ name, email, password }: { name: string; email: string; password: string }) => {
   try {
