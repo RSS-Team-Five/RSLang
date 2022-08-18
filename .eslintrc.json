@@ -4,7 +4,13 @@
     "es2021": true
   },
   "ignorePatterns": [".eslintrc.js", "webpack.config.js"],
-  "extends": ["airbnb-base", "airbnb-typescript/base", "prettier", "plugin:import/recommended", "plugin:import/typescript"],
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -21,7 +27,9 @@
     "import/export": 2,
     "no-console": "off",
     "no-param-reassign": ["error", { "props": false }],
-    "eol-last": "error"
+    "eol-last": "error",
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }]
   },
   "settings": {
     "import/resolver": {
