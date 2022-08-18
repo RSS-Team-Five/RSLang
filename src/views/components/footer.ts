@@ -57,7 +57,5 @@ function footer(): HTMLElement {
 
   return footerElement.element;
 }
-const x = footer();
-document.querySelector('body')?.append(x);
 
 export default footer;
