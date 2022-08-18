@@ -48,7 +48,7 @@ function footer(): HTMLElement {
 
   const logoRS = new CustomElement('img',
   {
-    src: '../../assets/images/rs_school_js.svg',
+    src: '../../assets/icons/rs_school_js.svg',
     alt: 'rs-logo'
   });
   linkToRS.addChildren([logoRS.element]);
