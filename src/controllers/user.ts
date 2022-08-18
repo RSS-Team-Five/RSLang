@@ -1,4 +1,5 @@
 import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } from "../api/users/usersApi";
+import IUser from "../types/IUser";
 
 export default class User {
   name: string;
@@ -7,7 +8,7 @@ export default class User {
 
   password: string;
 
-  user: {};
+  user: IUser;
 
   constructor({ name, email, password }: { name: string; email: string; password: string }) {
     this.name = name;
