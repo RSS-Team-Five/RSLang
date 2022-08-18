@@ -2,15 +2,9 @@ import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } 
 import IUser from "../types/IUser";
 
 export default class User {
-  name: string;
-  email: string;
-  password: string;
   user: IUser;
 
   constructor({ name, email, password }: { name: string; email: string; password: string }) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
     this.user = {
       name,
       email,
