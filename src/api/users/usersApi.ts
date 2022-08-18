@@ -1,11 +1,11 @@
 import config from "../../models/Config";
 
-const users = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
-const sign = `${config.API.URL}/${config.API.ENDPOINTS.SIGNIN}`;
+const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
+const signinUrl = `${config.API.URL}/${config.API.ENDPOINTS.SIGNIN}`;
 
 export const createUser = async ({ name, email, password }: { name: string; email: string; password: string }) => {
   try {
-    const response = await fetch(`${users}`, {
+    const response = await fetch(`${usersUrl}`, {
       method: 'POST',
       body: JSON.stringify({ name, email, password }),
       headers: { 'Content-Type': 'application/json' },
@@ -20,7 +20,7 @@ export const createUser = async ({ name, email, password }: { name: string; emai
 
 export const signIn = async ({ email, password }: { email: string; password: string }) => {
   try {
-    const response = await fetch(`${sign}`, {
+    const response = await fetch(`${signinUrl}`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
@@ -35,12 +35,11 @@ export const signIn = async ({ email, password }: { email: string; password: str
 
 export const getUser = async ({ userId, token }: { userId: string; token: string }) => {
   try {
-    const response = await fetch(`${users}/${userId}`, {
+    const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        ...config.DEFAULT_HEADERS,
       },
     });
     const user = await response.json();
@@ -53,13 +52,12 @@ export const getUser = async ({ userId, token }: { userId: string; token: string
 
 export const updateUser = async ({ email, password, userId, token }: { email: string; password: string, userId: string, token: string }) => {
   try {
-    const response = await fetch(`${users}/${userId}`, {
+    const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'PUT',
       body: JSON.stringify({ email, password }),
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        ...config.DEFAULT_HEADERS,
       },
     });
     const user = await response.json();
@@ -72,12 +70,11 @@ export const updateUser = async ({ email, password, userId, token }: { email: st
 
 export const deleteUser = async ({ userId, token }: { userId: string, token: string }) => {
   try {
-    const response = await fetch(`${users}/${userId}`, {
+    const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        ...config.DEFAULT_HEADERS,
       },
     });
     const user = await response.json();
@@ -90,12 +87,11 @@ export const deleteUser = async ({ userId, token }: { userId: string, token: str
 
 export const getRefreshToken = async ({ userId, refreshToken }: { userId: string; refreshToken: string }) => {
   try {
-    const response = await fetch(`${users}/${userId}/tokens`, {
+    const response = await fetch(`${usersUrl}/${userId}/tokens`, {
       method: 'GET',
       body: JSON.stringify({ refreshToken }),
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        ...config.DEFAULT_HEADERS,
       },
     });
     const user = await response.json();
