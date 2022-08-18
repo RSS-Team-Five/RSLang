@@ -3,11 +3,8 @@ import IUser from "../types/IUser";
 
 export default class User {
   name: string;
-
   email: string;
-
   password: string;
-
   user: IUser;
 
   constructor({ name, email, password }: { name: string; email: string; password: string }) {
