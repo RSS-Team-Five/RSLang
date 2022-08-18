@@ -8,7 +8,7 @@ export default class Events implements IEvents {
   }
 
   subscribe(event: ObserverEvent, subscriber: ObserverCallback) {
-    this.observers[event] = this.observers[event] || [];
+    this.observers[event] = this.observers[event] ?? [];
     this.observers[event].push(subscriber);
   }
 
