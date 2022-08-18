@@ -1,10 +1,9 @@
+import config from "../../models/Config";
 import IWord from "../../types/IWord";
-
-const words = 'http://host1836051.hostland.pro/words';
 
 async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
   try {
-    const response = await fetch(`${words}?_group=${group}&_page=${page}`);
+    const response = await fetch(`${config.API.URL}?_group=${group}&_page=${page}`);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -16,7 +15,7 @@ async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
 
 async function oneWordFromAPI(id: string): Promise<IWord | unknown> {
   try {
-    const response = await fetch(`${words}/${id}`);
+    const response = await fetch(`${config.API.URL}/${id}`);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
