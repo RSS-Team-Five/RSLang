@@ -18,27 +18,24 @@ function footer(): HTMLElement {
   });
   container.addChildren([footerWrapper.element]);
 
+  const teamMembers = [
+    {memberName: 'Igor',  memberGithub: "Bumble-sakh"},
+    {memberName: 'Anna',  memberGithub: "muannna"},
+    {memberName: 'Yuliya',  memberGithub: "YuliyaShu"}
+  ]
 
-  const linkToAnna = new CustomElement('a',
+  const membersLink = teamMembers.map(elem => new CustomElement('a',
   {
     className: 'footer__links',
-    innerText: 'Anna',
-    href: 'https://github.com/muannna'
-  });
+    innerText: elem.memberName,
+    href: `https://github.com/${elem.memberGithub}`
+  }).element)
 
-  const linkToIgor = new CustomElement('a',
+  const dateOfProject = new CustomElement('p',
   {
     className: 'footer__links',
-    innerText: 'Igor',
-    href: 'https://github.com/Bumble-sakh'
-  });
-
-  const linkToYuliya = new CustomElement('a',
-  {
-    className: 'footer__links',
-    innerText: 'Yuliya',
-    href: 'https://github.com/YuliyaShu'
-  });
+    innerHTML: 'august 2022'
+  })
 
   const linkToRS = new CustomElement('a',
   {
@@ -52,8 +49,7 @@ function footer(): HTMLElement {
     alt: 'rs-logo'
   });
   linkToRS.addChildren([logoRS.element]);
-
-  footerWrapper.addChildren([linkToAnna.element, linkToIgor.element, linkToYuliya.element, linkToRS.element]);
+  footerWrapper.addChildren([...membersLink, dateOfProject.element, linkToRS.element]);
 
   return footerElement.element;
 }
