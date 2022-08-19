@@ -9,10 +9,10 @@ export default class User {
       name,
       email,
       password,
-      userId: '',
-      token: '',
-      refreshToken: '',
-      message: ''
+      userId: null,
+      token: null,
+      refreshToken: null,
+      message: null
     }
   }
 
@@ -28,25 +28,25 @@ export default class User {
     return this.user;
   }
 
-  async getUser({ userId, token }: { userId: string; token: string }) {
+  async getUser({ userId, token }: { userId: string | null; token: string | null }) {
     const user = await getUser({ userId, token });
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
-  async getToken({ userId, refreshToken }: { userId: string; refreshToken: string }) {
+  async getToken({ userId, refreshToken }: { userId: string | null; refreshToken: string | null }) {
     const user = await getRefreshToken({ userId, refreshToken });
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
-  async updateUser({ email, password }: { email: string; password: string }, userId: string, token: string) {
+  async updateUser({ email, password }: { email: string; password: string }, userId: string | null, token: string | null) {
     const user = await updateUser({ email, password, userId, token })
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
-  async deleteUser({ userId, token }: { userId: string; token: string }) {
+  async deleteUser({ userId, token }: { userId: string | null; token: string | null }) {
     const user = await deleteUser({ userId, token });
     this.user = Object.assign(this.user, user);
     return this.user;

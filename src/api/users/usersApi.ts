@@ -33,7 +33,7 @@ export const signIn = async ({ email, password }: { email: string; password: str
   }
 }
 
-export const getUser = async ({ userId, token }: { userId: string; token: string }) => {
+export const getUser = async ({ userId, token }: { userId: string | null; token: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'GET',
@@ -50,7 +50,7 @@ export const getUser = async ({ userId, token }: { userId: string; token: string
   }
 }
 
-export const updateUser = async ({ email, password, userId, token }: { email: string; password: string, userId: string, token: string }) => {
+export const updateUser = async<T extends String>({ email, password, userId, token }: { email: T; password: T, userId: T | null, token: T | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'PUT',
@@ -68,7 +68,7 @@ export const updateUser = async ({ email, password, userId, token }: { email: st
   }
 }
 
-export const deleteUser = async ({ userId, token }: { userId: string, token: string }) => {
+export const deleteUser = async ({ userId, token }: { userId: string | null, token: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'DELETE',
@@ -85,7 +85,7 @@ export const deleteUser = async ({ userId, token }: { userId: string, token: str
   }
 }
 
-export const getRefreshToken = async ({ userId, refreshToken }: { userId: string; refreshToken: string }) => {
+export const getRefreshToken = async ({ userId, refreshToken }: { userId: string | null; refreshToken: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/tokens`, {
       method: 'GET',
