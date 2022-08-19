@@ -1,5 +1,10 @@
+import CustomElement from '../../utils/customElement';
+
 function createBookPage() {
-  return new HTMLElement();
+  const hi = new CustomElement('p', {
+    innerText: 'Hello! I/m a book page!',
+  });
+  return hi.element;
 }
 
 export default createBookPage;

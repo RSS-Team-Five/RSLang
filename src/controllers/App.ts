@@ -17,10 +17,9 @@ export default class App {
     this.state.events.subscribe('userAuthorized', updateHeader);
 
     const router = new Router();
-    const view = new View();
 
     MainLayout.renderMainLayout();
-    view.renderMain();
+    const view = new View();
     router.route('/', view.renderMain.bind(view));
     router.route('/book', view.renderBook.bind(view));
     router.route('/games', view.renderGames.bind(view));

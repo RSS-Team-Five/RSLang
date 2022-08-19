@@ -1,6 +1,10 @@
+import CustomElement from '../../utils/customElement';
+
 function createStatisticPage() {
-  console.log('🚀 ~ createStatisticPage', createStatisticPage);
-  return new HTMLElement();
+  const hi = new CustomElement('p', {
+    innerText: 'Hello! I/m a statistics page!',
+  });
+  return hi.element;
 }
 
 export default createStatisticPage;
