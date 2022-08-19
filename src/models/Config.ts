@@ -17,6 +17,10 @@ const config = {
     maxGroup: 6,
     maxPage: 30,
   },
+  DEFAULT_HEADERS: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
 };
 
 export default config;
