@@ -1,3 +1,5 @@
+import { UserWordsType } from './UserWordParameters';
+
 export default interface IUser {
   name: string;
   email: string;
@@ -6,4 +8,5 @@ export default interface IUser {
   token: string | null;
   refreshToken: string | null;
   message: string | null;
+  userWords: UserWordsType[] | null;
 }
