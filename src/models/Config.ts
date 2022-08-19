@@ -18,9 +18,9 @@ const config = {
     maxPage: 30,
   },
   DEFAULT_HEADERS: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
 };
 
 export default config;

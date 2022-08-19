@@ -1,5 +1,5 @@
-import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } from "../api/users/usersApi";
-import IUser from "../types/IUser";
+import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } from '../api/users/usersApi';
+import IUser from '../types/IUser';
 
 export default class User {
   user: IUser;
@@ -12,8 +12,8 @@ export default class User {
       userId: null,
       token: null,
       refreshToken: null,
-      message: null
-    }
+      message: null,
+    };
   }
 
   async createUser({ name, email, password }: { name: string; email: string; password: string }) {
@@ -23,7 +23,7 @@ export default class User {
   }
 
   async signInUser({ email, password }: { email: string; password: string }) {
-    const user = await signIn({ email, password })
+    const user = await signIn({ email, password });
     this.user = Object.assign(this.user, user);
     return this.user;
   }
@@ -40,8 +40,12 @@ export default class User {
     return this.user;
   }
 
-  async updateUser({ email, password }: { email: string; password: string }, userId: string | null, token: string | null) {
-    const user = await updateUser({ email, password, userId, token })
+  async updateUser(
+    { email, password }: { email: string; password: string },
+    userId: string | null,
+    token: string | null
+  ) {
+    const user = await updateUser({ email, password, userId, token });
     this.user = Object.assign(this.user, user);
     return this.user;
   }
