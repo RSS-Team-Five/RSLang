@@ -55,7 +55,7 @@ export default class View {
   render404() {
     if (this.content) {
       cleanElement(this.content);
-      this.content.innerHTML = 'Page has not found!';
+      this.content.innerHTML = 'Page has not been found!';
     }
   }
 }

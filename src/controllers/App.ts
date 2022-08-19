@@ -17,12 +17,19 @@ export default class App {
     this.state.events.subscribe('userAuthorized', updateHeader);
 
     const router = new Router();
-    router.route('/', () => {
-      MainLayout.renderMainLayout();
-      const view = new View();
-      view.renderMain();
-    });
+    const view = new View();
+
+    MainLayout.renderMainLayout();
+    view.renderMain();
+    router.route('/', view.renderMain.bind(view));
+    router.route('/book', view.renderBook.bind(view));
+    router.route('/games', view.renderGames.bind(view));
+    router.route('/promo', view.renderPromo.bind(view));
+    router.route('/statistics', view.renderStatistics.bind(view));
 
     router.view('/');
+
+    window.addEventListener('load', () => router.resolve());
+    window.addEventListener('hashchange', () => router.resolve());
   }
 }

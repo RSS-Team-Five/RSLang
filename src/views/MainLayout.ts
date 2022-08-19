@@ -1,5 +1,6 @@
 import Props from '../types/HeaderTypes';
 import CustomElement from '../utils/customElement';
+import footer from './components/footer';
 import { header } from './components/header';
 
 class MainLayout {
@@ -23,8 +24,8 @@ class MainLayout {
       className: 'main__container container content',
     });
     main.addChildren([container.element]);
-    // const footerElement = footer();
-    document.querySelector('body')?.append(headerElement.element, main.element /* , footerElement */);
+    const footerElement = footer();
+    document.querySelector('body')?.append(headerElement.element, main.element, footerElement);
   }
 }
 

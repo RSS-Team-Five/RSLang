@@ -1,12 +1,8 @@
-import Router from '../../controllers/Router';
 import Props from '../../types/HeaderTypes';
 import CustomElement from '../../utils/customElement';
-import View from '../View';
 
 function header(props: Props): HTMLElement {
   const { userState } = props;
-  const router = new Router();
-  const view = new View();
   const container = new CustomElement('div', {
     className: 'header__container container',
   });
@@ -21,13 +17,11 @@ function header(props: Props): HTMLElement {
     innerHTML: 'OUR INCREDIBLE LOGO',
     href: '#/',
   });
-  router.route('#/', view.renderMain.bind(view));
 
   const userIconLink = new CustomElement('a', {
     className: 'header__links',
     href: '#/statistics',
   });
-  router.route('#/statistics', view.renderStatistics.bind(view));
 
   let userIcon;
   if (!userState) {
@@ -45,9 +39,12 @@ function header(props: Props): HTMLElement {
   }
   userIconLink.addChildren([userIcon.element]);
 
-  // burger
+  const burger = new CustomElement('div', {
+    className: 'header__burger',
+    innerText: 'future-burger',
+  });
 
-  headerWrapper.addChildren([linkToMainPage.element, userIconLink.element]);
+  headerWrapper.addChildren([linkToMainPage.element, userIconLink.element, burger.element]);
   return container.element;
 }
 
