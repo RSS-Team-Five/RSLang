@@ -1,4 +1,5 @@
 import CustomElement from "../../utils/customElement";
+import logoRSPath from '../../assets/icons/rs_school_js.svg';
 
 function footer(): HTMLElement {
   const footerElement = new CustomElement('footer',
@@ -45,7 +46,7 @@ function footer(): HTMLElement {
 
   const logoRS = new CustomElement('img',
   {
-    src: '../../assets/icons/rs_school_js.svg',
+    src: logoRSPath,
     alt: 'rs-logo'
   });
   linkToRS.addChildren([logoRS.element]);
