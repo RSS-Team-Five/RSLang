@@ -3,10 +3,13 @@ import {
   createUserWord,
   deleteUserWord,
   getAllUserWords,
+  getUserAggregatedWord,
+  getUserAggregatedWords,
   getUserWord,
   updateUserWord,
 } from '../api/users/usersWordsApi';
 import IUser from '../types/IUser';
+import { GroupType, PageType } from '../types/SectionTypes';
 import { DifficultyType, OptionalType } from '../types/UserWordParameters';
 
 export default class User {
@@ -100,5 +103,23 @@ export default class User {
     await deleteUserWord({ userId, token }, wordId);
     this.user = await this.getAllUserWords({ userId, token });
     return this.user;
+  }
+
+  async getUserAggregatedWords(
+    { userId, token }: { userId: string | null; token: string | null },
+    group: GroupType | null = null,
+    page: PageType | null = null,
+    wordsPerPage: number | null = null,
+    filter: string | null = null
+  ) {
+    this.user = await this.getAllUserWords({ userId, token });
+    const words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    return words;
+  }
+
+  async getUserAggregatedWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
+    this.user = await this.getAllUserWords({ userId, token });
+    const word = await getUserAggregatedWord({ userId, token }, wordId);
+    return word;
   }
 }
