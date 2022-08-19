@@ -1,6 +1,6 @@
-import { wordsFromAPI } from "../api/words/wordsApi";
-import IWord from "../types/IWord";
-import { GroupType, PageType } from "../types/SectionTypes";
+import { wordsFromAPI } from '../api/words/wordsApi';
+import IWord from '../types/IWord';
+import { GroupType, PageType } from '../types/SectionTypes';
 
 class Section {
   group: GroupType;
@@ -13,7 +13,7 @@ class Section {
   }
 
   async getWordsOnPage(): Promise<IWord[]> {
-    const words = await wordsFromAPI(this.group, this.page) as IWord[];
+    const words = (await wordsFromAPI(this.group, this.page)) as IWord[];
     return words;
   }
 }
