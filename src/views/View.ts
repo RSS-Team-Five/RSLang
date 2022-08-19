@@ -1,6 +1,7 @@
 import cleanElement from "../utils/cleanElement";
 import createBookPage from "./pages/bookPage";
 import createGamesPage from "./pages/gamesPage";
+// eslint-disable-next-line import/no-cycle
 import createMainPage from "./pages/mainPage";
 import createPromoPage from "./pages/promoPage";
 import createStatisticPage from "./pages/statisticPage";

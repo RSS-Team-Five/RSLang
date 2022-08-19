@@ -19,7 +19,8 @@ export default class App {
     const router = new Router();
     router.route('/', () => {
       MainLayout.renderMainLayout();
-      new View().renderMain();
+      const view = new View();
+      view.renderMain();
     });
 
     router.view('/');

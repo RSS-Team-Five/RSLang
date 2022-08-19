@@ -27,7 +27,6 @@ class MainLayout {
     });
     main.addChildren([container.element]);
     // const footerElement = footer();
-
     document.querySelector('body')?.append(headerElement.element, main.element/* , footerElement */);
   }
 }
