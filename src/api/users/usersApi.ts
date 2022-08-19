@@ -3,7 +3,7 @@ import config from '../../models/Config';
 const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
 const signinUrl = `${config.API.URL}/${config.API.ENDPOINTS.SIGNIN}`;
 
-export const createUser = async <T extends String>({ name, email, password }: { name: T; email: T; password: T }) => {
+export const createUser = async ({ name, email, password }: { name: string; email: string; password: string }) => {
   try {
     const response = await fetch(`${usersUrl}`, {
       method: 'POST',
@@ -18,7 +18,7 @@ export const createUser = async <T extends String>({ name, email, password }: { 
   }
 };
 
-export const signIn = async <T extends String>({ email, password }: { email: T; password: T }) => {
+export const signIn = async ({ email, password }: { email: string; password: string }) => {
   try {
     const response = await fetch(`${signinUrl}`, {
       method: 'POST',
@@ -33,7 +33,7 @@ export const signIn = async <T extends String>({ email, password }: { email: T; 
   }
 };
 
-export const getUser = async <T extends String>({ userId, token }: { userId: T | null; token: T | null }) => {
+export const getUser = async ({ userId, token }: { userId: string | null; token: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'GET',
@@ -50,16 +50,16 @@ export const getUser = async <T extends String>({ userId, token }: { userId: T |
   }
 };
 
-export const updateUser = async <T extends String>({
+export const updateUser = async ({
   email,
   password,
   userId,
   token,
 }: {
-  email: T;
-  password: T;
-  userId: T | null;
-  token: T | null;
+  email: string;
+  password: string;
+  userId: string | null;
+  token: string | null;
 }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
@@ -78,7 +78,7 @@ export const updateUser = async <T extends String>({
   }
 };
 
-export const deleteUser = async <T extends String>({ userId, token }: { userId: T | null; token: T | null }) => {
+export const deleteUser = async ({ userId, token }: { userId: string | null; token: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}`, {
       method: 'DELETE',
@@ -95,12 +95,12 @@ export const deleteUser = async <T extends String>({ userId, token }: { userId: 
   }
 };
 
-export const getRefreshToken = async <T extends String>({
+export const getRefreshToken = async ({
   userId,
   refreshToken,
 }: {
-  userId: T | null;
-  refreshToken: T | null;
+  userId: string | null;
+  refreshToken: string | null;
 }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/tokens`, {

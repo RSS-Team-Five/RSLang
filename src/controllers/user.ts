@@ -40,17 +40,17 @@ export default class User {
     return this.user;
   }
 
-  async updateUser<T extends String>(
-    { email, password }: { email: T; password: T },
-    userId: T | null,
-    token: T | null
+  async updateUser(
+    { email, password }: { email: string; password: string },
+    userId: string | null,
+    token: string | null
   ) {
     const user = await updateUser({ email, password, userId, token });
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
-  async deleteUser<T extends String>({ userId, token }: { userId: T | null; token: T | null }) {
+  async deleteUser({ userId, token }: { userId: string | null; token: string | null }) {
     const user = await deleteUser({ userId, token });
     this.user = Object.assign(this.user, user);
     return this.user;
