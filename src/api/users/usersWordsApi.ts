@@ -1,5 +1,5 @@
 import config from '../../models/Config';
-import { DifficultyType, OptionalType } from '../../types/UserWordParametrs';
+import { DifficultyType, OptionalType } from '../../types/UserWordParameters';
 
 const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
 const wordsUrl = `${config.API.ENDPOINTS.WORDS}`;
