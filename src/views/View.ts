@@ -1,4 +1,3 @@
-import cleanElement from '../utils/cleanElement';
 import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
 import createMainPage from './pages/mainPage';
@@ -14,7 +13,7 @@ export default class View {
 
   renderMain() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       const mainPage: HTMLElement = createMainPage();
       this.content?.append(mainPage);
     }
@@ -22,7 +21,7 @@ export default class View {
 
   renderBook() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       const bookPage: HTMLElement = createBookPage();
       this.content?.append(bookPage);
     }
@@ -30,7 +29,7 @@ export default class View {
 
   renderGames() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
       this.content?.append(gamesPage);
     }
@@ -38,7 +37,7 @@ export default class View {
 
   renderPromo() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       const promoPage: HTMLElement = createPromoPage();
       this.content?.append(promoPage);
     }
@@ -46,7 +45,7 @@ export default class View {
 
   renderStatistics() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       const statisticPage: HTMLElement = createStatisticPage();
       this.content?.append(statisticPage);
     }
@@ -54,7 +53,7 @@ export default class View {
 
   render404() {
     if (this.content) {
-      cleanElement(this.content);
+      this.content.innerHTML = '';
       this.content.innerHTML = 'Page has not been found!';
     }
   }
