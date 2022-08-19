@@ -1,5 +1,5 @@
 function createStatisticPage() {
-  return new HTMLElement;
+  return new HTMLElement();
 }
 
 export default createStatisticPage;

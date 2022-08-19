@@ -1,5 +1,5 @@
 function createBookPage() {
-  return new HTMLElement;
+  return new HTMLElement();
 }
 
 export default createBookPage;

@@ -1,5 +1,5 @@
 function createPromoPage() {
-  return new HTMLElement;
+  return new HTMLElement();
 }
 
 export default createPromoPage;

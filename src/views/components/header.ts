@@ -1,52 +1,46 @@
-import Router from "../../controllers/Router";
-import Props from "../../types/HeaderTypes";
-import CustomElement from "../../utils/customElement";
-import View from "../View";
+import Router from '../../controllers/Router';
+import Props from '../../types/HeaderTypes';
+import CustomElement from '../../utils/customElement';
+import View from '../View';
 
 function header(props: Props): HTMLElement {
   const { userState } = props;
   const router = new Router();
-  const view = new View(); 
-  const container = new CustomElement('div',
-  {
+  const view = new View();
+  const container = new CustomElement('div', {
     className: 'header__container container',
   });
 
-  const headerWrapper = new CustomElement('div',
-  {
+  const headerWrapper = new CustomElement('div', {
     className: 'header__wrapper',
   });
   container.addChildren([headerWrapper.element]);
 
-  const linkToMainPage = new CustomElement('a',
-  {
+  const linkToMainPage = new CustomElement('a', {
     className: 'header__links',
     innerHTML: 'OUR INCREDIBLE LOGO',
-    href: '#/'
+    href: '#/',
   });
-  router.route("#/", view.renderMain.bind(view));
+  router.route('#/', view.renderMain.bind(view));
 
-  const userIconLink = new CustomElement('a',
-  {
+  const userIconLink = new CustomElement('a', {
     className: 'header__links',
-    href: '#/statistics'
+    href: '#/statistics',
   });
-  router.route("#/statistics", view.renderStatistics.bind(view));
+  router.route('#/statistics', view.renderStatistics.bind(view));
 
   let userIcon;
   if (!userState) {
-    userIcon = new CustomElement('img',
-    {
+    userIcon = new CustomElement('img', {
       className: 'header__links-img',
       src: '',
-      alt: 'unauthorized icon'
+      alt: 'unauthorized icon',
     });
   } else {
-    userIcon = new CustomElement('img',
-    {
+    userIcon = new CustomElement('img', {
       className: 'header__links-img',
       src: '',
-      alt: 'authorized icon'
+      alt: 'authorized icon',
     });
   }
   userIconLink.addChildren([userIcon.element]);

@@ -1,5 +1,5 @@
 function createGamesPage() {
-  return new HTMLElement;
+  return new HTMLElement();
 }
 
 export default createGamesPage;
