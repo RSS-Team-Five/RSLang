@@ -13,7 +13,6 @@ export default class View {
   }
 
   renderMain() {
-    console.log('🚀 ~ this.content', this.content);
     if (this.content) {
       cleanElement(this.content);
       const mainPage: HTMLElement = createMainPage();

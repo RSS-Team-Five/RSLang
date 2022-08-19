@@ -1,7 +1,6 @@
 import CustomElement from '../../utils/customElement';
 
 function createMainPage() {
-  console.log('🚀 ~ createMainPage', createMainPage);
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper',
   });
