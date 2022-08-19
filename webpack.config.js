@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 
 const devServer = (isDev) =>
   !isDev
@@ -59,15 +58,6 @@ module.exports = ({ dev }) => ({
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: `${__dirname}/src/assets`,
-          to: 'assets',
-          noErrorOnMissing: true,
-        },
-      ],
     }),
   ],
   resolve: {
