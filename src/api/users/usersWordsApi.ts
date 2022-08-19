@@ -24,12 +24,74 @@ export const getAllUserWords = async ({ userId, token }: { userId: string | null
 export const createUserWord = async (
   { userId, token }: { userId: string | null; token: string | null },
   wordId: string,
-  { difficulty, optional }: { difficulty: DifficultyType; optional: OptionalType }
+  { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
 ) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/${wordsUrl}/${wordId}`, {
       method: 'POST',
       body: JSON.stringify({ difficulty, optional }),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...config.DEFAULT_HEADERS,
+      },
+    });
+    const word = await response.json();
+
+    return word;
+  } catch (error) {
+    return { isSuccess: false };
+  }
+};
+
+export const getUserWord = async (
+  { userId, token }: { userId: string | null; token: string | null },
+  wordId: string
+) => {
+  try {
+    const response = await fetch(`${usersUrl}/${userId}/${wordsUrl}/${wordId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...config.DEFAULT_HEADERS,
+      },
+    });
+    const word = await response.json();
+
+    return word;
+  } catch (error) {
+    return { isSuccess: false };
+  }
+};
+
+export const updateUserWord = async (
+  { userId, token }: { userId: string | null; token: string | null },
+  wordId: string,
+  { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
+) => {
+  try {
+    const response = await fetch(`${usersUrl}/${userId}/${wordsUrl}/${wordId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ difficulty, optional }),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...config.DEFAULT_HEADERS,
+      },
+    });
+    const word = await response.json();
+
+    return word;
+  } catch (error) {
+    return { isSuccess: false };
+  }
+};
+
+export const deleteUserWord = async (
+  { userId, token }: { userId: string | null; token: string | null },
+  wordId: string
+) => {
+  try {
+    const response = await fetch(`${usersUrl}/${userId}/${wordsUrl}/${wordId}`, {
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
         ...config.DEFAULT_HEADERS,
