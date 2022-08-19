@@ -1,5 +1,5 @@
-import config from "../../models/Config";
-import IWord from "../../types/IWord";
+import config from '../../models/Config';
+import IWord from '../../types/IWord';
 
 async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
   try {
