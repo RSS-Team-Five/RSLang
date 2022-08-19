@@ -9,6 +9,10 @@ export default class User {
       name,
       email,
       password,
+      userId: '',
+      token: '',
+      refreshToken: '',
+      message: ''
     }
   }
 
