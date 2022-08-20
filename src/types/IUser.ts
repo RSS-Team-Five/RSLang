@@ -1,3 +1,4 @@
+import { UserSettingsType } from './UserSettingsType';
 import { UserStatisticsType } from './UserStatisticsType';
 import { UserWordsType } from './UserWordParameters';
 
@@ -11,4 +12,5 @@ export default interface IUser {
   message: string | null;
   userWords: UserWordsType[] | null;
   userStatistic: UserStatisticsType | null;
+  userSettings: UserSettingsType | null;
 }
