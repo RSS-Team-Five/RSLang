@@ -1,3 +1,4 @@
+import { UserStatisticsType } from './UserStatisticsType';
 import { UserWordsType } from './UserWordParameters';
 
 export default interface IUser {
@@ -9,4 +10,5 @@ export default interface IUser {
   refreshToken: string | null;
   message: string | null;
   userWords: UserWordsType[] | null;
+  userStatistic: UserStatisticsType | null;
 }
