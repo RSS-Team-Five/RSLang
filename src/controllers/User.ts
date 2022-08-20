@@ -12,6 +12,7 @@ import {
   getUserWord,
   updateUserWord,
 } from '../api/users/usersWordsApi';
+import { getUserSettings, upsertUserSettings } from '../api/users/usersSettingsApi';
 
 export default class User {
   user: IUser;
@@ -27,6 +28,7 @@ export default class User {
       message: null,
       userWords: null,
       userStatistic: null,
+      userSettings: null,
     };
   }
 
@@ -137,6 +139,21 @@ export default class User {
   ) {
     const statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
     this.user.userStatistic = statistic;
+    return this.user;
+  }
+
+  async getUserSettings({ userId, token }: { userId: string | null; token: string | null }) {
+    const settings = await getUserSettings({ userId, token });
+    this.user.userSettings = settings;
+    return this.user;
+  }
+
+  async upsertUserSettings(
+    { userId, token }: { userId: string | null; token: string | null },
+    { wordsPerDay, optional = {} }: { wordsPerDay: number; optional: {} }
+  ) {
+    const settings = await upsertUserSettings({ userId, token }, { wordsPerDay, optional });
+    this.user.userSettings = settings;
     return this.user;
   }
 }
