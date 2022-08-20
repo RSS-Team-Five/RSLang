@@ -3,7 +3,7 @@ import IWord from '../../types/IWord';
 
 async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
   try {
-    const response = await fetch(`${config.API.URL}?_group=${group}&_page=${page}`);
+    const response = await fetch(`${config.API.URL}/${config.API.ENDPOINTS.WORDS}?group=${group}&page=${page}`);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -15,7 +15,7 @@ async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
 
 async function oneWordFromAPI(id: string): Promise<IWord | unknown> {
   try {
-    const response = await fetch(`${config.API.URL}/${id}`);
+    const response = await fetch(`${config.API.URL}/${config.API.ENDPOINTS.WORDS}/${id}`);
     if (!response.ok) {
       throw new Error(response.statusText);
     }
