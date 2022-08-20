@@ -23,20 +23,18 @@ function header(props: Props): HTMLElement {
     href: '#/statistics',
   });
 
-  let userIcon;
-  if (!userState) {
-    userIcon = new CustomElement('img', {
-      className: 'header__links-img',
-      src: '',
-      alt: 'unauthorized icon',
-    });
-  } else {
-    userIcon = new CustomElement('img', {
-      className: 'header__links-img',
-      src: '',
-      alt: 'authorized icon',
-    });
-  }
+  const userIcon = !userState
+    ? new CustomElement('img', {
+        className: 'header__links-img',
+        src: '',
+        alt: 'unauthorized icon',
+      })
+    : new CustomElement('img', {
+        className: 'header__links-img',
+        src: '',
+        alt: 'authorized icon',
+      });
+
   userIconLink.addChildren([userIcon.element]);
 
   const burger = new CustomElement('div', {
