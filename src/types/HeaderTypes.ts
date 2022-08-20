@@ -1,5 +1,5 @@
 type Props = {
-  userState: true | false;
+  userState: boolean;
 };
 
 export default Props;
