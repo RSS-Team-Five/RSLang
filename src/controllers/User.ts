@@ -1,5 +1,4 @@
 import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } from '../api/users/usersApi';
-import { getUserStatistic, upsertUserStatistic } from '../api/users/usersStatisticApi';
 import IUser from '../types/IUser';
 import { GroupType, PageType } from '../types/SectionTypes';
 import { DifficultyType, OptionalType } from '../types/UserWordParameters';
@@ -26,7 +25,6 @@ export default class User {
       refreshToken: null,
       message: null,
       userWords: null,
-      userStatistic: null,
     };
   }
 
@@ -123,20 +121,5 @@ export default class User {
     this.user = await this.getAllUserWords({ userId, token });
     const word = await getUserAggregatedWord({ userId, token }, wordId);
     return word;
-  }
-
-  async getUserStatistic({ userId, token }: { userId: string | null; token: string | null }) {
-    const statistic = await getUserStatistic({ userId, token });
-    this.user.userStatistic = statistic;
-    return this.user;
-  }
-
-  async upsertUserStatistic(
-    { userId, token }: { userId: string | null; token: string | null },
-    { learnedWords, optional = {} }: { learnedWords: number; optional: {} }
-  ) {
-    const statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
-    this.user.userStatistic = statistic;
-    return this.user;
   }
 }
