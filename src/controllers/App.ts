@@ -24,7 +24,9 @@ export default class App {
 
     const router = new Router();
 
-    MainLayout.renderMainLayout();
+    const mainLayout = new MainLayout(this.state.user.isAuthorized);
+    mainLayout.renderMainLayout();
+
     const view = new View();
     router.route('/', view.renderMain.bind(view));
     router.route('/book', view.renderBook.bind(view));

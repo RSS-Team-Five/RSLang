@@ -3,16 +3,16 @@ import footer from './components/footer';
 import { header } from './components/header';
 
 class MainLayout {
-  static userState: boolean;
+  userState: boolean;
   constructor(userState = false) {
-    MainLayout.userState = userState;
+    this.userState = userState;
   }
 
-  static renderMainLayout() {
+  renderMainLayout() {
     const headerElement = new CustomElement('header', {
       className: 'header',
     });
-    const headerContent = header(MainLayout.userState);
+    const headerContent = header(this.userState);
     headerElement.addChildren([headerContent]);
 
     const main = new CustomElement('main', {
