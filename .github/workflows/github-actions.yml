@@ -24,7 +24,7 @@ jobs:
         run: npm run lint
 
       - name: Style
-      run: npm run style
+        run: npm run style
 
       - name: Build
         run: npm run build
