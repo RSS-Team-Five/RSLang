@@ -1,3 +1,4 @@
+import state from '../../models/State';
 import Props from '../../types/HeaderTypes';
 import CustomElement from '../../utils/customElement';
 
@@ -47,14 +48,17 @@ function header(props: Props): HTMLElement {
 }
 
 function updateHeader() {
-  // !!!!!!!!!!connect with state.user.isAuthorized
-  const userState = true;
-  const headerElement = document.querySelector('header');
-  if (headerElement) {
-    headerElement.innerHTML = '';
+  if (state.user) {
+    const userState = state.user.isAuthorized;
+    const headerElement = document.querySelector('header');
+    if (headerElement) {
+      headerElement.innerHTML = '';
+    }
+    const newContent: HTMLElement = header({ userState });
+    headerElement?.append(newContent);
+  } else {
+    throw new Error('User is not defined!');
   }
-  const newContent: HTMLElement = header({ userState });
-  headerElement?.append(newContent);
 }
 
 export { header, updateHeader };
