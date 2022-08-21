@@ -6,4 +6,5 @@ export default interface IUser {
   token: string | null;
   refreshToken: string | null;
   message: string | null;
+  isAuthorized: boolean;
 }
