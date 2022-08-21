@@ -37,44 +37,36 @@ const config = {
       imgUrl: section0,
       alt: '00-section',
       sectionName: 'Stage 1 - the easiest',
-      active: true,
     },
     {
       imgUrl: section1,
       alt: '01-section',
       sectionName: 'Stage 2 - easy',
-      active: true,
     },
     {
       imgUrl: section2,
       alt: '02-section',
       sectionName: 'Stage 3 - intermediate',
-      active: true,
     },
     {
       imgUrl: section3,
       alt: '03-section',
       sectionName: 'Stage 4 - upper-intermediate',
-      active: true,
     },
     {
       imgUrl: section4,
       alt: '04-section',
       sectionName: 'Stage 5 - difficult',
-      active: true,
     },
     {
       imgUrl: section5,
       alt: '05-section',
       sectionName: 'Stage 7 - the most difficult',
-      active: true,
     },
     {
       imgUrl: section6,
       alt: '06-difficult',
       sectionName: 'Your challenging words',
-      // !!!!!!!!!!connect with state.user.isAuthorized
-      active: false,
     },
   ],
 };

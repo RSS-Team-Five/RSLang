@@ -1,4 +1,5 @@
 import config from '../../models/Config';
+import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
 function createBookPage() {
@@ -20,7 +21,7 @@ function createBookPage() {
       className: 'section__wrapper section',
     });
 
-    if (!card.active) {
+    if (!state.user?.isAuthorized && card.sectionName === 'Your challenging words') {
       cardWrapper.element.classList.add('inactive');
     }
     const cardImg = new CustomElement('img', {
