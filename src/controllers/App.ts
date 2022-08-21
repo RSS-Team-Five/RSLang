@@ -1,6 +1,6 @@
 import IState from '../types/State';
 import { updateHeader } from '../views/components/header';
-import renderMainLayout from '../views/MainLayout';
+import renderLayout from '../views/renderLayout';
 import View from '../views/View';
 import Events from './Events';
 import Router from './Router';
@@ -24,7 +24,7 @@ export default class App {
 
     const router = new Router();
 
-    renderMainLayout();
+    renderLayout();
 
     const view = new View();
     router.route('/', view.renderMain.bind(view));
