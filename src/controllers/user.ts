@@ -13,9 +13,9 @@ export default class User {
     this.isAuthorized = false;
 
     this.user = {
-      name: '',
-      email: '',
-      password: '',
+      name: null,
+      email: null,
+      password: null,
       userId,
       token,
       refreshToken: null,
