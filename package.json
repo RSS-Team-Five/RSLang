@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve --env dev",
+    "start": "webpack serve --env dev",
     "lint": "eslint \"**/*.{ts,tsx}\""
   },
   "repository": {
