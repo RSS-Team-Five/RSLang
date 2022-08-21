@@ -4,7 +4,7 @@ import MainLayout from '../views/MainLayout';
 import View from '../views/View';
 import Events from './Events';
 import Router from './Router';
-import User from './user';
+import User from './User';
 
 export default class App {
   state: IState;
