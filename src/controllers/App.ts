@@ -1,6 +1,6 @@
 import IState from '../types/State';
 import { updateHeader } from '../views/components/header';
-import MainLayout from '../views/MainLayout';
+import renderMainLayout from '../views/MainLayout';
 import View from '../views/View';
 import Events from './Events';
 import Router from './Router';
@@ -24,8 +24,7 @@ export default class App {
 
     const router = new Router();
 
-    const mainLayout = new MainLayout(this.state.user.isAuthorized);
-    mainLayout.renderMainLayout();
+    renderMainLayout();
 
     const view = new View();
     router.route('/', view.renderMain.bind(view));

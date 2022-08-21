@@ -1,7 +1,8 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
-function header(userState: boolean): HTMLElement {
+function header(): HTMLElement {
+  const userState = state.user?.isAuthorized;
   const container = new CustomElement('div', {
     className: 'header__container container',
   });
@@ -46,17 +47,12 @@ function header(userState: boolean): HTMLElement {
 }
 
 function updateHeader() {
-  if (state.user) {
-    const userState = state.user.isAuthorized;
-    const headerElement = document.querySelector('header');
-    if (headerElement) {
-      headerElement.innerHTML = '';
-    }
-    const newContent: HTMLElement = header(userState);
-    headerElement?.append(newContent);
-  } else {
-    throw new Error('User is not defined!');
+  const headerElement = document.querySelector('header');
+  if (headerElement) {
+    headerElement.innerHTML = '';
   }
+  const newContent: HTMLElement = header();
+  headerElement?.append(newContent);
 }
 
 export { header, updateHeader };
