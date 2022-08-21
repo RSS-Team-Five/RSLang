@@ -1,9 +1,12 @@
-.book__sections-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.book {
+  &__sections-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+  }
 }
 
-.section__img {
-  width: 150px;
+.section {
+  &__img {
+    width: 150px;
+  }
 }

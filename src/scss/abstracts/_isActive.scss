@@ -1,10 +1,10 @@
 .inactive {
-  opacity: 50%;
-  
+  opacity: 0.5;
+
   &:hover {
-    transform: none;
     box-shadow: none;
-    transition: none;
+    transform: none;
     cursor: default;
+    transition: none;
   }
 }
