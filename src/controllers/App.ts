@@ -18,9 +18,9 @@ export default class App {
     this.state.events.subscribe('userAuthorized', updateHeader);
 
     // TODO проверять id и token перед созданием юзера
-    const userId = '';
-    const token = '';
-    this.state.user = new User(userId, token);
+    const userId = null;
+    const token = null;
+    this.state.user = new User({ userId }, { token });
 
     const router = new Router();
 
