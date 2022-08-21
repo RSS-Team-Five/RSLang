@@ -1,20 +1,18 @@
-import Props from '../types/HeaderTypes';
 import CustomElement from '../utils/customElement';
 import footer from './components/footer';
 import { header } from './components/header';
 
 class MainLayout {
-  static userState: Props['userState'];
+  static userState: boolean;
   constructor(userState = false) {
     MainLayout.userState = userState;
   }
 
   static renderMainLayout() {
-    const { userState } = this;
     const headerElement = new CustomElement('header', {
       className: 'header',
     });
-    const headerContent = header({ userState });
+    const headerContent = header(MainLayout.userState);
     headerElement.addChildren([headerContent]);
 
     const main = new CustomElement('main', {
