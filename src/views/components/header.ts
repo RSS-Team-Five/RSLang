@@ -1,9 +1,7 @@
 import state from '../../models/State';
-import Props from '../../types/HeaderTypes';
 import CustomElement from '../../utils/customElement';
 
-function header(props: Props): HTMLElement {
-  const { userState } = props;
+function header(userState: boolean): HTMLElement {
   const container = new CustomElement('div', {
     className: 'header__container container',
   });
@@ -54,7 +52,7 @@ function updateHeader() {
     if (headerElement) {
       headerElement.innerHTML = '';
     }
-    const newContent: HTMLElement = header({ userState });
+    const newContent: HTMLElement = header(userState);
     headerElement?.append(newContent);
   } else {
     throw new Error('User is not defined!');
