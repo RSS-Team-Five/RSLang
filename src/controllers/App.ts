@@ -4,6 +4,7 @@ import MainLayout from '../views/MainLayout';
 import View from '../views/View';
 import Events from './Events';
 import Router from './Router';
+import User from './user';
 
 export default class App {
   state: IState;
@@ -15,6 +16,11 @@ export default class App {
   start() {
     this.state.events = new Events();
     this.state.events.subscribe('userAuthorized', updateHeader);
+
+    // TODO проверять id и token перед созданием юзера
+    const userId = null;
+    const token = null;
+    this.state.user = new User({ userId }, { token });
 
     const router = new Router();
 
