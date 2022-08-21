@@ -2,7 +2,7 @@ import CustomElement from '../utils/customElement';
 import footer from './components/footer';
 import { header } from './components/header';
 
-function renderMainLayout() {
+function renderLayout() {
   const headerElement = new CustomElement('header', {
     className: 'header',
   });
@@ -20,4 +20,4 @@ function renderMainLayout() {
   document.querySelector('body')?.append(headerElement.element, main.element, footerElement);
 }
 
-export default renderMainLayout;
+export default renderLayout;
