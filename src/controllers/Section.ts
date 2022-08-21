@@ -4,7 +4,6 @@ import { GroupType, PageType } from '../types/SectionTypes';
 
 class Section {
   group: GroupType;
-
   page: PageType;
 
   constructor(group: GroupType = 0, page: PageType = 0) {
