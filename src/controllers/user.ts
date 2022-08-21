@@ -2,18 +2,22 @@ import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } 
 import IUser from '../types/IUser';
 
 export default class User {
+  userId: string;
+  token: string;
   isAuthorized: boolean;
   user: IUser;
 
-  constructor({ name, email, password }: { name: string; email: string; password: string }) {
+  constructor(userId: string, token: string) {
+    this.userId = userId;
+    this.token = token;
     this.isAuthorized = false;
 
     this.user = {
-      name,
-      email,
-      password,
-      userId: null,
-      token: null,
+      name: '',
+      email: '',
+      password: '',
+      userId,
+      token,
       refreshToken: null,
       message: null,
       isAuthorized: false,
