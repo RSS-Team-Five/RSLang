@@ -36,7 +36,6 @@ export const upsertUserStatistic = async (
     });
     if (response.status === 400) return { isBad: true };
     if (response.status === 401) return { isUnsuccess: true };
-    if (response.status === 404) return { isNotFound: true };
 
     const statistics = await response.json();
     return statistics;
