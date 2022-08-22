@@ -1,3 +1,7 @@
+import state from '../models/State';
+import CustomElement from '../utils/customElement';
+import footer from './components/footer';
+import header from './components/header';
 import dialogSignUp from './components/dialogSignUp';
 import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
@@ -9,7 +13,31 @@ export default class View {
   content: HTMLElement | null;
 
   constructor() {
-    this.content = document.querySelector('.content');
+    this.content = null;
+  }
+
+  renderLayout() {
+    const headerElement = new CustomElement('header', {
+      className: 'header',
+    });
+    const headerContent = header();
+    headerElement.addChildren([headerContent]);
+    const main = new CustomElement('main', {
+      className: 'main',
+    });
+    const container = new CustomElement('div', {
+      className: 'main__container container content',
+    });
+    main.addChildren([container.element]);
+    const footerElement = footer();
+
+    state.events?.subscribe('userAuthorized', () => {
+      headerElement.element.innerHTML = '';
+      headerElement.addChildren([header()]);
+    });
+
+    this.content = container.element;
+    document.body.append(headerElement.element, main.element, footerElement);
   }
 
   renderMain() {
