@@ -237,9 +237,9 @@ export default class User {
 
   async getUserAggregatedWords(
     { userId, token }: { userId: string | null; token: string | null },
-    group: GroupType | null = null,
-    page: PageType | null = null,
-    wordsPerPage: number | null = null,
+    group: GroupType = 0,
+    page: PageType = 0,
+    wordsPerPage: number = 20,
     filter: string | null = null
   ) {
     this.user = await this.getAllUserWords({ userId, token });

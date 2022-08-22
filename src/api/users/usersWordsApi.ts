@@ -121,18 +121,18 @@ export const deleteUserWord = async (
 
 export const getUserAggregatedWords = async (
   { userId, token }: { userId: string | null; token: string | null },
-  group: GroupType | null = null,
-  page: PageType | null = null,
-  wordsPerPage: number | null = null,
+  group: GroupType = 0,
+  page: PageType = 0,
+  wordsPerPage: number = 20,
   filter: string | null = null
 ) => {
-  const groupUrl = group ? `?${groupQuire}=${group}` : '';
-  const pageUrl = page ? `&${pageQuire}=${page}` : '';
-  const wordsPerPageUrl = wordsPerPage ? `&wordsPerPage=${wordsPerPage}` : '';
+  const groupUrl = `${groupQuire}=${group}`;
+  const pageUrl = `&${pageQuire}=${page}`;
+  const wordsPerPageUrl = `&wordsPerPage=${wordsPerPage}`;
   const filterUrl = filter ? `&filter=${filter}` : '';
   try {
     const response = await fetch(
-      `${usersUrl}/${userId}/aggregatedWords${groupUrl}${pageUrl}${wordsPerPageUrl}${filterUrl}`,
+      `${usersUrl}/${userId}/aggregatedWords?${groupUrl}${pageUrl}${wordsPerPageUrl}${filterUrl}`,
       {
         method: 'GET',
         headers: {
