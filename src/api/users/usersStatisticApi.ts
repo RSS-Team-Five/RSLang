@@ -11,11 +11,13 @@ export const getUserStatistic = async ({ userId, token }: { userId: string | nul
         ...config.DEFAULT_HEADERS,
       },
     });
-    const statistics = await response.json();
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const statistics = await response.json();
     return statistics;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -32,10 +34,13 @@ export const upsertUserStatistic = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const statistics = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const statistics = await response.json();
     return statistics;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
