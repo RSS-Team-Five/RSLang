@@ -2,7 +2,6 @@ import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
 function header(): HTMLElement {
-  const userState = state.user?.isAuthorized;
   const container = new CustomElement('div', {
     className: 'header__container container',
   });
@@ -23,7 +22,7 @@ function header(): HTMLElement {
     href: '#/statistics',
   });
 
-  const userIcon = !userState
+  const userIcon = !state.user?.isAuthorized
     ? new CustomElement('img', {
         className: 'header__links-img',
         src: '',
@@ -46,13 +45,4 @@ function header(): HTMLElement {
   return container.element;
 }
 
-function updateHeader() {
-  const headerElement = document.querySelector('header');
-  if (headerElement) {
-    headerElement.innerHTML = '';
-  }
-  const newContent: HTMLElement = header();
-  headerElement?.append(newContent);
-}
-
-export { header, updateHeader };
+export default header;
