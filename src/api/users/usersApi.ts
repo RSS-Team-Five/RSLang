@@ -100,7 +100,6 @@ export const deleteUser = async ({ userId, token }: { userId: string | null; tok
         ...config.DEFAULT_HEADERS,
       },
     });
-    console.log(response.status);
     if (response.status === 204) return { isDeleted: true };
     if (response.status === 401) return { isUnsuccess: true };
     if (response.status === 404) return { isNotFound: true };
