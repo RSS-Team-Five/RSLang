@@ -10,11 +10,21 @@ export const createUser = async ({ name, email, password }: { name: string; emai
       body: JSON.stringify({ name, email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-    const user = await response.json();
+    const result = await response.json();
 
-    return user;
+    return result;
   } catch (error) {
-    return { isSuccess: false }; // Incorrect e-mail or password
+    return {
+      error: {
+        status: 'failed',
+        errors: [
+          {
+            path: ['email'],
+            message: 'Пользователь с такой почтой уже существует',
+          },
+        ],
+      },
+    };
   }
 };
 

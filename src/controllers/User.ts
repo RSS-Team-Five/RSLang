@@ -15,12 +15,16 @@ import {
 import { getUserSettings, upsertUserSettings } from '../api/users/usersSettingsApi';
 
 export default class User {
+  name: Pick<IUser, 'name'>;
+  email: Pick<IUser, 'email'>;
   userId: Pick<IUser, 'userId'>;
   token: Pick<IUser, 'token'>;
   isAuthorized: boolean;
   user: IUser;
 
   constructor(userId: Pick<IUser, 'userId'>, token: Pick<IUser, 'token'>) {
+    this.name = { name: null };
+    this.email = { email: null };
     this.userId = userId;
     this.token = token;
     this.isAuthorized = false;
@@ -41,15 +45,30 @@ export default class User {
   }
 
   async createUser({ name, email, password }: { name: string; email: string; password: string }) {
-    const user = await createUser({ name, email, password });
-    this.user = user;
-    return this.user;
+    const resultCreate = await createUser({ name, email, password });
+    const isError: boolean = resultCreate.hasOwnProperty('error');
+
+    if (!isError) {
+      this.user = Object.assign(this.user, resultCreate);
+      this.userId = resultCreate.id;
+      this.name = resultCreate.name;
+      this.email = resultCreate.email;
+      this.user = resultCreate;
+
+      const resultSignIn = await this.signInUser({ email, password });
+      console.log(resultSignIn);
+
+      console.warn('USER', this);
+
+      return true;
+    }
+    console.warn('ERR', isError, this);
+    return resultCreate;
   }
 
   async signInUser({ email, password }: { email: string; password: string }) {
     const user = await signIn({ email, password });
     this.user = Object.assign(this.user, user);
-    return this.user;
   }
 
   async getUser({ userId, token }: { userId: string | null; token: string | null }) {

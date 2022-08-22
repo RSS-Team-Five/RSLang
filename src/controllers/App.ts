@@ -32,6 +32,7 @@ export default class App {
     router.route('/games', view.renderGames.bind(view));
     router.route('/promo', view.renderPromo.bind(view));
     router.route('/statistics', view.renderStatistics.bind(view));
+    router.route('/signUp', view.renderSignUp.bind(view));
 
     router.view('/');
 

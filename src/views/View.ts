@@ -1,3 +1,4 @@
+import dialogSignUp from './components/dialogSignUp';
 import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
 import createMainPage from './pages/mainPage';
@@ -55,6 +56,16 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.content.innerHTML = 'Page has not been found!';
+    }
+  }
+
+  renderSignUp() {
+    if (this.content) {
+      this.content.innerHTML = '';
+      const dialog = dialogSignUp();
+      this.content.append(dialog);
+      document.body.style.overflow = 'hidden';
+      dialog.showModal();
     }
   }
 }
