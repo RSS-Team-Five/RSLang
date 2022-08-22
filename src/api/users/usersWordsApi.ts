@@ -16,11 +16,12 @@ export const getAllUserWords = async ({ userId, token }: { userId: string | null
         ...config.DEFAULT_HEADERS,
       },
     });
-    const words = await response.json();
+    if (response.status === 402) return { isUnsuccess: true };
 
+    const words = await response.json();
     return words;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -38,11 +39,13 @@ export const createUserWord = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const word = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
 
+    const word = await response.json();
     return word;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -58,11 +61,14 @@ export const getUserWord = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const word = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const word = await response.json();
     return word;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -80,11 +86,13 @@ export const updateUserWord = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const word = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
 
+    const word = await response.json();
     return word;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -100,11 +108,14 @@ export const deleteUserWord = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const word = await response.json();
+    if (response.status === 204) return { isDeleted: true };
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const word = await response.json();
     return word;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
