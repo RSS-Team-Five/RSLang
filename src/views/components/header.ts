@@ -1,8 +1,8 @@
-import Props from '../../types/HeaderTypes';
+import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
-function header(props: Props): HTMLElement {
-  const { userState } = props;
+function header(): HTMLElement {
+  const userState = state.user?.isAuthorized;
   const container = new CustomElement('div', {
     className: 'header__container container',
   });
@@ -47,13 +47,11 @@ function header(props: Props): HTMLElement {
 }
 
 function updateHeader() {
-  // !!!!!!!!!!connect with state.user.isAuthorized
-  const userState = true;
   const headerElement = document.querySelector('header');
   if (headerElement) {
     headerElement.innerHTML = '';
   }
-  const newContent: HTMLElement = header({ userState });
+  const newContent: HTMLElement = header();
   headerElement?.append(newContent);
 }
 
