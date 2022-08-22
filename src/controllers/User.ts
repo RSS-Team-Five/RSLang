@@ -243,13 +243,35 @@ export default class User {
     filter: string | null = null
   ) {
     this.user = await this.getAllUserWords({ userId, token });
-    const words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    let words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    if (words.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        words = await this.getUserAggregatedWords({ userId, token: user.token }, group, page, wordsPerPage, filter);
+    }
     return words;
   }
 
   async getUserAggregatedWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
     this.user = await this.getAllUserWords({ userId, token });
-    const word = await getUserAggregatedWord({ userId, token }, wordId);
+    let word = await getUserAggregatedWord({ userId, token }, wordId);
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        word = await this.getUserAggregatedWord({ userId, token: user.token }, wordId);
+    }
+    if (word.isNotFound) {
+      console.log('Word in not found');
+      return null;
+    }
+    if (word.isBad) {
+      console.log('Bad request');
+      return null;
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return null;
+    }
     return word;
   }
 
