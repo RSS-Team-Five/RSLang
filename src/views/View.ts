@@ -2,6 +2,7 @@ import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
 import createMainPage from './pages/mainPage';
 import createPromoPage from './pages/promoPage';
+import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 
 export default class View {
@@ -24,6 +25,14 @@ export default class View {
       this.content.innerHTML = '';
       const bookPage: HTMLElement = createBookPage();
       this.content?.append(bookPage);
+    }
+  }
+
+  async renderSection() {
+    if (this.content) {
+      this.content.innerHTML = '';
+      const sectionPage: HTMLElement = await createSectionPage();
+      this.content?.append(sectionPage);
     }
   }
 

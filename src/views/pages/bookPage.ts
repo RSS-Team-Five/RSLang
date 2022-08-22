@@ -38,6 +38,16 @@ function createBookPage() {
     sectionsWrapper.addChildren([cardWrapper.element]);
   });
 
+  Array.from(sectionsWrapper.element.children).map((card, index) => {
+    card.addEventListener('click', () => {
+      if (index === 6 && !state.user?.isAuthorized) {
+        // TODO вывести модальное окно авторизации
+      }
+      window.location.href = `#/section/${index}/0`;
+    });
+    return card;
+  });
+
   mainWrapper.addChildren([pageName.element, sectionsWrapper.element]);
 
   return mainWrapper.element;

@@ -28,6 +28,7 @@ export default class App {
     const view = new View();
     router.route('/', view.renderMain.bind(view));
     router.route('/book', view.renderBook.bind(view));
+    router.route('/section/:group/:page', view.renderSection.bind(view));
     router.route('/games', view.renderGames.bind(view));
     router.route('/promo', view.renderPromo.bind(view));
     router.route('/statistics', view.renderStatistics.bind(view));
