@@ -276,7 +276,19 @@ export default class User {
   }
 
   async getUserStatistic({ userId, token }: { userId: string | null; token: string | null }) {
-    const statistic = await getUserStatistic({ userId, token });
+    let statistic = await getUserStatistic({ userId, token });
+    if (statistic.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (statistic.isNotFound) {
+      console.log('The user statistic is not found');
+      return this.user;
+    }
+    if (statistic.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) statistic = await this.getUserStatistic({ userId, token: user.token });
+    }
     this.user.userStatistic = statistic;
     return this.user;
   }
@@ -285,7 +297,24 @@ export default class User {
     { userId, token }: { userId: string | null; token: string | null },
     { learnedWords, optional = {} }: { learnedWords: number; optional: {} }
   ) {
-    const statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
+    let statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
+    if (statistic.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        statistic = await this.upsertUserStatistic({ userId, token: user.token }, { learnedWords, optional });
+    }
+    if (statistic.isNotFound) {
+      console.log('The user statistic is not found');
+      return this.user;
+    }
+    if (statistic.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (statistic.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user.userStatistic = statistic;
     return this.user;
   }
