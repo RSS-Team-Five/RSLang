@@ -1,6 +1,4 @@
 import IState from '../types/State';
-import { updateHeader } from '../views/components/header';
-import MainLayout from '../views/MainLayout';
 import View from '../views/View';
 import Events from './Events';
 import Router from './Router';
@@ -15,17 +13,16 @@ export default class App {
 
   start() {
     this.state.events = new Events();
-    this.state.events.subscribe('userAuthorized', updateHeader);
 
     // TODO проверять id и token перед созданием юзера
     const userId = null;
     const token = null;
     this.state.user = new User({ userId }, { token });
 
-    const router = new Router();
-
-    MainLayout.renderMainLayout();
     const view = new View();
+    view.renderLayout();
+
+    const router = new Router();
     router.route('/', view.renderMain.bind(view));
     router.route('/book', view.renderBook.bind(view));
     router.route('/section/:group/:page', view.renderSection.bind(view));
