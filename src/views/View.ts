@@ -1,4 +1,5 @@
 import state from '../models/State';
+import { GroupType, PageType } from '../types/SectionTypes';
 import CustomElement from '../utils/customElement';
 import footer from './components/footer';
 import header from './components/header';
@@ -59,7 +60,10 @@ export default class View {
   async renderSection() {
     if (this.content) {
       this.content.innerHTML = '';
-      const sectionPage: HTMLElement = await createSectionPage();
+      const path = window.location.hash.split('/');
+      const group = Number(path[path.length - 2]) as GroupType;
+      const page = Number(path[path.length - 1]) as PageType;
+      const sectionPage: HTMLElement = await createSectionPage(group, page);
       this.content?.append(sectionPage);
     }
   }

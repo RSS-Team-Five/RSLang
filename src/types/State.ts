@@ -4,4 +4,6 @@ import IEvents from './Events';
 export default interface IState {
   events?: IEvents;
   user?: User;
+  group?: number;
+  page?: number;
 }

@@ -1,10 +1,12 @@
 import Section from '../../controllers/Section';
+import state from '../../models/State';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import CustomElement from '../../utils/customElement';
 import createWordCard from '../components/wordCard';
 
 async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
-  console.log('im here');
+  state.group = group;
+  state.page = page;
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper section',
   });
@@ -69,6 +71,47 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   const navigationBetweenPages = new CustomElement('div', {
     className: 'section__pages',
   });
+
+  const buttonLinkLeft = new CustomElement('a', {
+    className: 'section__pages-link',
+    href: `#/section/${group}/${page - 1}`,
+  });
+
+  const buttonElementLeft = new CustomElement('button', {
+    className: 'section__pages-button',
+    type: 'button',
+    innerText: 'Previous page',
+  });
+  buttonLinkLeft.addChildren([buttonElementLeft.element]);
+
+  const currentPage = new CustomElement('p', {
+    className: 'section__pages-current',
+    innerText: `Page ${page + 1}`,
+  });
+
+  const buttonLinkRight = new CustomElement('a', {
+    className: 'section__pages-link',
+    href: `#/section/${group}/${page + 1}`,
+  });
+
+  const buttonElementRight = new CustomElement('button', {
+    className: 'section__pages-button',
+    type: 'button',
+    innerText: 'Next page',
+  });
+  buttonLinkRight.addChildren([buttonElementRight.element]);
+
+  if (page === 0) {
+    buttonLinkLeft.element.classList.add('inactive');
+    buttonElementLeft.element.setAttribute('disabled', '');
+  }
+
+  if (page === 29) {
+    buttonLinkRight.element.classList.add('inactive');
+    buttonElementRight.element.setAttribute('disabled', '');
+  }
+
+  navigationBetweenPages.addChildren([buttonLinkLeft.element, currentPage.element, buttonLinkRight.element]);
 
   mainWrapper.addChildren([navigationBetweenSections.element, cards.element, navigationBetweenPages.element]);
 
