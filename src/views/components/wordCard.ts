@@ -6,6 +6,14 @@ function createWordCard(word: IWord) {
   const cardWrapper = new CustomElement('div', {
     className: 'section__cards-card card',
   });
+
+  const cardImage = new CustomElement('img', {
+    className: 'card__image',
+    src: ` https://raw.githubusercontent.com/rolling-scopes-school/react-rslang-be/main/${word.image}`,
+    alt: word.word,
+  });
+
+  cardWrapper.addChildren([cardImage.element]);
   return cardWrapper.element;
 }
 
