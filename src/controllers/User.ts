@@ -303,10 +303,6 @@ export default class User {
       if (!user.isUnsuccess && !user.isError)
         statistic = await this.upsertUserStatistic({ userId, token: user.token }, { learnedWords, optional });
     }
-    if (statistic.isNotFound) {
-      console.log('The user statistic is not found');
-      return this.user;
-    }
     if (statistic.isBad) {
       console.log('Bad request');
       return this.user;
@@ -320,7 +316,19 @@ export default class User {
   }
 
   async getUserSettings({ userId, token }: { userId: string | null; token: string | null }) {
-    const settings = await getUserSettings({ userId, token });
+    let settings = await getUserSettings({ userId, token });
+    if (settings.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (settings.isNotFound) {
+      console.log('The user settings is not found');
+      return this.user;
+    }
+    if (settings.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) settings = await this.getUserSettings({ userId, token: user.token });
+    }
     this.user.userSettings = settings;
     return this.user;
   }
@@ -329,7 +337,20 @@ export default class User {
     { userId, token }: { userId: string | null; token: string | null },
     { wordsPerDay, optional = {} }: { wordsPerDay: number; optional: {} }
   ) {
-    const settings = await upsertUserSettings({ userId, token }, { wordsPerDay, optional });
+    let settings = await upsertUserSettings({ userId, token }, { wordsPerDay, optional });
+    if (settings.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        settings = await this.upsertUserSettings({ userId, token: user.token }, { wordsPerDay, optional });
+    }
+    if (settings.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (settings.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user.userSettings = settings;
     return this.user;
   }
