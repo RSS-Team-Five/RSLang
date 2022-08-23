@@ -1,20 +1,13 @@
 import config from '../../models/Config';
 import { DifficultyType, OptionalType } from '../../types/UserWordParameters';
 import { GroupType, PageType } from '../../types/SectionTypes';
-import IUser from '../../types/IUser';
 
 const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
 const wordsUrl = `${config.API.ENDPOINTS.WORDS}`;
 const groupQuire = `${config.API.QUERIES.WORDS.GROUP}`;
 const pageQuire = `${config.API.QUERIES.WORDS.PAGE}`;
 
-export const getAllUserWords = async ({
-  userId,
-  token,
-}: {
-  userId: Pick<IUser, 'userId'>;
-  token: Pick<IUser, 'token'>;
-}) => {
+export const getAllUserWords = async ({ userId, token }: { userId: string | null; token: string | null }) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/${wordsUrl}`, {
       method: 'GET',
@@ -80,7 +73,7 @@ export const getUserWord = async (
 };
 
 export const updateUserWord = async (
-  { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+  { userId, token }: { userId: string | null; token: string | null },
   wordId: string,
   { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
 ) => {
@@ -104,7 +97,7 @@ export const updateUserWord = async (
 };
 
 export const deleteUserWord = async (
-  { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+  { userId, token }: { userId: string | null; token: string | null },
   wordId: string
 ) => {
   try {
@@ -127,7 +120,7 @@ export const deleteUserWord = async (
 };
 
 export const getUserAggregatedWords = async (
-  { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+  { userId, token }: { userId: string | null; token: string | null },
   group: GroupType = 0,
   page: PageType = 0,
   wordsPerPage: number = 20,
@@ -158,7 +151,7 @@ export const getUserAggregatedWords = async (
 };
 
 export const getUserAggregatedWord = async (
-  { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+  { userId, token }: { userId: string | null; token: string | null },
   wordId: string
 ) => {
   try {

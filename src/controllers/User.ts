@@ -58,9 +58,7 @@ export default class User {
 
   async signInUser({ email, password }: { email: string; password: string }) {
     const resultSignIn = await signIn({ email, password });
-    console.log('🚀 ~ resultSignIn', resultSignIn);
-
-    if ('id' in resultSignIn) {
+    if ('userId' in resultSignIn) {
       this.user = Object.assign(this.user, resultSignIn);
       this.userId = resultSignIn.id;
       this.name = resultSignIn.name;
@@ -153,7 +151,7 @@ export default class User {
     return this.user;
   }
 
-  async getAllUserWords({ userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> }) {
+  async getAllUserWords({ userId, token }: { userId: string | null; token: string | null }) {
     let words = await getAllUserWords({ userId, token });
     if (words.isUnsuccess) {
       const user = await this.getToken(this.user);
@@ -209,7 +207,7 @@ export default class User {
   }
 
   async updateUserWord(
-    { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+    { userId, token }: { userId: string | null; token: string | null },
     wordId: string,
     { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
   ) {
@@ -231,10 +229,7 @@ export default class User {
     return this.user;
   }
 
-  async deleteUserWord(
-    { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
-    wordId: string
-  ) {
+  async deleteUserWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
     let word = await deleteUserWord({ userId, token }, wordId);
     if (word.isDeleted) {
       console.log('The word has been deleted');
@@ -256,7 +251,7 @@ export default class User {
   }
 
   async getUserAggregatedWords(
-    { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
+    { userId, token }: { userId: string | null; token: string | null },
     group: GroupType = 0,
     page: PageType = 0,
     wordsPerPage: number = 20,
@@ -272,10 +267,7 @@ export default class User {
     return words;
   }
 
-  async getUserAggregatedWord(
-    { userId, token }: { userId: Pick<IUser, 'userId'>; token: Pick<IUser, 'token'> },
-    wordId: string
-  ) {
+  async getUserAggregatedWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
     this.user = await this.getAllUserWords({ userId, token });
     let word = await getUserAggregatedWord({ userId, token }, wordId);
     if (word.isUnsuccess) {

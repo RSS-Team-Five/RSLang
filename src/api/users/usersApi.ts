@@ -49,7 +49,6 @@ export const signIn = async ({ email, password }: { email: string; password: str
 
     if (response.status === 200) {
       const user = await response.json();
-      console.log('🚀 ~ user', user);
       return user;
     }
     if (response.status === 404) {

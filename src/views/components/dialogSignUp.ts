@@ -32,10 +32,8 @@ function dialogSignUp() {
 
     if ('id' in resultSignUp) {
       const resultSignIn = await state.user?.signInUser(props);
-      console.log('🚀 ~ resultSignIn', resultSignIn);
       if ('userId' in resultSignIn) {
         if (state.user) state.user.isAuthorized = true;
-        console.log('🚀 ~ user', state.user);
         localStorage.setItem('userId', resultSignIn.userId);
         localStorage.setItem('token', resultSignIn.token);
         localStorage.setItem('refreshToken', resultSignIn.refreshToken);

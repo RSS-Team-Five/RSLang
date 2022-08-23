@@ -113,17 +113,13 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const section = new Section(group, page);
   let allWordsOnPage = [];
-  console.log(state.user);
   if (group !== config.BOOK.maxGroup + 1) {
     allWordsOnPage = await section.getWordsOnPage();
-  } else if (state.user?.userId && state.user?.token) {
-    console.log('🚀 ~ state.user?.token', state.user?.token);
-    console.log('🚀 ~ state.user?.userId', state.user?.userId);
-    allWordsOnPage = await getAllUserWords({ userId: state.user?.userId ?? null, token: state.user?.token });
-    console.log('🚀 ~ allWordsOnPage', allWordsOnPage);
+  } else if (state.user?.user.userId && state.user?.user.token) {
+    allWordsOnPage = await getAllUserWords({ userId: state.user?.user.userId ?? null, token: state.user?.user.token });
   }
   if (allWordsOnPage instanceof Error) {
-    throw new Error('Infalid data from API');
+    throw new Error('Invalid data from API');
   } else {
     allWordsOnPage.forEach((word: IWord) => {
       const wordCardElement = createWordCard(word);
