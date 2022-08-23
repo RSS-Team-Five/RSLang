@@ -28,8 +28,27 @@ function dialogSignUp() {
       email: email.element.value,
       password: password.element.value,
     };
-    const result = await state.user?.createUser(props);
-    console.log(result);
+    const resultSignUp = await state.user?.createUser(props);
+
+    if ('id' in resultSignUp) {
+      const resultSignIn = await state.user?.signInUser(props);
+      if ('userId' in resultSignIn) {
+        if (state.user) state.user.isAuthorized = true;
+        localStorage.setItem('userId', resultSignIn.userId);
+        localStorage.setItem('token', resultSignIn.token);
+        localStorage.setItem('refreshToken', resultSignIn.refreshToken);
+        state.events?.notify('userAuthorized');
+        dialog.element.close();
+        window.history.back();
+      } else {
+        // Это не должно никогда произойти
+        throw new Error('Ошибка авторизации');
+      }
+    } else {
+      // TODO обработать ошибки регистрации, подсветить строки.
+      console.log('FAIL', resultSignUp);
+      console.log('FAIL', state.user);
+    }
   });
 
   window.addEventListener('hashchange', () => dialog.element.close());

@@ -46,29 +46,28 @@ export default class User {
 
   async createUser({ name, email, password }: { name: string; email: string; password: string }) {
     const resultCreate = await createUser({ name, email, password });
-    const isError: boolean = resultCreate.hasOwnProperty('error');
 
-    if (!isError) {
+    if ('id' in resultCreate) {
       this.user = Object.assign(this.user, resultCreate);
       this.userId = resultCreate.id;
       this.name = resultCreate.name;
       this.email = resultCreate.email;
       this.user = resultCreate;
-
-      const resultSignIn = await this.signInUser({ email, password });
-      console.log(resultSignIn);
-
-      console.warn('USER', this);
-
-      return true;
     }
-    console.warn('ERR', isError, this);
     return resultCreate;
   }
 
   async signInUser({ email, password }: { email: string; password: string }) {
-    const user = await signIn({ email, password });
-    this.user = Object.assign(this.user, user);
+    const resultSignIn = await signIn({ email, password });
+
+    if ('id' in resultSignIn) {
+      this.user = Object.assign(this.user, resultSignIn);
+      this.userId = resultSignIn.id;
+      this.name = resultSignIn.name;
+      this.email = resultSignIn.email;
+      this.user = resultSignIn;
+    }
+    return resultSignIn;
   }
 
   async getUser({ userId, token }: { userId: string | null; token: string | null }) {
