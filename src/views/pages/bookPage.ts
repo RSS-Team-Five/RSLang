@@ -16,7 +16,7 @@ function createBookPage() {
     className: 'book__sections-wrapper',
   });
 
-  config.SECTION_CARD.forEach((card) => {
+  config.SECTION_CARD.forEach((card, index) => {
     const cardWrapper = new CustomElement('div', {
       className: 'section__wrapper section',
     });
@@ -35,17 +35,14 @@ function createBookPage() {
     });
     cardWrapper.addChildren([cardImg.element, cardName.element]);
 
-    sectionsWrapper.addChildren([cardWrapper.element]);
-  });
-
-  Array.from(sectionsWrapper.element.children).map((card, index) => {
-    card.addEventListener('click', () => {
+    cardWrapper.element.addEventListener('click', () => {
       if (index === 6 && !state.user?.isAuthorized) {
         // TODO вывести модальное окно авторизации
       }
-      state.router?.view(`/section/${index}/0`);
+      window.location.href = `#/section/${index}/0`;
     });
-    return card;
+
+    sectionsWrapper.addChildren([cardWrapper.element]);
   });
 
   mainWrapper.addChildren([pageName.element, sectionsWrapper.element]);

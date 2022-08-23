@@ -1,3 +1,4 @@
+import config from '../models/Config';
 import state from '../models/State';
 import { GroupType, PageType } from '../types/SectionTypes';
 import CustomElement from '../utils/customElement';
@@ -57,14 +58,17 @@ export default class View {
     }
   }
 
-  async renderSection() {
+  async renderSection(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
-      const path = window.location.hash.split('/');
-      const group = Number(path[path.length - 2]) as GroupType;
-      const page = Number(path[path.length - 1]) as PageType;
-      const sectionPage: HTMLElement = await createSectionPage(group, page);
-      this.content?.append(sectionPage);
+      if (+group && +page && +group <= config.BOOK.maxGroup && +page <= config.BOOK.maxPage) {
+        const groupAdd = +group as GroupType;
+        const pageAdd = +page as PageType;
+        const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
+        this.content?.append(sectionPage);
+      } else {
+        state.router?.view('#/404');
+      }
     }
   }
 
