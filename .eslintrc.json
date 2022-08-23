@@ -38,7 +38,8 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-prototype-builtins": "off"
   },
   "settings": {
     "import/resolver": {
