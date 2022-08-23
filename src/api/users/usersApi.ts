@@ -10,11 +10,32 @@ export const createUser = async ({ name, email, password }: { name: string; emai
       body: JSON.stringify({ name, email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-    const user = await response.json();
 
-    return user;
+    if (response.status === 200) {
+      const user = await response.json();
+      return user;
+    }
+    if (response.status === 422) {
+      const error = await response.json();
+      return error;
+    }
+
+    return {
+      error: {
+        status: 'failed',
+        errors: [
+          {
+            path: ['email'],
+            message: '"email" user with this e-mail exists',
+          },
+        ],
+      },
+    };
   } catch (error) {
-    return { isSuccess: false }; // Incorrect e-mail or password
+    let message;
+    if (error instanceof Error) message = error.message;
+    else message = String(error);
+    throw new Error(message);
   }
 };
 
@@ -25,11 +46,34 @@ export const signIn = async ({ email, password }: { email: string; password: str
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-    const user = await response.json();
 
-    return user;
+    if (response.status === 200) {
+      const user = await response.json();
+      return user;
+    }
+    if (response.status === 404) {
+      const error = await response.json();
+      return error;
+    }
+    return {
+      error: {
+        status: 'failed',
+        errors: [
+          {
+            path: ['password'],
+            message: '"password" Incorrect password',
+          },
+        ],
+      },
+    };
   } catch (error) {
-    return { isSuccess: false }; // Incorrect e-mail or password
+    let message;
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
+    throw new Error(message);
   }
 };
 
