@@ -37,9 +37,10 @@ function createBookPage() {
 
     cardWrapper.element.addEventListener('click', () => {
       if (index === config.BOOK.maxGroup + 1 && !state.user?.isAuthorized) {
-        console.log('Вызвать тут окно авторизации');
+        window.location.href = `#/signUp`;
+      } else {
+        window.location.href = `#/section/${index}/0`;
       }
-      window.location.href = `#/section/${index}/0`;
     });
 
     sectionsWrapper.addChildren([cardWrapper.element]);

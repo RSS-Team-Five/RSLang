@@ -1,9 +1,59 @@
+import { getAllUserWords } from '../../api/users/usersWordsApi';
 import Section from '../../controllers/Section';
 import config from '../../models/Config';
 import state from '../../models/State';
+import IWord from '../../types/IWord';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import CustomElement from '../../utils/customElement';
 import createWordCard from '../components/wordCard';
+
+function createPagination(group: GroupType, page: PageType) {
+  const navigationBetweenPages = new CustomElement('div', {
+    className: 'section__pages',
+  });
+
+  const buttonLinkLeft = new CustomElement('a', {
+    className: 'section__pages-link',
+    href: `#/section/${group}/${page - 1}`,
+  });
+
+  const buttonElementLeft = new CustomElement('button', {
+    className: 'section__pages-button',
+    type: 'button',
+    innerText: 'Previous page',
+  });
+  buttonLinkLeft.addChildren([buttonElementLeft.element]);
+
+  const currentPage = new CustomElement('p', {
+    className: 'section__pages-current',
+    innerText: `Page ${page + 1}`,
+  });
+
+  const buttonLinkRight = new CustomElement('a', {
+    className: 'section__pages-link',
+    href: `#/section/${group}/${page + 1}`,
+  });
+
+  const buttonElementRight = new CustomElement('button', {
+    className: 'section__pages-button',
+    type: 'button',
+    innerText: 'Next page',
+  });
+  buttonLinkRight.addChildren([buttonElementRight.element]);
+
+  if (page === config.BOOK.maxPage) {
+    buttonLinkLeft.element.classList.add('inactive');
+    buttonElementLeft.element.setAttribute('disabled', '');
+  }
+
+  if (page === config.BOOK.maxPage) {
+    buttonLinkRight.element.classList.add('inactive');
+    buttonElementRight.element.setAttribute('disabled', '');
+  }
+
+  navigationBetweenPages.addChildren([buttonLinkLeft.element, currentPage.element, buttonLinkRight.element]);
+  return navigationBetweenPages;
+}
 
 async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   state.group = group;
@@ -62,59 +112,31 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   });
 
   const section = new Section(group, page);
-  const allWordsOnPage = await section.getWordsOnPage();
-
-  allWordsOnPage.forEach((word) => {
-    const wordCardElement = createWordCard(word);
-    cards.addChildren([wordCardElement]);
-  });
-
-  const navigationBetweenPages = new CustomElement('div', {
-    className: 'section__pages',
-  });
-
-  const buttonLinkLeft = new CustomElement('a', {
-    className: 'section__pages-link',
-    href: `#/section/${group}/${page - 1}`,
-  });
-
-  const buttonElementLeft = new CustomElement('button', {
-    className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Previous page',
-  });
-  buttonLinkLeft.addChildren([buttonElementLeft.element]);
-
-  const currentPage = new CustomElement('p', {
-    className: 'section__pages-current',
-    innerText: `Page ${page + 1}`,
-  });
-
-  const buttonLinkRight = new CustomElement('a', {
-    className: 'section__pages-link',
-    href: `#/section/${group}/${page + 1}`,
-  });
-
-  const buttonElementRight = new CustomElement('button', {
-    className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Next page',
-  });
-  buttonLinkRight.addChildren([buttonElementRight.element]);
-
-  if (page === config.BOOK.maxPage) {
-    buttonLinkLeft.element.classList.add('inactive');
-    buttonElementLeft.element.setAttribute('disabled', '');
+  let allWordsOnPage = [];
+  console.log(state.user);
+  if (group !== config.BOOK.maxGroup + 1) {
+    allWordsOnPage = await section.getWordsOnPage();
+  } else if (state.user?.userId && state.user?.token) {
+    console.log('🚀 ~ state.user?.token', state.user?.token);
+    console.log('🚀 ~ state.user?.userId', state.user?.userId);
+    allWordsOnPage = await getAllUserWords({ userId: state.user?.userId ?? null, token: state.user?.token });
+    console.log('🚀 ~ allWordsOnPage', allWordsOnPage);
+  }
+  if (allWordsOnPage instanceof Error) {
+    throw new Error('Infalid data from API');
+  } else {
+    allWordsOnPage.forEach((word: IWord) => {
+      const wordCardElement = createWordCard(word);
+      cards.addChildren([wordCardElement]);
+    });
   }
 
-  if (page === config.BOOK.maxPage) {
-    buttonLinkRight.element.classList.add('inactive');
-    buttonElementRight.element.setAttribute('disabled', '');
+  const pagination = createPagination(group, page);
+  if (group === config.BOOK.maxGroup + 1) {
+    pagination.element.style.display = 'none';
   }
 
-  navigationBetweenPages.addChildren([buttonLinkLeft.element, currentPage.element, buttonLinkRight.element]);
-
-  mainWrapper.addChildren([navigationBetweenSections.element, cards.element, navigationBetweenPages.element]);
+  mainWrapper.addChildren([navigationBetweenSections.element, cards.element, pagination.element]);
 
   return mainWrapper.element;
 }
