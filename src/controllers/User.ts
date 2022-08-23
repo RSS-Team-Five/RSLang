@@ -53,35 +53,99 @@ export default class User {
   }
 
   async getUser({ userId, token }: { userId: string | null; token: string | null }) {
-    const user = await getUser({ userId, token });
+    let user = await getUser({ userId, token });
+    if (user.isUnsuccess) {
+      user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) user = await this.getUser({ userId: user.userId, token: user.token });
+    }
+    if (user.isNotFound) {
+      console.log('User in not found');
+      return this.user;
+    }
+    if (user.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
   async getToken({ userId, refreshToken }: { userId: string | null; refreshToken: string | null }) {
     const user = await getRefreshToken({ userId, refreshToken });
+    if (user.isUnsuccess || user.isError) {
+      console.log('Access token is missing, expired or invalid'); // should resignin ?
+      return user;
+    }
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
-  async updateUser(
-    { email, password }: { email: string; password: string },
-    userId: string | null,
-    token: string | null
-  ) {
-    const user = await updateUser({ email, password, userId, token });
+  async updateUser({
+    email,
+    password,
+    userId,
+    token,
+  }: {
+    email: string | null;
+    password: string | null;
+    userId: string | null;
+    token: string | null;
+  }) {
+    let user = await updateUser({ email, password, userId, token });
+    if (user.isIncorrect) {
+      console.log('Incorrect parameters'); // dialog with message about correct params ?
+      return this.user;
+    }
+    if (user.isUnsuccess) {
+      user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        user = await this.updateUser({ email, password, userId, token: user.token });
+    }
+    if (user.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (user.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    user.password = password;
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
   async deleteUser({ userId, token }: { userId: string | null; token: string | null }) {
-    const user = await deleteUser({ userId, token });
+    let user = await deleteUser({ userId, token });
+    if (user.isUnsuccess) {
+      user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) user = await this.deleteUser({ userId, token: user.token });
+    }
+    if (user.isDeleted) {
+      console.log('The user has been deleted');
+      return this.user;
+    }
+    if (user.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (user.isNotFound) {
+      console.log('The user is not found');
+      return this.user;
+    }
     this.user = Object.assign(this.user, user);
     return this.user;
   }
 
   async getAllUserWords({ userId, token }: { userId: string | null; token: string | null }) {
-    const words = await getAllUserWords({ userId, token });
+    let words = await getAllUserWords({ userId, token });
+    if (words.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) words = await this.getAllUserWords({ userId, token: user.token });
+    }
+    if (words.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user.userWords = words;
     return this.user;
   }
@@ -91,13 +155,39 @@ export default class User {
     wordId: string,
     { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
   ) {
-    const word = await createUserWord({ userId, token }, wordId, { difficulty, optional });
-    if (this.user.userWords && !this.user.userWords.includes(word)) this.user.userWords.push(word);
+    let word = await createUserWord({ userId, token }, wordId, { difficulty, optional });
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        word = await this.createUserWord({ userId, token: user.token }, wordId, { difficulty, optional });
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (word.isBad) console.log('Bad request');
+    if (this.user.userWords && word !== null && !this.user.userWords.includes(word)) this.user.userWords.push(word);
     return this.user;
   }
 
   async getUserWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
-    const word = await getUserWord({ userId, token }, wordId);
+    let word = await getUserWord({ userId, token }, wordId);
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) word = await this.getUserWord({ userId, token: user.token }, wordId);
+    }
+    if (word.isNotFound) {
+      console.log('Word in not found');
+      return null;
+    }
+    if (word.isBad) {
+      console.log('Bad request');
+      return null;
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return null;
+    }
     return this.user.userWords?.filter((userWords) => userWords.wordId === word.wordId);
   }
 
@@ -106,37 +196,99 @@ export default class User {
     wordId: string,
     { difficulty, optional = {} }: { difficulty: DifficultyType; optional: OptionalType | {} }
   ) {
-    await updateUserWord({ userId, token }, wordId, { difficulty, optional });
+    let word = await updateUserWord({ userId, token }, wordId, { difficulty, optional });
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        word = await this.updateUserWord({ userId, token: user.token }, wordId, { difficulty, optional });
+    }
+    if (word.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user = await this.getAllUserWords({ userId, token });
     return this.user;
   }
 
   async deleteUserWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
-    await deleteUserWord({ userId, token }, wordId);
+    let word = await deleteUserWord({ userId, token }, wordId);
+    if (word.isDeleted) {
+      console.log('The word has been deleted');
+    }
+    if (word.isNotFound) {
+      console.log('The word is not found');
+      return this.user;
+    }
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) word = await this.deleteUserWord({ userId, token: user.token }, wordId);
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user = await this.getAllUserWords({ userId, token });
     return this.user;
   }
 
   async getUserAggregatedWords(
     { userId, token }: { userId: string | null; token: string | null },
-    group: GroupType | null = null,
-    page: PageType | null = null,
-    wordsPerPage: number | null = null,
+    group: GroupType = 0,
+    page: PageType = 0,
+    wordsPerPage: number = 20,
     filter: string | null = null
   ) {
     this.user = await this.getAllUserWords({ userId, token });
-    const words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    let words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    if (words.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        words = await this.getUserAggregatedWords({ userId, token: user.token }, group, page, wordsPerPage, filter);
+    }
     return words;
   }
 
   async getUserAggregatedWord({ userId, token }: { userId: string | null; token: string | null }, wordId: string) {
     this.user = await this.getAllUserWords({ userId, token });
-    const word = await getUserAggregatedWord({ userId, token }, wordId);
+    let word = await getUserAggregatedWord({ userId, token }, wordId);
+    if (word.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        word = await this.getUserAggregatedWord({ userId, token: user.token }, wordId);
+    }
+    if (word.isNotFound) {
+      console.log('Word in not found');
+      return null;
+    }
+    if (word.isBad) {
+      console.log('Bad request');
+      return null;
+    }
+    if (word.isError) {
+      console.log('Something went wrong');
+      return null;
+    }
     return word;
   }
 
   async getUserStatistic({ userId, token }: { userId: string | null; token: string | null }) {
-    const statistic = await getUserStatistic({ userId, token });
+    let statistic = await getUserStatistic({ userId, token });
+    if (statistic.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (statistic.isNotFound) {
+      console.log('The user statistic is not found');
+      return this.user;
+    }
+    if (statistic.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) statistic = await this.getUserStatistic({ userId, token: user.token });
+    }
     this.user.userStatistic = statistic;
     return this.user;
   }
@@ -145,13 +297,38 @@ export default class User {
     { userId, token }: { userId: string | null; token: string | null },
     { learnedWords, optional = {} }: { learnedWords: number; optional: {} }
   ) {
-    const statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
+    let statistic = await upsertUserStatistic({ userId, token }, { learnedWords, optional });
+    if (statistic.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        statistic = await this.upsertUserStatistic({ userId, token: user.token }, { learnedWords, optional });
+    }
+    if (statistic.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (statistic.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user.userStatistic = statistic;
     return this.user;
   }
 
   async getUserSettings({ userId, token }: { userId: string | null; token: string | null }) {
-    const settings = await getUserSettings({ userId, token });
+    let settings = await getUserSettings({ userId, token });
+    if (settings.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
+    if (settings.isNotFound) {
+      console.log('The user settings is not found');
+      return this.user;
+    }
+    if (settings.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError) settings = await this.getUserSettings({ userId, token: user.token });
+    }
     this.user.userSettings = settings;
     return this.user;
   }
@@ -160,7 +337,20 @@ export default class User {
     { userId, token }: { userId: string | null; token: string | null },
     { wordsPerDay, optional = {} }: { wordsPerDay: number; optional: {} }
   ) {
-    const settings = await upsertUserSettings({ userId, token }, { wordsPerDay, optional });
+    let settings = await upsertUserSettings({ userId, token }, { wordsPerDay, optional });
+    if (settings.isUnsuccess) {
+      const user = await this.getToken(this.user);
+      if (!user.isUnsuccess && !user.isError)
+        settings = await this.upsertUserSettings({ userId, token: user.token }, { wordsPerDay, optional });
+    }
+    if (settings.isBad) {
+      console.log('Bad request');
+      return this.user;
+    }
+    if (settings.isError) {
+      console.log('Something went wrong');
+      return this.user;
+    }
     this.user.userSettings = settings;
     return this.user;
   }

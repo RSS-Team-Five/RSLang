@@ -11,11 +11,13 @@ export const getUserSettings = async ({ userId, token }: { userId: string | null
         ...config.DEFAULT_HEADERS,
       },
     });
-    const settings = await response.json();
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const settings = await response.json();
     return settings;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -32,10 +34,12 @@ export const upsertUserSettings = async (
         ...config.DEFAULT_HEADERS,
       },
     });
-    const settings = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
 
+    const settings = await response.json();
     return settings;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
