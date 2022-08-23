@@ -3,15 +3,7 @@ import config from '../../models/Config';
 const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
 const signinUrl = `${config.API.URL}/${config.API.ENDPOINTS.SIGNIN}`;
 
-export const createUser = async ({
-  name,
-  email,
-  password,
-}: {
-  name: string | null;
-  email: string | null;
-  password: string | null;
-}) => {
+export const createUser = async ({ name, email, password }: { name: string; email: string; password: string }) => {
   try {
     const response = await fetch(`${usersUrl}`, {
       method: 'POST',
@@ -26,7 +18,7 @@ export const createUser = async ({
   }
 };
 
-export const signIn = async ({ email, password }: { email: string | null; password: string | null }) => {
+export const signIn = async ({ email, password }: { email: string; password: string }) => {
   try {
     const response = await fetch(`${signinUrl}`, {
       method: 'POST',

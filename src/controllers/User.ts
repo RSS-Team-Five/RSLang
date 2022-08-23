@@ -40,13 +40,13 @@ export default class User {
     };
   }
 
-  async createUser({ name, email, password }: { name: string | null; email: string | null; password: string | null }) {
+  async createUser({ name, email, password }: { name: string; email: string; password: string }) {
     const user = await createUser({ name, email, password });
     this.user = user;
     return this.user;
   }
 
-  async signInUser({ email, password }: { email: string | null; password: string | null }) {
+  async signInUser({ email, password }: { email: string; password: string }) {
     const user = await signIn({ email, password });
     this.user = Object.assign(this.user, user);
     return this.user;
