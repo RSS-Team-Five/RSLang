@@ -4,7 +4,6 @@ import CustomElement from '../../utils/customElement';
 import soundIcon from '../../assets/icons/sound.png';
 
 function createWordCard(word: IWord) {
-  console.log(word);
   const cardWrapper = new CustomElement('div', {
     className: 'section__cards-card card',
   });
@@ -49,10 +48,9 @@ function createWordCard(word: IWord) {
       `${config.API.URL}/${word.audioMeaning}`,
       `${config.API.URL}/${word.audioExample}`,
     ];
-    console.log('🚀 ~ word.audioMeaning', `${config.API.URL}/${word.audioMeaning}`);
     const playSound1 = new Audio(sounds[0]);
     await playSound1.play();
-    const playSound1Duration = playSound1.duration * 1000 + 300;
+    const playSound1Duration = playSound1.duration * 1000;
     const playSound2 = new Audio(sounds[1]);
     setTimeout(async () => {
       await playSound2.play();
