@@ -43,7 +43,7 @@ function createBookPage() {
       if (index === 6 && !state.user?.isAuthorized) {
         // TODO вывести модальное окно авторизации
       }
-      window.location.href = `#/section/${index}/0`;
+      state.router?.view(`/section/${index}/0`);
     });
     return card;
   });

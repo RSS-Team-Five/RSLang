@@ -1,4 +1,5 @@
 import Section from '../../controllers/Section';
+import config from '../../models/Config';
 import state from '../../models/State';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import CustomElement from '../../utils/customElement';
@@ -101,12 +102,12 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
-  if (page === 0) {
+  if (page === config.BOOK.maxPage) {
     buttonLinkLeft.element.classList.add('inactive');
     buttonElementLeft.element.setAttribute('disabled', '');
   }
 
-  if (page === 29) {
+  if (page === config.BOOK.maxPage) {
     buttonLinkRight.element.classList.add('inactive');
     buttonElementRight.element.setAttribute('disabled', '');
   }

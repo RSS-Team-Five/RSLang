@@ -1,3 +1,4 @@
+import config from '../../models/Config';
 import IWord from '../../types/IWord';
 import CustomElement from '../../utils/customElement';
 
@@ -9,11 +10,33 @@ function createWordCard(word: IWord) {
 
   const cardImage = new CustomElement('img', {
     className: 'card__image',
-    src: ` https://raw.githubusercontent.com/rolling-scopes-school/react-rslang-be/main/${word.image}`,
+    src: `${config.API.URL}/${word.image}`,
     alt: word.word,
   });
 
-  cardWrapper.addChildren([cardImage.element]);
+  const cardInfo = new CustomElement('div', {
+    className: 'card__info',
+  });
+
+  const resources = [
+    word.word,
+    word.transcription,
+    word.wordTranslate,
+    word.textMeaning,
+    word.textMeaningTranslate,
+    word.textExample,
+    word.textExampleTranslate,
+  ];
+
+  resources.forEach((res) => {
+    const fieldElement = new CustomElement('p', {
+      className: 'card__info-field',
+      innerHTML: res,
+    });
+    cardInfo.addChildren([fieldElement.element]);
+  });
+
+  cardWrapper.addChildren([cardImage.element, cardInfo.element]);
   return cardWrapper.element;
 }
 

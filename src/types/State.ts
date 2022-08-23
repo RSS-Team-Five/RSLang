@@ -1,3 +1,4 @@
+import Router from '../controllers/Router';
 import User from '../controllers/User';
 import IEvents from './Events';
 
@@ -6,4 +7,5 @@ export default interface IState {
   user?: User;
   group?: number;
   page?: number;
+  router?: Router;
 }
