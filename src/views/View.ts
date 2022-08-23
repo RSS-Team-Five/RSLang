@@ -67,7 +67,7 @@ export default class View {
         const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
         this.content?.append(sectionPage);
       } else {
-        state.router?.view('#/404');
+        window.location.href = `#/404`;
       }
     }
   }
