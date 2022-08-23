@@ -52,7 +52,6 @@ export default class User {
       this.userId = resultCreate.id;
       this.name = resultCreate.name;
       this.email = resultCreate.email;
-      this.user = resultCreate;
     }
     return resultCreate;
   }
@@ -65,7 +64,6 @@ export default class User {
       this.userId = resultSignIn.id;
       this.name = resultSignIn.name;
       this.email = resultSignIn.email;
-      this.user = resultSignIn;
     }
     return resultSignIn;
   }
