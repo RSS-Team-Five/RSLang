@@ -36,8 +36,8 @@ function createBookPage() {
     cardWrapper.addChildren([cardImg.element, cardName.element]);
 
     cardWrapper.element.addEventListener('click', () => {
-      if (index === 6 && !state.user?.isAuthorized) {
-        // TODO вывести модальное окно авторизации
+      if (index === config.BOOK.maxGroup + 1 && !state.user?.isAuthorized) {
+        console.log('Вызвать тут окно авторизации');
       }
       window.location.href = `#/section/${index}/0`;
     });
