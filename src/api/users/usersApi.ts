@@ -68,8 +68,11 @@ export const signIn = async ({ email, password }: { email: string; password: str
     };
   } catch (error) {
     let message;
-    if (error instanceof Error) message = error.message;
-    else message = String(error);
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
     throw new Error(message);
   }
 };
