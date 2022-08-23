@@ -120,7 +120,6 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   } else if (state.user?.user.userId && state.user?.user.token) {
     allWordsOnPage = await getAllUserWords({ userId: state.user?.user.userId ?? null, token: state.user?.user.token });
   }
-  console.log('🚀 ~ allWordsOnPage.length', allWordsOnPage.length);
   if (allWordsOnPage instanceof Error) {
     throw new Error('Invalid data from API');
   } else if (!allWordsOnPage.length) {
