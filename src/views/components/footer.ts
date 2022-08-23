@@ -42,6 +42,7 @@ function footer(): HTMLElement {
   });
 
   const logoRS = new CustomElement('img', {
+    className: 'footer__links-img',
     src: logoRSPath,
     alt: 'rs-logo',
   });

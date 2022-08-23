@@ -16,7 +16,7 @@ function createBookPage() {
     className: 'book__sections-wrapper',
   });
 
-  config.SECTION_CARD.forEach((card) => {
+  config.SECTION_CARD.forEach((card, index) => {
     const cardWrapper = new CustomElement('div', {
       className: 'section__wrapper section',
     });
@@ -34,6 +34,13 @@ function createBookPage() {
       innerText: card.sectionName,
     });
     cardWrapper.addChildren([cardImg.element, cardName.element]);
+
+    cardWrapper.element.addEventListener('click', () => {
+      if (index === 6 && !state.user?.isAuthorized) {
+        // TODO вывести модальное окно авторизации
+      }
+      window.location.href = `#/section/${index}/0`;
+    });
 
     sectionsWrapper.addChildren([cardWrapper.element]);
   });

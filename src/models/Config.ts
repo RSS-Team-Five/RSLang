@@ -23,8 +23,8 @@ const config = {
   },
 
   BOOK: {
-    maxGroup: 6,
-    maxPage: 30,
+    maxGroup: 5,
+    maxPage: 29,
   },
 
   DEFAULT_HEADERS: {

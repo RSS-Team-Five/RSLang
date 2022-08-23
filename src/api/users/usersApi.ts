@@ -83,11 +83,13 @@ export const getUser = async ({ userId, token }: { userId: string | null; token:
         ...config.DEFAULT_HEADERS,
       },
     });
-    const user = await response.json();
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const user = await response.json();
     return user;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -97,8 +99,8 @@ export const updateUser = async ({
   userId,
   token,
 }: {
-  email: string;
-  password: string;
+  email: string | null;
+  password: string | null;
   userId: string | null;
   token: string | null;
 }) => {
@@ -111,11 +113,14 @@ export const updateUser = async ({
         ...config.DEFAULT_HEADERS,
       },
     });
-    const user = await response.json();
+    if (response.status === 400) return { isBad: true };
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 422) return { isIncorrect: true };
 
+    const user = await response.json();
     return user;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -128,11 +133,14 @@ export const deleteUser = async ({ userId, token }: { userId: string | null; tok
         ...config.DEFAULT_HEADERS,
       },
     });
-    const user = await response.json();
+    if (response.status === 204) return { isDeleted: true };
+    if (response.status === 401) return { isUnsuccess: true };
+    if (response.status === 404) return { isNotFound: true };
 
+    const user = await response.json();
     return user;
   } catch (error) {
-    return { isSuccess: false };
+    return { isError: true };
   }
 };
 
@@ -151,10 +159,11 @@ export const getRefreshToken = async ({
         ...config.DEFAULT_HEADERS,
       },
     });
-    const user = await response.json();
+    if (response.status === 403) return { isUnsuccess: true };
 
+    const user = await response.json();
     return user;
   } catch (error) {
-    return { isSuccess: false }; // Access token is missing, expired or invalid
+    return { isError: true };
   }
 };
