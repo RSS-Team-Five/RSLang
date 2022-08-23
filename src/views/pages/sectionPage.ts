@@ -62,6 +62,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     className: 'main__wrapper section',
   });
 
+  // navigation
   const navigationBetweenSections = new CustomElement('div', {
     className: 'section__navigation',
   });
@@ -107,19 +108,29 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     navigationBetweenSections.addChildren([buttonLink.element]);
   });
 
+  // word cards
   const cards = new CustomElement('div', {
     className: 'section__cards',
   });
 
   const section = new Section(group, page);
-  let allWordsOnPage = [];
+  let allWordsOnPage: IWord[] = [];
   if (group !== config.BOOK.maxGroup + 1) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.user.userId && state.user?.user.token) {
     allWordsOnPage = await getAllUserWords({ userId: state.user?.user.userId ?? null, token: state.user?.user.token });
   }
+  console.log('🚀 ~ allWordsOnPage.length', allWordsOnPage.length);
   if (allWordsOnPage instanceof Error) {
     throw new Error('Invalid data from API');
+  } else if (!allWordsOnPage.length) {
+    const infoForUser = new CustomElement('p', {
+      className: 'section__cards-info',
+      innerHTML: `Добро пожаловать, ${state.user?.user.name}!
+      В этом разделе будут находится твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
+      Давай попробуем сделать это прямо сейчас! Удачи!`,
+    });
+    cards.addChildren([infoForUser.element]);
   } else {
     allWordsOnPage.forEach((word: IWord) => {
       const wordCardElement = createWordCard(word);
@@ -127,6 +138,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     });
   }
 
+  // pagination
   const pagination = createPagination(group, page);
   if (group === config.BOOK.maxGroup + 1) {
     pagination.element.style.display = 'none';
