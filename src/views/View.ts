@@ -61,7 +61,7 @@ export default class View {
   async renderSection(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
-      if (+group && +page && +group <= config.BOOK.maxGroup && +page <= config.BOOK.maxPage) {
+      if (+group <= config.BOOK.maxGroup && +page <= config.BOOK.maxPage) {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
         const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
