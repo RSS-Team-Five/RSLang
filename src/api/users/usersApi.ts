@@ -33,8 +33,11 @@ export const createUser = async ({ name, email, password }: { name: string; emai
     };
   } catch (error) {
     let message;
-    if (error instanceof Error) message = error.message;
-    else message = String(error);
+    if (error instanceof Error) {
+      message = error.message;
+    } else {
+      message = String(error);
+    }
     throw new Error(message);
   }
 };
@@ -52,8 +55,17 @@ export const signIn = async ({ email, password }: { email: string; password: str
       return user;
     }
     if (response.status === 404) {
-      const error = await response.json();
-      return error;
+      return {
+        error: {
+          status: 'failed',
+          errors: [
+            {
+              path: ['email'],
+              message: '"email" Couldn\'t find a(an) user with this email',
+            },
+          ],
+        },
+      };
     }
     return {
       error: {
