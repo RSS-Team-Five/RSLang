@@ -5,6 +5,8 @@ import section3 from '../assets/images/03-section.jpg';
 import section4 from '../assets/images/04-section.jpg';
 import section5 from '../assets/images/05-section.jpg';
 import section6 from '../assets/images/06-difficult.jpg';
+import sprint from '../assets/images/sprint.jpg';
+import audiocall from '../assets/images/audio-call.jpg';
 
 const config = {
   API: {
@@ -67,6 +69,21 @@ const config = {
       imgUrl: section6,
       alt: '06-difficult',
       sectionName: 'Твои сложные слова',
+    },
+  ],
+
+  GAMES: [
+    {
+      imgUrl: sprint,
+      alt: 'sprint-game',
+      gameName: 'Спринт',
+      gameUrl: 'sprint',
+    },
+    {
+      imgUrl: audiocall,
+      alt: 'audiocall-game',
+      gameName: 'Аудиовызов',
+      gameUrl: 'audiocall',
     },
   ],
 };
