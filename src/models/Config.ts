@@ -8,7 +8,7 @@ import section6 from '../assets/images/06-difficult.jpg';
 
 const config = {
   API: {
-    URL: 'http://host1836051.hostland.pro',
+    URL: 'https://host1836051.hostland.pro',
     ENDPOINTS: {
       USERS: 'users',
       SIGNIN: 'signin',
