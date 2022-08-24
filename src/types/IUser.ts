@@ -3,15 +3,16 @@ import { UserStatisticsType } from './UserStatisticsType';
 import { UserWordsType } from './UserWordParameters';
 
 export default interface IUser {
-  name: string | null;
-  email: string | null;
-  password: string | null;
-  userId: string | null;
-  token: string | null;
-  refreshToken: string | null;
-  message: string | null;
+  name: UserProperties;
+  email: UserProperties;
+  userId: UserProperties;
+  token: UserProperties;
+  refreshToken: UserProperties;
+  message: UserProperties;
   userWords: UserWordsType[] | null;
   userStatistic: UserStatisticsType | null;
   userSettings: UserSettingsType | null;
   isAuthorized: boolean;
 }
+
+export type UserProperties = string | null;
