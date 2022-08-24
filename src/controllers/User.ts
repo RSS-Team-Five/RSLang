@@ -253,17 +253,24 @@ export default class User {
 
   async getUserAggregatedWords(
     { userId, token }: { userId: string | null; token: string | null },
-    group: GroupType = 0,
-    page: PageType = 0,
-    wordsPerPage: number = 20,
-    filter: string | null = null
+    {
+      group,
+      page,
+      wordsPerPage,
+      filter,
+    }: {
+      group?: GroupType;
+      page?: PageType;
+      wordsPerPage?: number;
+      filter?: object;
+    }
   ) {
     this.user = await this.getAllUserWords({ userId, token });
-    let words = await getUserAggregatedWords({ userId, token }, group, page, wordsPerPage, filter);
+    let words = await getUserAggregatedWords({ userId, token }, { group, page, wordsPerPage, filter });
     if (words.isUnsuccess) {
       const user = await this.getToken(this.user);
       if (!user.isUnsuccess && !user.isError)
-        words = await this.getUserAggregatedWords({ userId, token: user.token }, group, page, wordsPerPage, filter);
+        words = await this.getUserAggregatedWords({ userId, token: user.token }, { group, page, wordsPerPage, filter });
     }
     return words;
   }
