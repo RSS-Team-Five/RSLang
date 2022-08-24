@@ -42,7 +42,7 @@ function createPagination(group: GroupType, page: PageType) {
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
-  if (page === config.BOOK.maxPage) {
+  if (page === 0) {
     buttonLinkLeft.element.classList.add('inactive');
     buttonElementLeft.element.setAttribute('disabled', '');
   }
@@ -69,16 +69,16 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   });
 
   const buttonsNames = [
-    'Textbook',
-    'The easiest',
-    'Easy',
-    'Intermediate',
-    'Upper-intermediate',
-    'Difficult',
-    'The most difficult',
-    'Your words',
-    'Game 1',
-    'Game 2',
+    'Учебник',
+    `${config.SECTION_CARD[0].sectionName}`,
+    `${config.SECTION_CARD[1].sectionName}`,
+    `${config.SECTION_CARD[2].sectionName}`,
+    `${config.SECTION_CARD[3].sectionName}`,
+    `${config.SECTION_CARD[4].sectionName}`,
+    `${config.SECTION_CARD[5].sectionName}`,
+    `${config.SECTION_CARD[6].sectionName}`,
+    'Игра 1',
+    'Игра 2',
   ];
   const buttonsLinks = [
     '#/book',
@@ -102,8 +102,26 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     const buttonElement = new CustomElement('button', {
       className: 'section__button',
       type: 'button',
-      innerText: `${button}`,
+      innerHTML: `${button}`,
     });
+
+    console.log(buttonElement.element.innerHTML);
+    if (
+      !state.user?.isAuthorized &&
+      (buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}` ||
+        buttonElement.element.innerHTML === 'Игра 1' ||
+        buttonElement.element.innerHTML === 'Игра 2')
+    ) {
+      buttonElement.element.classList.add('inactive');
+      buttonElement.element.onclick = (e) => {
+        e.preventDefault();
+        if (!state.user?.isAuthorized) {
+          window.location.href = `#/signUp`;
+        } else {
+          window.location.href = `#/section/${index}/0`;
+        }
+      };
+    }
 
     buttonLink.addChildren([buttonElement.element]);
     navigationBetweenSections.addChildren([buttonLink.element]);
@@ -122,30 +140,30 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   } else if (state.user?.isAuthorized) {
     await state.user?.getAllUserWords(state.user?.user);
     allUserWordsOnPage = state.user.user.userWords;
+    if (allUserWordsOnPage?.length === 0) {
+      const infoForUser = new CustomElement('p', {
+        className: 'section__cards-info',
+        innerHTML: `Добро пожаловать, ${state.user?.user.name}!
+        В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
+        Давай попробуем сделать это прямо сейчас! Удачи!`,
+      });
+      cards.addChildren([infoForUser.element]);
+    } else if (group === config.BOOK.maxGroup && allUserWordsOnPage) {
+      allUserWordsOnPage.forEach(async (word: UserWordsType) => {
+        const userWord: IWord | unknown = await oneWordFromAPI(word.wordId);
+        if (userWord) {
+          const userWordForRes = userWord as IWord;
+          allWordsOnPage.push(userWordForRes);
+        } else {
+          throw new Error('Error during getting word');
+        }
+      });
+    }
   }
-  if (!allWordsOnPage.length) {
-    const infoForUser = new CustomElement('p', {
-      className: 'section__cards-info',
-      innerHTML: `Добро пожаловать, ${state.user?.user.name}!
-      В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
-      Давай попробуем сделать это прямо сейчас! Удачи!`,
-    });
-    cards.addChildren([infoForUser.element]);
-  } else if (group === config.BOOK.maxGroup && allUserWordsOnPage) {
-    allUserWordsOnPage.forEach(async (word: UserWordsType) => {
-      const userWord: IWord | unknown = await oneWordFromAPI(word.wordId);
-      if (userWord) {
-        const userWordForRes = userWord as IWord;
-        allWordsOnPage.push(userWordForRes);
-      } else {
-        throw new Error('Error during getting word');
-      }
-    });
-    allWordsOnPage.forEach((word: IWord) => {
-      const wordCardElement = createWordCard(word);
-      cards.addChildren([wordCardElement]);
-    });
-  }
+  allWordsOnPage.forEach((word: IWord) => {
+    const wordCardElement = createWordCard(word);
+    cards.addChildren([wordCardElement]);
+  });
 
   // pagination
   const pagination = createPagination(group, page);

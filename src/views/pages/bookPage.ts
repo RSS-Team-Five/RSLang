@@ -9,7 +9,7 @@ function createBookPage() {
 
   const pageName = new CustomElement('h2', {
     className: 'book__name',
-    innerText: 'TEXTBOOK',
+    innerText: 'УЧЕБНИК',
   });
 
   const sectionsWrapper = new CustomElement('div', {
@@ -21,7 +21,7 @@ function createBookPage() {
       className: 'section__wrapper section',
     });
 
-    if (!state.user?.isAuthorized && card.sectionName === 'Your challenging words') {
+    if (!state.user?.isAuthorized && card.sectionName === config.SECTION_CARD[config.BOOK.maxGroup].sectionName) {
       cardWrapper.element.classList.add('inactive');
     }
     const cardImg = new CustomElement('img', {

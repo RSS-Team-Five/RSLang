@@ -5,14 +5,15 @@ function createMainPage() {
     className: 'main__wrapper',
   });
 
-  const mainFuncCalls = [{ name: 'Учебник' }, { name: 'Игры' }, { name: 'О приложении' }, { name: 'Статистика' }];
+  const mainFuncCalls = [{ name: 'book' }, { name: 'games' }, { name: 'promo' }, { name: 'statistics' }];
+  const names = [{ name: 'УЧЕБНИК' }, { name: 'ИГРЫ' }, { name: 'О ПРИЛОЖЕНИИ' }, { name: 'СТАТИСТИКА' }];
 
-  mainFuncCalls.map((item) => {
+  mainFuncCalls.map((item, i) => {
     const link = `#/${item.name}`;
     const linkElement = new CustomElement('a', {
       className: 'main__link',
       href: link,
-      innerText: `${item.name}   `,
+      innerText: `${names[i].name}   `,
     });
     mainWrapper.addChildren([linkElement.element]);
     return mainWrapper.element;
