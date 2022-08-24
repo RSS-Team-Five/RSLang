@@ -58,10 +58,9 @@ export default class User {
 
   async signInUser({ email, password }: { email: string; password: string }) {
     const resultSignIn = await signIn({ email, password });
-
-    if ('id' in resultSignIn) {
+    if ('userId' in resultSignIn) {
       this.user = Object.assign(this.user, resultSignIn);
-      this.userId = resultSignIn.id;
+      this.userId = resultSignIn.userId;
       this.name = resultSignIn.name;
       this.email = resultSignIn.email;
     }
