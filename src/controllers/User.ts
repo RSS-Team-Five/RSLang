@@ -60,7 +60,7 @@ export default class User {
     const resultSignIn = await signIn({ email, password });
     if ('userId' in resultSignIn) {
       this.user = Object.assign(this.user, resultSignIn);
-      this.userId = resultSignIn.id;
+      this.userId = resultSignIn.userId;
       this.name = resultSignIn.name;
       this.email = resultSignIn.email;
     }
