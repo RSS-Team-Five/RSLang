@@ -36,7 +36,7 @@ function createBookPage() {
     cardWrapper.addChildren([cardImg.element, cardName.element]);
 
     cardWrapper.element.addEventListener('click', () => {
-      if (index === config.BOOK.maxGroup + 1 && !state.user?.isAuthorized) {
+      if (index === config.BOOK.maxGroup && !state.user?.isAuthorized) {
         window.location.href = `#/signUp`;
       } else {
         window.location.href = `#/section/${index}/0`;

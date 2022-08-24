@@ -23,7 +23,7 @@ const config = {
   },
 
   BOOK: {
-    maxGroup: 5,
+    maxGroup: 6,
     maxPage: 29,
   },
 
