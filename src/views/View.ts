@@ -11,6 +11,7 @@ import createMainPage from './pages/mainPage';
 import createPromoPage from './pages/promoPage';
 import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
+import dialogSignIn from './components/dialogSignIn';
 
 export default class View {
   content: HTMLElement | null;
@@ -106,8 +107,16 @@ export default class View {
 
   renderSignUp() {
     if (this.content) {
-      this.content.innerHTML = '';
       const dialog = dialogSignUp();
+      this.content.append(dialog);
+      document.body.style.overflow = 'hidden';
+      dialog.showModal();
+    }
+  }
+
+  renderSignIn() {
+    if (this.content) {
+      const dialog = dialogSignIn();
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();

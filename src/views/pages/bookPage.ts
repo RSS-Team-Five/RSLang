@@ -37,9 +37,10 @@ function createBookPage() {
 
     cardWrapper.element.addEventListener('click', () => {
       if (index === 6 && !state.user?.isAuthorized) {
-        // TODO вывести модальное окно авторизации
+        state.router?.view('/signIn');
+      } else {
+        window.location.href = `#/section/${index}/0`;
       }
-      window.location.href = `#/section/${index}/0`;
     });
 
     sectionsWrapper.addChildren([cardWrapper.element]);
