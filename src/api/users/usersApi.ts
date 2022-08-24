@@ -169,9 +169,9 @@ export const getRefreshToken = async ({
   try {
     const response = await fetch(`${usersUrl}/${userId}/tokens`, {
       method: 'GET',
-      body: JSON.stringify({ refreshToken }),
       headers: {
         ...config.DEFAULT_HEADERS,
+        Authorization: `Bearer ${refreshToken}`,
       },
     });
     if (response.status === 403) return { isUnsuccess: true };
