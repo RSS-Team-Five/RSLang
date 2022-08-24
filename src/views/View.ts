@@ -89,6 +89,8 @@ export default class View {
       this.content.innerHTML = '';
       const sprintPage: HTMLElement = await createSprintPage();
       this.content?.append(sprintPage);
+      const footerElement = this.content.parentElement?.nextElementSibling;
+      if (footerElement) footerElement.innerHTML = '';
     }
   }
 
@@ -97,6 +99,8 @@ export default class View {
       this.content.innerHTML = '';
       const audioCallPage: HTMLElement = await createAudioCallPage();
       this.content?.append(audioCallPage);
+      const footerElement = this.content.parentElement?.nextElementSibling;
+      if (footerElement) footerElement.innerHTML = '';
     }
   }
 
