@@ -31,6 +31,7 @@ export default class App {
     this.state.router.route('/statistics', view.renderStatistics.bind(view));
     this.state.router.route('/404', view.render404.bind(view));
     this.state.router.route('/signUp', view.renderSignUp.bind(view));
+    this.state.router.route('/signIn', view.renderSignIn.bind(view));
 
     this.state.router.view('/');
 
