@@ -13,7 +13,7 @@ function header(): HTMLElement {
 
   const linkToMainPage = new CustomElement('a', {
     className: 'header__links',
-    innerHTML: 'OUR INCREDIBLE LOGO',
+    innerHTML: 'Тут будет наш логотип',
     href: '#/',
   });
 

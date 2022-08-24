@@ -9,7 +9,7 @@ function createBookPage() {
 
   const pageName = new CustomElement('h2', {
     className: 'book__name',
-    innerText: 'TEXTBOOK',
+    innerText: 'УЧЕБНИК',
   });
 
   const sectionsWrapper = new CustomElement('div', {
@@ -21,7 +21,7 @@ function createBookPage() {
       className: 'section__wrapper section',
     });
 
-    if (!state.user?.isAuthorized && card.sectionName === 'Your challenging words') {
+    if (!state.user?.isAuthorized && card.sectionName === config.SECTION_CARD[config.BOOK.maxGroup].sectionName) {
       cardWrapper.element.classList.add('inactive');
     }
     const cardImg = new CustomElement('img', {
@@ -36,8 +36,8 @@ function createBookPage() {
     cardWrapper.addChildren([cardImg.element, cardName.element]);
 
     cardWrapper.element.addEventListener('click', () => {
-      if (index === 6 && !state.user?.isAuthorized) {
-        state.router?.view('/signIn');
+      if (index === config.BOOK.maxGroup && !state.user?.isAuthorized) {
+        window.location.href = `#/signUp`;
       } else {
         window.location.href = `#/section/${index}/0`;
       }
