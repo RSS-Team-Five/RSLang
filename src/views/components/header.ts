@@ -44,9 +44,19 @@ function header(): HTMLElement {
   headerWrapper.addChildren([linkToMainPage.element, userIconLink.element, burger.element]);
   if (state.user?.isAuthorized) {
     const btnSignOut = new CustomElement('button', { className: 'header__sign-in', innerText: 'Выйти' });
+    btnSignOut.element.addEventListener('click', () => {
+      if (state.user) {
+        localStorage.clear();
+        state.user.name = { name: null };
+        state.user.email = { email: null };
+        state.user.isAuthorized = false;
+        state.events?.notify('userAuthorized');
+      }
+    });
     headerWrapper.addChildren([btnSignOut.element]);
   } else {
     const btnSignIn = new CustomElement('button', { className: 'header__sign-out', innerText: 'Войти' });
+    btnSignIn.element.addEventListener('click', () => state.router?.view('/signIn'));
     headerWrapper.addChildren([btnSignIn.element]);
   }
 
