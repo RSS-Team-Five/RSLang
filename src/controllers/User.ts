@@ -1,8 +1,8 @@
 import { createUser, getUser, getRefreshToken, signIn, updateUser, deleteUser } from '../api/users/usersApi';
 import { getUserStatistic, upsertUserStatistic } from '../api/users/usersStatisticApi';
-import IUser from '../types/IUser';
+import IUser, { UserProperties } from '../types/IUser';
 import { GroupType, PageType } from '../types/SectionTypes';
-import { DifficultyType, OptionalType } from '../types/UserWordParameters';
+import { DifficultyType, OptionalType, UserWordsType } from '../types/UserWordParameters';
 import {
   createUserWord,
   deleteUserWord,
@@ -13,29 +13,41 @@ import {
   updateUserWord,
 } from '../api/users/usersWordsApi';
 import { getUserSettings, upsertUserSettings } from '../api/users/usersSettingsApi';
+import { UserStatisticsType } from '../types/UserStatisticsType';
+import { UserSettingsType } from '../types/UserSettingsType';
 
 export default class User {
-  name: Pick<IUser, 'name'>;
-  email: Pick<IUser, 'email'>;
-  userId: Pick<IUser, 'userId'>;
-  token: Pick<IUser, 'token'>;
+  name: UserProperties;
+  email: UserProperties;
+  userId: UserProperties;
+  token: UserProperties;
+  refreshToken: UserProperties;
+  message: UserProperties;
   isAuthorized: boolean;
+  userWords: UserWordsType[] | null;
+  userStatistic: UserStatisticsType | null;
+  userSettings: UserSettingsType | null;
+
   user: IUser;
 
-  constructor(userId: Pick<IUser, 'userId'>, token: Pick<IUser, 'token'>) {
-    this.name = { name: null };
-    this.email = { email: null };
+  constructor(userId: UserProperties, token: UserProperties, refreshToken: UserProperties) {
+    this.name = null;
+    this.email = null;
     this.userId = userId;
     this.token = token;
+    this.refreshToken = refreshToken;
+    this.message = null;
     this.isAuthorized = false;
+    this.userWords = null;
+    this.userStatistic = null;
+    this.userSettings = null;
 
     this.user = {
       name: null,
       email: null,
-      password: null,
-      userId: null,
-      token: null,
-      refreshToken: null,
+      userId,
+      token,
+      refreshToken,
       message: null,
       isAuthorized: false,
       userWords: null,
@@ -62,7 +74,9 @@ export default class User {
       this.user = Object.assign(this.user, resultSignIn);
       this.userId = resultSignIn.userId;
       this.name = resultSignIn.name;
-      this.email = resultSignIn.email;
+      this.token = resultSignIn.token;
+      this.refreshToken = resultSignIn.refreshToken;
+      this.message = resultSignIn.message;
     }
     return resultSignIn;
   }
@@ -92,6 +106,9 @@ export default class User {
       return user;
     }
     this.user = Object.assign(this.user, user);
+    this.token = user.token;
+    this.refreshToken = user.refreshToken;
+
     return this.user;
   }
 

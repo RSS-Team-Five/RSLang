@@ -47,8 +47,8 @@ function header(): HTMLElement {
     btnSignOut.element.addEventListener('click', () => {
       if (state.user) {
         localStorage.clear();
-        state.user.name = { name: null };
-        state.user.email = { email: null };
+        state.user.name = null;
+        state.user.email = null;
         state.user.isAuthorized = false;
         state.events?.notify('userAuthorized');
       }
