@@ -36,37 +36,37 @@ const config = {
     {
       imgUrl: section0,
       alt: '00-section',
-      sectionName: 'Stage 1 - the easiest',
+      sectionName: 'Очень легко',
     },
     {
       imgUrl: section1,
       alt: '01-section',
-      sectionName: 'Stage 2 - easy',
+      sectionName: 'Легко',
     },
     {
       imgUrl: section2,
       alt: '02-section',
-      sectionName: 'Stage 3 - intermediate',
+      sectionName: 'Сложнее',
     },
     {
       imgUrl: section3,
       alt: '03-section',
-      sectionName: 'Stage 4 - upper-intermediate',
+      sectionName: 'Еще сложнее',
     },
     {
       imgUrl: section4,
       alt: '04-section',
-      sectionName: 'Stage 5 - difficult',
+      sectionName: 'Сложно',
     },
     {
       imgUrl: section5,
       alt: '05-section',
-      sectionName: 'Stage 7 - the most difficult',
+      sectionName: 'Очень сложно',
     },
     {
       imgUrl: section6,
       alt: '06-difficult',
-      sectionName: 'Your challenging words',
+      sectionName: 'Твои сложные слова',
     },
   ],
 };

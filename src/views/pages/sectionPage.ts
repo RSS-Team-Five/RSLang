@@ -116,11 +116,12 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const section = new Section(group, page);
   let allWordsOnPage: IWord[] = [];
-  let allUserWordsOnPage: UserWordsType[] = [];
+  let allUserWordsOnPage: UserWordsType[] | null = [];
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.isAuthorized) {
-    allUserWordsOnPage = await state.user?.getAllUserWords(state.user.user);
+    await state.user?.getAllUserWords(state.user?.user);
+    allUserWordsOnPage = state.user.user.userWords;
   }
   if (!allWordsOnPage.length) {
     const infoForUser = new CustomElement('p', {
@@ -130,7 +131,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       Давай попробуем сделать это прямо сейчас! Удачи!`,
     });
     cards.addChildren([infoForUser.element]);
-  } else if (group === config.BOOK.maxGroup) {
+  } else if (group === config.BOOK.maxGroup && allUserWordsOnPage) {
     allUserWordsOnPage.forEach(async (word: UserWordsType) => {
       const userWord: IWord | unknown = await oneWordFromAPI(word.wordId);
       if (userWord) {

@@ -5,7 +5,7 @@ function createMainPage() {
     className: 'main__wrapper',
   });
 
-  const mainFuncCalls = [{ name: 'book' }, { name: 'games' }, { name: 'promo' }, { name: 'statistics' }];
+  const mainFuncCalls = [{ name: 'Учебник' }, { name: 'Игры' }, { name: 'О приложении' }, { name: 'Статистика' }];
 
   mainFuncCalls.map((item) => {
     const link = `#/${item.name}`;

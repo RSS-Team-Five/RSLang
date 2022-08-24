@@ -17,9 +17,9 @@ function footer(): HTMLElement {
   container.addChildren([footerWrapper.element]);
 
   const teamMembers = [
-    { memberName: 'Igor', memberGithub: 'Bumble-sakh' },
-    { memberName: 'Anna', memberGithub: 'muannna' },
-    { memberName: 'Yuliya', memberGithub: 'YuliyaShu' },
+    { memberName: 'Игорь', memberGithub: 'Bumble-sakh' },
+    { memberName: 'Аня', memberGithub: 'muannna' },
+    { memberName: 'Юля', memberGithub: 'YuliyaShu' },
   ];
 
   const membersLink = teamMembers.map(
