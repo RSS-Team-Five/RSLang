@@ -162,7 +162,7 @@ export default class User {
       return this.user;
     }
     this.user.userWords = words;
-    return this.user;
+    return words;
   }
 
   async createUserWord(

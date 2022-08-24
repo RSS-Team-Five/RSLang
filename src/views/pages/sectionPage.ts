@@ -1,9 +1,10 @@
-import { getAllUserWords } from '../../api/users/usersWordsApi';
+import { oneWordFromAPI } from '../../api/words/wordsApi';
 import Section from '../../controllers/Section';
 import config from '../../models/Config';
 import state from '../../models/State';
 import IWord from '../../types/IWord';
 import { GroupType, PageType } from '../../types/SectionTypes';
+import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
 import createWordCard from '../components/wordCard';
 
@@ -115,10 +116,14 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const section = new Section(group, page);
   let allWordsOnPage: IWord[] = [];
+  let allUserWordsOnPage: UserWordsType[] = [];
   if (group !== config.BOOK.maxGroup + 1) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.user.userId && state.user?.user.token) {
-    allWordsOnPage = await getAllUserWords({ userId: state.user?.user.userId ?? null, token: state.user?.user.token });
+    allUserWordsOnPage = await state.user?.getAllUserWords({
+      userId: state.user?.user.userId,
+      token: state.user?.user.token,
+    });
   }
   if (allWordsOnPage instanceof Error) {
     throw new Error('Invalid data from API');
@@ -126,11 +131,20 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     const infoForUser = new CustomElement('p', {
       className: 'section__cards-info',
       innerHTML: `Добро пожаловать, ${state.user?.user.name}!
-      В этом разделе будут находится твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
+      В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
       Давай попробуем сделать это прямо сейчас! Удачи!`,
     });
     cards.addChildren([infoForUser.element]);
-  } else {
+  } else if (group === config.BOOK.maxGroup + 1) {
+    allUserWordsOnPage.forEach(async (word: UserWordsType) => {
+      const userWord: IWord | unknown = await oneWordFromAPI(word.wordId);
+      if (userWord) {
+        const userWordForRes = userWord as IWord;
+        allWordsOnPage.push(userWordForRes);
+      } else {
+        throw new Error('Error during getting word');
+      }
+    });
     allWordsOnPage.forEach((word: IWord) => {
       const wordCardElement = createWordCard(word);
       cards.addChildren([wordCardElement]);
