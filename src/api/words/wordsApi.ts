@@ -8,8 +8,8 @@ async function wordsFromAPI(group = 0, page = 0): Promise<IWord[] | unknown> {
       throw new Error(response.statusText);
     }
     return await response.json();
-  } catch (error) {
-    return { isError: true };
+  } catch (error: unknown) {
+    return error;
   }
 }
 
@@ -20,8 +20,8 @@ async function oneWordFromAPI(id: string): Promise<IWord | unknown> {
       throw new Error(response.statusText);
     }
     return await response.json();
-  } catch (error) {
-    return { isError: true };
+  } catch (error: unknown) {
+    return error;
   }
 }
 
