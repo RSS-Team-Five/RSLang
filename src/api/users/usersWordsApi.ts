@@ -21,7 +21,7 @@ export const getAllUserWords = async ({ userId, token }: { userId: string | null
     const words = await response.json();
     return words;
   } catch (error) {
-    return error;
+    return { isError: true };
   }
 };
 

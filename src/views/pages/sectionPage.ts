@@ -120,14 +120,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   if (group !== config.BOOK.maxGroup + 1) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.user.userId && state.user?.user.token) {
-    allUserWordsOnPage = await state.user?.getAllUserWords({
-      userId: state.user?.user.userId,
-      token: state.user?.user.token,
-    });
+    allUserWordsOnPage = await state.user?.getAllUserWords(state.user.user);
   }
-  if (allWordsOnPage instanceof Error) {
-    throw new Error('Invalid data from API');
-  } else if (!allWordsOnPage.length) {
+  if (!allWordsOnPage.length) {
     const infoForUser = new CustomElement('p', {
       className: 'section__cards-info',
       innerHTML: `Добро пожаловать, ${state.user?.user.name}!
