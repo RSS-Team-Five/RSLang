@@ -46,7 +46,7 @@ export default class App {
     window.addEventListener('load', () => this.state.router?.resolve());
     window.addEventListener('hashchange', () => this.state.router?.resolve());
     window.addEventListener('beforeunload', () => {
-      if (this.state.user && this.state.user.userId && this.state.user.token && this.state.user.refreshToken) {
+      if (this.state.user?.userId && this.state.user?.token && this.state.user?.refreshToken) {
         localStorage.setItem('userId', this.state.user.userId);
         localStorage.setItem('token', this.state.user.token);
         localStorage.setItem('refreshToken', this.state.user.refreshToken);
