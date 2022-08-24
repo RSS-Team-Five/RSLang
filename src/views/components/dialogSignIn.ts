@@ -34,9 +34,6 @@ function dialogSignIn() {
       if (state.user) {
         state.user.isAuthorized = true;
       }
-      localStorage.setItem('userId', resultSignIn.userId);
-      localStorage.setItem('token', resultSignIn.token);
-      localStorage.setItem('refreshToken', resultSignIn.refreshToken);
       state.events?.notify('userAuthorized');
       dialog.element.close();
     } else if ('error' in resultSignIn) {

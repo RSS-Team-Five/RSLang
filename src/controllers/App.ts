@@ -11,13 +11,21 @@ export default class App {
     this.state = state;
   }
 
-  start() {
+  async start() {
     this.state.events = new Events();
 
-    // TODO проверять id и token перед созданием юзера
-    const userId = null;
-    const token = null;
-    this.state.user = new User({ userId }, { token });
+    const userId = localStorage.getItem('userId') ?? null;
+    const token = localStorage.getItem('token') ?? null;
+    const refreshToken = localStorage.getItem('refreshToken') ?? null;
+    this.state.user = new User(userId, token, refreshToken);
+    const resultGetToken = await this.state.user.getToken({ userId, refreshToken });
+    if ('userId' in resultGetToken) {
+      console.log(resultGetToken);
+
+      this.state.user.isAuthorized = true;
+    } else {
+      console.log(resultGetToken);
+    }
 
     const view = new View();
     view.renderLayout();
@@ -37,5 +45,12 @@ export default class App {
 
     window.addEventListener('load', () => this.state.router?.resolve());
     window.addEventListener('hashchange', () => this.state.router?.resolve());
+    window.addEventListener('beforeunload', () => {
+      if (this.state.user) {
+        localStorage.setItem('userId', String(this.state.user.user.userId));
+        localStorage.setItem('token', String(this.state.user.user.token));
+        localStorage.setItem('refreshToken', String(this.state.user.user.refreshToken));
+      }
+    });
   }
 }
