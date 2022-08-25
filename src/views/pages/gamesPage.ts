@@ -8,7 +8,7 @@ function createGamesPage() {
 
   const pageName = new CustomElement('h2', {
     className: 'games__name',
-    innerText: 'ИГРЫ',
+    textContent: 'ИГРЫ',
   });
 
   const gamesWrapper = new CustomElement('div', {
@@ -28,7 +28,7 @@ function createGamesPage() {
 
     const gameName = new CustomElement('p', {
       className: 'game__name',
-      innerText: game.gameName,
+      textContent: game.gameName,
     });
 
     gameWrapper.addChildren([gameImg.element, gameName.element]);
