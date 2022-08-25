@@ -6,6 +6,15 @@
   &__sound {
     width: 50px;
   }
+
+  &__star {
+    width: 50px;
+  }
+
+  &__difficult {
+    background-color: $orange;
+    opacity: 90%;
+  }
 }
 
 .section {

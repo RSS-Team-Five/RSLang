@@ -22,7 +22,7 @@ class WordCard {
     const cardImage = this.cardImage();
     const cardInfo = this.info();
     const soundElement = this.soundIcon();
-    const difficultStar = this.starIcon();
+    const difficultStar = this.starIcon(cardWrapper.element);
 
     cardWrapper.addChildren([cardImage.element, cardInfo.element, soundElement.element, difficultStar]);
 
@@ -91,7 +91,7 @@ class WordCard {
     return soundIconElement;
   }
 
-  starIcon() {
+  starIcon(cardWrapper: HTMLDivElement) {
     const userWordsId: string[] = [];
     const userWords = state.user?.user.userWords;
     userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
@@ -107,6 +107,15 @@ class WordCard {
           src: starFill,
           alt: 'star',
         }).element;
+
+    if (!this.isAuthorized) {
+      difficultStarIcon.classList.add('inactive');
+    }
+
+    if (difficultStarIcon.src === starFill) {
+      cardWrapper.classList.add('card__difficult');
+    }
+
     difficultStarIcon.addEventListener('click', async () => {
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
@@ -123,6 +132,14 @@ class WordCard {
     });
     return difficultStarIcon;
   }
+
+  // learnedWord() {
+  //   const learnedIconElement = new CustomElement('img', {
+  //     className: 'card__sound',
+  //     src: soundIcon,
+  //     alt: 'sound-icon',
+  //   });
+  // }
 }
 
 export default WordCard;
