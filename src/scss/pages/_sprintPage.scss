@@ -1,0 +1,14 @@
+.game__points_progress {
+  display: flex;
+  column-gap: 5px;
+  &_dot {
+    width: 20px;
+    height: 20px;
+    background-color: $light-gray;
+    border-radius: 50%;
+  }
+}
+
+.game__animal {
+  width: 60px;
+}
