@@ -1,5 +1,6 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
+import warningIcon from '../../assets/icons/warning.svg';
 
 function dialogSignUp() {
   const dialog = new CustomElement('dialog', { className: 'dialog' });
@@ -14,10 +15,11 @@ function dialogSignUp() {
     required: true,
   });
   const nameError = new CustomElement('div', {
-    className: 'form__error material-symbols-outlined',
+    className: 'form__error',
     title: '',
-    textContent: 'warning',
   });
+  const nameErrorIcon = new CustomElement('img', { className: 'form__error-icon', src: warningIcon });
+  nameError.addChildren([nameErrorIcon.element]);
   name.addChildren([nameInput.element, nameError.element]);
 
   const email = new CustomElement('div', { className: 'form__wrapper' });
@@ -29,10 +31,11 @@ function dialogSignUp() {
     pattern: '^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-.]+).([a-zA-Z]{2,5})$',
   });
   const emailError = new CustomElement('div', {
-    className: 'form__error material-symbols-outlined',
+    className: 'form__error',
     title: '',
-    textContent: 'warning',
   });
+  const emailErrorIcon = new CustomElement('img', { className: 'form__error-icon', src: warningIcon });
+  emailError.addChildren([emailErrorIcon.element]);
   email.addChildren([emailInput.element, emailError.element]);
 
   const password = new CustomElement('div', { className: 'form__wrapper' });
@@ -44,10 +47,11 @@ function dialogSignUp() {
     minLength: 8,
   });
   const passwordError = new CustomElement('div', {
-    className: 'form__error material-symbols-outlined',
+    className: 'form__error',
     title: '',
-    textContent: 'warning',
   });
+  const passwordErrorIcon = new CustomElement('img', { className: 'form__error-icon', src: warningIcon });
+  passwordError.addChildren([passwordErrorIcon.element]);
   password.addChildren([passwordInput.element, passwordError.element]);
 
   const btnSignUp = new CustomElement('button', {

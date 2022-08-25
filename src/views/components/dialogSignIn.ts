@@ -1,5 +1,6 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
+import warningIcon from '../../assets/icons/warning.svg';
 
 function dialogSignIn() {
   const dialog = new CustomElement('dialog', { className: 'dialog' });
@@ -15,10 +16,11 @@ function dialogSignIn() {
     pattern: '^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-.]+).([a-zA-Z]{2,5})$',
   });
   const emailError = new CustomElement('div', {
-    className: 'form__error material-symbols-outlined',
+    className: 'form__error',
     title: '',
-    textContent: 'warning',
   });
+  const emailErrorIcon = new CustomElement('img', { className: 'form__error-icon', src: warningIcon });
+  emailError.addChildren([emailErrorIcon.element]);
   email.addChildren([emailInput.element, emailError.element]);
 
   const password = new CustomElement('div', { className: 'form__wrapper' });
@@ -30,10 +32,11 @@ function dialogSignIn() {
     minLength: 8,
   });
   const passwordError = new CustomElement('div', {
-    className: 'form__error material-symbols-outlined',
+    className: 'form__error',
     title: '',
-    textContent: 'warning',
   });
+  const passwordErrorIcon = new CustomElement('img', { className: 'form__error-icon', src: warningIcon });
+  passwordError.addChildren([passwordErrorIcon.element]);
   password.addChildren([passwordInput.element, passwordError.element]);
 
   const btnSignUp = new CustomElement('button', { className: 'form__btn', textContent: 'Войти', type: 'submit' });
