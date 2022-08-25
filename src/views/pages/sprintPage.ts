@@ -11,6 +11,78 @@ async function startSprintGame(gameWords: IWord[]) {
     className: 'game__container',
   });
 
+  const soundButton = new CustomElement('button', {
+    className: 'game__sound',
+    textContent: 'mute',
+  });
+
+  const gameInfoTable = new CustomElement('div', {
+    className: 'game__info-table',
+  });
+
+  const gameScore = new CustomElement('p', {
+    className: 'game__score',
+    textContent: '0',
+  });
+
+  const gamePoints = new CustomElement('p', {
+    className: 'game__points',
+    textContent: '+10 points',
+  });
+
+  const gamePointsProgress = new CustomElement('div', {
+    className: 'game__points_progress',
+  });
+
+  for (let i = 0; i < 3; i += 1) {
+    const dotProgress = new CustomElement('div', {
+      className: 'game__points_progress_dot',
+    });
+    gamePointsProgress.addChildren([dotProgress.element]);
+  }
+
+  gameInfoTable.addChildren([gameScore.element, gamePoints.element, gamePointsProgress.element]);
+
+  const gameCard = new CustomElement('div', {
+    className: 'game__card',
+  });
+
+  const gameAnimal = new CustomElement('img', {
+    className: 'game__animal',
+    src: config.GAMES.SPRINT[0].imgUrl,
+    alt: config.GAMES.SPRINT[0].alt,
+  });
+
+  const gameWord = new CustomElement('p', {
+    className: 'game__word',
+    textContent: gameWords[0].word,
+  });
+
+  const gameWordTranslate = new CustomElement('p', {
+    className: 'game__word_translate',
+    textContent: gameWords[0].wordTranslate,
+  });
+
+  const gameButtons = new CustomElement('div', {
+    className: 'game__button',
+  });
+
+  const gameButtonWrong = new CustomElement('button', {
+    className: 'game__button_wrong',
+    textContent: 'Неверно'.toUpperCase(),
+  });
+
+  const gameButtonRight = new CustomElement('button', {
+    className: 'game__button_right',
+    textContent: 'Верно'.toUpperCase(),
+  });
+
+  gameButtons.addChildren([gameButtonWrong.element, gameButtonRight.element]);
+
+  gameCard.addChildren([gameAnimal.element, gameWord.element, gameWordTranslate.element, gameButtons.element]);
+
+  gameContainer.addChildren([soundButton.element, gameInfoTable.element, gameCard.element]);
+
   return gameContainer;
 }
 
@@ -60,7 +132,7 @@ async function createSprintPage() {
 
   const gameName = new CustomElement('h2', {
     className: 'game__name',
-    textContent: `${config.GAMES[0].gameName}`,
+    textContent: `${config.GAMES.MAIN[0].gameName}`,
   });
 
   const gameDescription = new CustomElement('p', {
