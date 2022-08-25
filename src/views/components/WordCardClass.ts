@@ -118,7 +118,8 @@ class WordCard {
     difficultStarIcon.addEventListener('click', async () => {
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
-      } else if (difficultStarIcon.src === starBlank) {
+      }
+      if (difficultStarIcon.src === starBlank) {
         await state.user?.createUserWord(state.user.user, this.word.id, {
           difficulty: 'hard',
           optional: {},
