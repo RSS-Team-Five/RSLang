@@ -142,7 +142,7 @@ function dialogSignUp() {
     if (!passwordInput.element.validity.valid) {
       showError('password');
     }
-    if (emailInput.element.validity.valid && passwordInput.element.validity.valid) {
+    if (nameInput.element.validity.valid && emailInput.element.validity.valid && passwordInput.element.validity.valid) {
       const props = {
         name: nameInput.element.value,
         email: emailInput.element.value,
