@@ -7,6 +7,15 @@ import section5 from '../assets/images/05-section.jpg';
 import section6 from '../assets/images/06-difficult.jpg';
 import sprint from '../assets/images/sprint.jpg';
 import audiocall from '../assets/images/audio-call.jpg';
+import animal0 from '../assets/images/00-animal.png';
+import animal1 from '../assets/images/01-animal.png';
+import animal2 from '../assets/images/02-animal.png';
+import animal3 from '../assets/images/03-animal.png';
+import animal4 from '../assets/images/04-animal.png';
+import animal5 from '../assets/images/05-animal.png';
+import animal6 from '../assets/images/06-animal.png';
+import animal7 from '../assets/images/07-animal.png';
+import animal8 from '../assets/images/08-animal.png';
 
 const config = {
   API: {
@@ -72,20 +81,60 @@ const config = {
     },
   ],
 
-  GAMES: [
-    {
-      imgUrl: sprint,
-      alt: 'sprint-game',
-      gameName: 'Спринт',
-      gameUrl: 'sprint',
-    },
-    {
-      imgUrl: audiocall,
-      alt: 'audiocall-game',
-      gameName: 'Аудиовызов',
-      gameUrl: 'audiocall',
-    },
-  ],
+  GAMES: {
+    MAIN: [
+      {
+        imgUrl: sprint,
+        alt: 'sprint-game',
+        gameName: 'Спринт',
+        gameUrl: 'sprint',
+      },
+      {
+        imgUrl: audiocall,
+        alt: 'audiocall-game',
+        gameName: 'Аудиовызов',
+        gameUrl: 'audiocall',
+      },
+    ],
+    SPRINT: [
+      {
+        imgUrl: animal0,
+        alt: '00-animal',
+      },
+      {
+        imgUrl: animal1,
+        alt: '01-animal',
+      },
+      {
+        imgUrl: animal2,
+        alt: '02-animal',
+      },
+      {
+        imgUrl: animal3,
+        alt: '03-animal',
+      },
+      {
+        imgUrl: animal4,
+        alt: '04-animal',
+      },
+      {
+        imgUrl: animal5,
+        alt: '05-animal',
+      },
+      {
+        imgUrl: animal6,
+        alt: '06-animal',
+      },
+      {
+        imgUrl: animal7,
+        alt: '07-animal',
+      },
+      {
+        imgUrl: animal8,
+        alt: '08-animal',
+      },
+    ],
+  },
 };
 
 export default config;
