@@ -15,7 +15,7 @@ function createGamesPage() {
     className: 'games-wrapper',
   });
 
-  config.GAMES.forEach((game) => {
+  config.GAMES.MAIN.forEach((game) => {
     const gameWrapper = new CustomElement('div', {
       className: 'game__wrapper game',
     });
