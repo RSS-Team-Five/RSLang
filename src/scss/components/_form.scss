@@ -1,0 +1,21 @@
+.form {
+  @include flex;
+
+  gap: 10px;
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__error {
+    position: absolute;
+    right: 0;
+    color: #ff0000;
+    cursor: default;
+    opacity: 0;
+
+    &-active {
+      opacity: 1;
+    }
+  }
+}
