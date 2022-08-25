@@ -14,7 +14,7 @@ function dialogSignUp() {
     required: true,
   });
   const nameError = new CustomElement('div', {
-    className: 'form__error error-name material-symbols-outlined',
+    className: 'form__error material-symbols-outlined',
     title: '',
     textContent: 'warning',
   });
@@ -29,7 +29,7 @@ function dialogSignUp() {
     pattern: '^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-.]+).([a-zA-Z]{2,5})$',
   });
   const emailError = new CustomElement('div', {
-    className: 'form__error error-email material-symbols-outlined',
+    className: 'form__error material-symbols-outlined',
     title: '',
     textContent: 'warning',
   });
@@ -44,7 +44,7 @@ function dialogSignUp() {
     minLength: 8,
   });
   const passwordError = new CustomElement('div', {
-    className: 'form__error error-password material-symbols-outlined',
+    className: 'form__error material-symbols-outlined',
     title: '',
     textContent: 'warning',
   });
@@ -76,7 +76,7 @@ function dialogSignUp() {
         if (nameInput.element.validity.valueMissing) {
           nameError.element.title = 'Поле не должно быть пустым';
         }
-        nameError.element.classList.add('form__error-active');
+        nameError.element.classList.add('form__error_active');
         break;
 
       case 'email':
@@ -85,7 +85,7 @@ function dialogSignUp() {
         } else if (emailInput.element.validity.patternMismatch) {
           emailError.element.title = 'Почта должна быть валидна';
         }
-        emailError.element.classList.add('form__error-active');
+        emailError.element.classList.add('form__error_active');
         break;
 
       case 'password':
@@ -94,12 +94,12 @@ function dialogSignUp() {
         } else if (passwordInput.element.validity.tooShort) {
           passwordError.element.title = `Пароль должен быть не короче ${passwordInput.element.minLength} символов; сейчас ${passwordInput.element.value.length}.`;
         }
-        passwordError.element.classList.add('form__error-active');
+        passwordError.element.classList.add('form__error_active');
         break;
 
       case 'email-exists':
         emailError.element.title = 'Эта почта уже занята';
-        emailError.element.classList.add('form__error-active');
+        emailError.element.classList.add('form__error_active');
         break;
 
       default:
@@ -110,7 +110,7 @@ function dialogSignUp() {
   nameInput.element.addEventListener('input', () => {
     if (nameInput.element.validity.valid) {
       nameError.element.title = '';
-      nameError.element.classList.remove('form__error-active');
+      nameError.element.classList.remove('form__error_active');
     } else {
       showError('name');
     }
@@ -118,7 +118,7 @@ function dialogSignUp() {
   emailInput.element.addEventListener('input', () => {
     if (emailInput.element.validity.valid) {
       emailError.element.title = '';
-      emailError.element.classList.remove('form__error-active');
+      emailError.element.classList.remove('form__error_active');
     } else {
       showError('email');
     }
@@ -126,7 +126,7 @@ function dialogSignUp() {
   passwordInput.element.addEventListener('input', () => {
     if (passwordInput.element.validity.valid) {
       passwordError.element.title = '';
-      passwordError.element.classList.remove('form__error-active');
+      passwordError.element.classList.remove('form__error_active');
     } else {
       showError('password');
     }
