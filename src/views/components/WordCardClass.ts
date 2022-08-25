@@ -9,6 +9,7 @@ import state from '../../models/State';
 class WordCard {
   word: IWord;
   isAuthorized?: boolean = state.user?.isAuthorized;
+  userWords = state.user?.user.userWords;
 
   constructor(word: IWord) {
     this.word = word;
@@ -93,9 +94,9 @@ class WordCard {
 
   starIcon(cardWrapper: HTMLDivElement) {
     const userWordsId: string[] = [];
-    const userWords = state.user?.user.userWords;
-    userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
-
+    this.userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
+    console.log('🚀 ~ userWordsId.includes(this.word.id)', userWordsId.includes(this.word.id));
+    console.log('🚀 ~ userWordsId', userWordsId);
     const difficultStarIcon = !userWordsId.includes(this.word.id)
       ? new CustomElement('img', {
           className: 'card__star',
@@ -125,9 +126,12 @@ class WordCard {
           optional: {},
         });
         difficultStarIcon.src = starFill;
+        cardWrapper.classList.add('card__difficult');
       } else {
         await state.user?.deleteUserWord(state.user?.user, this.word.id);
         difficultStarIcon.src = starBlank;
+        cardWrapper.classList.remove('card__difficult');
+        window.location.reload();
       }
     });
     return difficultStarIcon;

@@ -123,15 +123,15 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   const section = new Section(group, page);
   let allWordsOnPage: IWord[] = [];
   let allUserWordsOnPage: UserWordsType[] | null = [];
+  await state.user?.getAllUserWords(state.user?.user);
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.isAuthorized) {
-    await state.user?.getAllUserWords(state.user?.user);
     allUserWordsOnPage = state.user.user.userWords;
     if (allUserWordsOnPage?.length === 0) {
       const infoForUser = new CustomElement('p', {
         className: 'section__cards-info',
-        innerHTML: `Добро пожаловать, ${state.user?.user.name}!
+        innerHTML: `Добро пожаловать!
         В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
         Давай попробуем сделать это прямо сейчас! Удачи!`,
       });
