@@ -95,8 +95,6 @@ class WordCard {
   starIcon(cardWrapper: HTMLDivElement) {
     const userWordsId: string[] = [];
     this.userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
-    console.log('🚀 ~ userWordsId.includes(this.word.id)', userWordsId.includes(this.word.id));
-    console.log('🚀 ~ userWordsId', userWordsId);
     const difficultStarIcon = !userWordsId.includes(this.word.id)
       ? new CustomElement('img', {
           className: 'card__star',

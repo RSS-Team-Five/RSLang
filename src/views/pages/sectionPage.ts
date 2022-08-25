@@ -1,5 +1,5 @@
-import { oneWordFromAPI } from '../../api/words/wordsApi';
 import Section from '../../controllers/Section';
+import Word from '../../controllers/Word';
 import config from '../../models/Config';
 import state from '../../models/State';
 import IWord from '../../types/IWord';
@@ -136,9 +136,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
         Давай попробуем сделать это прямо сейчас! Удачи!`,
       });
       cards.addChildren([infoForUser.element]);
-    } else if (group === config.BOOK.maxGroup && allUserWordsOnPage) {
+    } else if (allUserWordsOnPage) {
       allUserWordsOnPage.forEach(async (word: UserWordsType) => {
-        const userWord = (await oneWordFromAPI(word.wordId)) as IWord;
+        const userWord = await new Word(word.wordId).getOneWord();
         if ('id' in word) {
           const wordCardElement = new WordCard(userWord).createCard();
           cards.addChildren([wordCardElement]);
