@@ -2,12 +2,11 @@ import CustomElement from './customElement';
 
 export default class CustomClickableElement<Tag extends keyof HTMLElementTagNameMap> extends CustomElement<Tag> {
   element: HTMLElementTagNameMap[Tag];
-  func: EventListener;
 
   constructor(
     tagName: Tag,
-    event: keyof WindowEventMap,
-    func: EventListener,
+    type: keyof WindowEventMap,
+    listener: (event?: Event) => void,
     options?: Partial<HTMLElementTagNameMap[Tag]>
   ) {
     super(tagName, options);
@@ -15,8 +14,7 @@ export default class CustomClickableElement<Tag extends keyof HTMLElementTagName
     if (options) {
       Object.assign(this.element, options);
     }
-    this.func = func;
-    this.element.addEventListener(event, func);
+    this.element.addEventListener(type, listener);
   }
 
   addChildren(children: (Node | string)[]) {

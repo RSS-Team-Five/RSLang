@@ -65,13 +65,7 @@ class WordCard {
   }
 
   soundIcon() {
-    const soundIconElement = new CustomElement('img', {
-      className: 'card__sound',
-      src: soundIcon,
-      alt: 'sound-icon',
-    });
-
-    soundIconElement.element.addEventListener('click', async () => {
+    const eventOnSoundIcon = async () => {
       const sounds = [
         `${config.API.URL}/${this.word.audio}`,
         `${config.API.URL}/${this.word.audioMeaning}`,
@@ -89,7 +83,13 @@ class WordCard {
           await playSound3.play();
         }, playSound2Duration);
       }, playSound1Duration);
+    };
+    const soundIconElement = new CustomClickableElement('img', 'click', eventOnSoundIcon, {
+      className: 'card__sound',
+      src: soundIcon,
+      alt: 'sound-icon',
     });
+
     return soundIconElement;
   }
 
@@ -98,41 +98,44 @@ class WordCard {
     this.userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
     const isUserWord = userWordsId.includes(this.word.id);
     let difficultStarIcon: HTMLImageElement;
+
+    const eventOnBlankStar = () => {
+      if (!this.isAuthorized) {
+        window.location.href = `#/signUp`;
+      }
+      state.user?.createUserWord(state.user.user, this.word.id, {
+        difficulty: 'hard',
+        optional: {},
+      });
+      difficultStarIcon.src = starFill;
+      cardWrapper.classList.add('card__difficult');
+      difficultStarIcon.removeEventListener('click', eventOnBlankStar);
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      difficultStarIcon.addEventListener('click', eventOnFilledStar);
+    };
+
+    const eventOnFilledStar = () => {
+      state.user?.deleteUserWord(state.user?.user, this.word.id);
+      difficultStarIcon.src = starBlank;
+      cardWrapper.classList.remove('card__difficult');
+      difficultStarIcon.removeEventListener('click', eventOnFilledStar);
+      difficultStarIcon.addEventListener('click', eventOnBlankStar);
+    };
+
     if (!isUserWord) {
-      difficultStarIcon = new CustomClickableElement(
-        'img',
-        'click',
-        () => {
-          if (!this.isAuthorized) {
-            window.location.href = `#/signUp`;
-          }
-          state.user?.createUserWord(state.user.user, this.word.id, {
-            difficulty: 'hard',
-            optional: {},
-          });
-          difficultStarIcon.src = starFill;
-          cardWrapper.classList.add('card__difficult');
-          window.location.reload();
-        },
-        {
-          className: 'card__star',
-          src: starBlank,
-          alt: 'star',
-        }
-      ).element;
+      difficultStarIcon = new CustomClickableElement('img', 'click', eventOnBlankStar, {
+        className: 'card__star',
+        src: starBlank,
+        alt: 'star',
+      }).element;
     } else {
-      difficultStarIcon = new CustomElement('img', {
+      difficultStarIcon = new CustomClickableElement('img', 'click', eventOnFilledStar, {
         className: 'card__star',
         src: starFill,
         alt: 'star',
       }).element;
-      difficultStarIcon.addEventListener('click', async () => {
-        await state.user?.deleteUserWord(state.user?.user, this.word.id);
-        difficultStarIcon.src = starBlank;
-        cardWrapper.classList.remove('card__difficult');
-        window.location.reload();
-      });
     }
+
     if (!this.isAuthorized) {
       difficultStarIcon.classList.add('inactive');
     }
