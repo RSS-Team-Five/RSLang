@@ -5,6 +5,7 @@ import soundIcon from '../../assets/icons/sound.png';
 import starBlank from '../../assets/icons/02icon-star.png';
 import starFill from '../../assets/icons/02icon-star-red.png';
 import state from '../../models/State';
+import CustomClickableElement from '../../utils/customClickableElement';
 
 class WordCard {
   word: IWord;
@@ -95,44 +96,51 @@ class WordCard {
   starIcon(cardWrapper: HTMLDivElement) {
     const userWordsId: string[] = [];
     this.userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
-    const difficultStarIcon = !userWordsId.includes(this.word.id)
-      ? new CustomElement('img', {
+    const isUserWord = userWordsId.includes(this.word.id);
+    let difficultStarIcon: HTMLImageElement;
+    if (!isUserWord) {
+      difficultStarIcon = new CustomClickableElement(
+        'img',
+        'click',
+        () => {
+          if (!this.isAuthorized) {
+            window.location.href = `#/signUp`;
+          }
+          state.user?.createUserWord(state.user.user, this.word.id, {
+            difficulty: 'hard',
+            optional: {},
+          });
+          difficultStarIcon.src = starFill;
+          cardWrapper.classList.add('card__difficult');
+          window.location.reload();
+        },
+        {
           className: 'card__star',
           src: starBlank,
           alt: 'star',
-        }).element
-      : new CustomElement('img', {
-          className: 'card__star',
-          src: starFill,
-          alt: 'star',
-        }).element;
-
-    if (!this.isAuthorized) {
-      difficultStarIcon.classList.add('inactive');
-    }
-
-    if (difficultStarIcon.src === starFill) {
-      cardWrapper.classList.add('card__difficult');
-    }
-
-    difficultStarIcon.addEventListener('click', async () => {
-      if (!this.isAuthorized) {
-        window.location.href = `#/signUp`;
-      }
-      if (difficultStarIcon.src === starBlank) {
-        await state.user?.createUserWord(state.user.user, this.word.id, {
-          difficulty: 'hard',
-          optional: {},
-        });
-        difficultStarIcon.src = starFill;
-        cardWrapper.classList.add('card__difficult');
-      } else {
+        }
+      ).element;
+    } else {
+      difficultStarIcon = new CustomElement('img', {
+        className: 'card__star',
+        src: starFill,
+        alt: 'star',
+      }).element;
+      difficultStarIcon.addEventListener('click', async () => {
         await state.user?.deleteUserWord(state.user?.user, this.word.id);
         difficultStarIcon.src = starBlank;
         cardWrapper.classList.remove('card__difficult');
         window.location.reload();
-      }
-    });
+      });
+    }
+    if (!this.isAuthorized) {
+      difficultStarIcon.classList.add('inactive');
+    }
+
+    if (isUserWord) {
+      cardWrapper.classList.add('card__difficult');
+    }
+
     return difficultStarIcon;
   }
 
