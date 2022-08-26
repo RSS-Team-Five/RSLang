@@ -130,29 +130,6 @@ function dialogSignIn() {
     }
   });
 
-  // btnSignUp.element.addEventListener('click', async (e) => {
-  //   e.preventDefault();
-  //   const props = {
-  //     email: email.element.value,
-  //     password: password.element.value,
-  //   };
-  //   const resultSignIn = await state.user?.signInUser(props);
-
-  //   if ('userId' in resultSignIn) {
-  //     if (state.user) {
-  //       state.user.isAuthorized = true;
-  //     }
-  //     state.events?.notify('userAuthorized');
-  //     dialog.element.close();
-  //   } else if ('error' in resultSignIn) {
-  //     // TODO обработать ошибки, подсветить поля.
-  //     console.log(resultSignIn);
-  //   } else {
-  //     // Это не должно никогда произойти
-  //     throw new Error('Ошибка авторизации');
-  //   }
-  // });
-
   window.addEventListener('hashchange', () => dialog.element.close());
   dialog.element.addEventListener('close', () => {
     document.body.style.overflow = 'auto';
