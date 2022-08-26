@@ -105,7 +105,6 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       innerHTML: `${button}`,
     });
 
-    console.log(buttonElement.element.innerHTML);
     if (
       !state.user?.isAuthorized &&
       (buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}` ||
