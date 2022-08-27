@@ -99,7 +99,6 @@ class WordCard {
     let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
     const eventOnStar = async () => {
       userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
-      console.log('im here');
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
       }
@@ -144,12 +143,6 @@ class WordCard {
         difficultStarIcon.src = starFill;
         cardWrapper.classList.add('card__difficult');
       }
-      difficultStarIcon.removeEventListener('click', eventOnStar);
-      console.log('🚀 ~ state.user.userWords', state.user?.user.userWords);
-      if (state.user) {
-        // state.user.userWords = await state.user.getUserAggregatedWords(state.user.user, {});
-      }
-      difficultStarIcon.addEventListener('click', eventOnStar);
     };
 
     difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
