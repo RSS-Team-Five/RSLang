@@ -11,7 +11,7 @@ async function createSprintPage() {
   });
 
   const gameIntro = new CustomElement('div', {
-    className: 'game__card',
+    className: 'game__intro',
   });
 
   const gameName = new CustomElement('h2', {
