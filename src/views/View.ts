@@ -12,6 +12,9 @@ import createPromoPage from './pages/promoPage';
 import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
+import AudioChallengeView from './AudioChallengeView';
+import AudioChallengeModel from '../models/AudioChallengeModel';
+import AudioChallengeController from '../controllers/AudioChallengeController';
 
 export default class View {
   content: HTMLElement | null;
@@ -120,6 +123,35 @@ export default class View {
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();
+    }
+  }
+
+  async renderAudioChallenge(group: string, page: string) {
+    if (this.content) {
+      this.content.innerHTML = '';
+
+      const model = new AudioChallengeModel();
+      const controller = new AudioChallengeController(model);
+      const view = new AudioChallengeView(controller);
+      const game: HTMLElement = view.start();
+
+      state.events?.subscribe('audioChallengeModelUpd', () => view.render(model));
+
+      if (group && page) {
+        this.content?.append(game);
+        await controller.getWords(group, page);
+      } else {
+        const difficultPanel = new CustomElement('div', { className: 'difficult' });
+        for (let groupNumber = 0; groupNumber < config.BOOK.maxGroup; groupNumber += 1) {
+          const difficultBtn = new CustomElement('a', {
+            className: 'link difficult__link',
+            innerText: `${groupNumber}`,
+            href: `#/games/audio-challenge/${groupNumber}/all`,
+          });
+          difficultPanel.addChildren([difficultBtn.element]);
+        }
+        this.content?.append(difficultPanel.element);
+      }
     }
   }
 }
