@@ -140,14 +140,12 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       cards.addChildren([infoForUser.element]);
     } else if (allUserWordsOnPage) {
       allUserWordsOnPage.forEach(async (word: UserWordsType) => {
-        if (word.difficulty === 'hard') {
-          const userWord = await new Word(word.wordId).getOneWord();
-          if ('id' in word) {
-            const wordCardElement = await new WordCard(userWord).createCard();
-            cards.addChildren([wordCardElement]);
-          } else {
-            throw new Error('Error during getting word');
-          }
+        const userWord = await new Word(word.wordId).getOneWord();
+        if ('id' in word) {
+          const wordCardElement = await new WordCard(userWord).createCard();
+          cards.addChildren([wordCardElement]);
+        } else {
+          throw new Error('Error during getting word');
         }
       });
     }
