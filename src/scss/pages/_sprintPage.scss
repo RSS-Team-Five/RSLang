@@ -1,16 +1,18 @@
 .sprint {
-  height: 100vh;
   @include flex;
+  height: calc(100% - 94px);
 }
 
 .game__field {
   @include flex;
+  user-select: none;
 }
 
 .game__timer {
   &__counting {
     width: 38px;
     padding: 10px;
+    margin-top: 0;
     border: solid 5px $green;
     border-radius: 50%;
     text-align: center;
@@ -37,10 +39,9 @@
 
 .game__container {
   @include flex;
-  width: 50vw;
+  width: 40vw;
   margin: 0 auto;
   background-color: $lavender;
-  //box-shadow: 0px 5px 10px 2px $light-shadow;
   animation: none;
 }
 
@@ -85,7 +86,7 @@
 }
 
 .game__points {
-  width: 50vw;
+  width: 40vw;
   text-align: center;
   font-size: 20px;
   padding: 10px 0;
@@ -151,7 +152,14 @@
     padding: 10px;
     border-radius: 10px;
     color: $white;
+    transition: 0.3s;
     cursor: pointer;
+    &:focus {
+      border: none;
+    }
+    &:hover {
+      scale: 1.1;
+    }
   }
   &_right {
     background-color: $green;
@@ -159,10 +167,14 @@
     padding: 10px;
     border-radius: 10px;
     color: $white;
+    transition: 0.3s;
     cursor: pointer;
-  }
-  &:focus {
-    border: none;
+    &:focus {
+      border: none;
+    }
+    &:hover {
+      scale: 1.1;
+    }
   }
 }
 
@@ -187,12 +199,58 @@
   &__word-line {
     display: flex;
     column-gap: 10px;
+    font-size: 20px;
+  }
+  &__word {
+    font-weight: 900;
+    color: $dark-gray;
   }
   &__word__correctness {
     align-self: center;
     width: 6px;
     height: 6px;
     border-radius: 50%;
+  }
+  &__diagram {
+    height: 304px;
+    width: 504px;
+  }
+  &__total-score {
+    display: flex;
+    column-gap: 5px;
+    font-size: 20px;
+  }
+}
+
+.none {
+  display: none;
+}
+
+.total-score__points {
+  color: $green;
+  font-weight: 600;
+}
+
+.result__table__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__again-button {
+  height: fit-content;
+  background-color: $green;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  color: $white;
+  transition: 0.3s;
+  cursor: pointer;
+  &:focus {
+    border: none;
+  }
+  &:hover {
+    scale: 1.1;
   }
 }
 
