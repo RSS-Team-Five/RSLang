@@ -8,6 +8,6 @@ export type ObserverEvent = keyof ObserverEvents;
 export type ObserverCallback = (...args: string[] | boolean[]) => void;
 
 interface ObserverEvents {
-  testEvent: string;
   userAuthorized: string;
+  audioChallengeModelUpd: string;
 }
