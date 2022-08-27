@@ -1,14 +1,206 @@
+.sprint {
+  height: 100vh;
+  @include flex;
+}
+
+.game__field {
+  @include flex;
+}
+
+.game__timer {
+  &__counting {
+    width: 38px;
+    padding: 10px;
+    border: solid 5px $green;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 900;
+    color: $green;
+  }
+}
+
+.counting_yellow {
+  border-color: $yellow;
+  color: $yellow;
+}
+
+.counting_red {
+  border-color: $red;
+  color: $red;
+}
+
+.game__sound {
+  margin: 20px 20px 0;
+  align-self: end;
+}
+
+.game__container {
+  @include flex;
+  width: 50vw;
+  margin: 0 auto;
+  background-color: $lavender;
+  //box-shadow: 0px 5px 10px 2px $light-shadow;
+  animation: none;
+}
+
+.animate_green {
+  animation: pulse-green 1s;
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-green;
+  }
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+.animate_red {
+  animation: pulse-red 1s;
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-red;
+  }
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+.game__score {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  color: $green;
+  margin: 0 10px 0;
+}
+
+.game__points {
+  width: 50vw;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 10px;
+}
+
+.points {
+  &_red {
+    background-color: $transparent-red;
+  }
+  &_orange {
+    background-color: $transparent-orange;
+  }
+  &_yellow {
+    background-color: $transparent-yellow;
+  }
+  &_green {
+    background-color: $transparent-green;
+  }
+  &_blue {
+    background-color: $transparent-blue;
+  }
+  &_dark-blue {
+    background-color: $transparent-dark-blue;
+  }
+  &_purple {
+    background-color: $transparent-purple;
+  }
+}
+
 .game__points_progress {
   display: flex;
+  justify-content: center;
   column-gap: 5px;
+  margin-bottom: 10px;
   &_dot {
     width: 20px;
     height: 20px;
-    background-color: $light-gray;
+    background-color: $middle-gray;
     border-radius: 50%;
   }
 }
 
+.dot_actual {
+  background-color: $orange;
+}
+
 .game__animal {
-  width: 60px;
+  height: 60px;
+}
+
+.game__card {
+  @include flex;
+}
+
+.game__button {
+  display: flex;
+  margin-bottom: 20px;
+  column-gap: 10px;
+  &_wrong {
+    background-color: $red;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: $white;
+    cursor: pointer;
+  }
+  &_right {
+    background-color: $green;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: $white;
+    cursor: pointer;
+  }
+  &:focus {
+    border: none;
+  }
+}
+
+.game__word {
+  font-size: 30px;
+  margin: 10px 0;
+  &_translate {
+    font-size: 20px;
+    margin-top: 0;
+  }
+}
+
+.game__result {
+  &__table {
+    height: 60vh;
+    width: 70vh;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: $lavender;
+    box-shadow: 0px 5px 10px 2px $light-shadow;
+  }
+  &__word-line {
+    display: flex;
+    column-gap: 10px;
+  }
+  &__word__correctness {
+    align-self: center;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+}
+
+.correct {
+  &_green {
+    background-color: $green;
+  }
+  &_red {
+    background-color: $red;
+  }
 }
