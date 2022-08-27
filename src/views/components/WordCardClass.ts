@@ -16,7 +16,7 @@ class WordCard {
     this.word = word;
   }
 
-  createCard() {
+  async createCard() {
     const cardWrapper = new CustomElement('div', {
       className: 'section__cards-card card',
     });
@@ -24,7 +24,7 @@ class WordCard {
     const cardImage = this.cardImage();
     const cardInfo = this.info();
     const soundElement = this.soundIcon();
-    const difficultStar = this.starIcon(cardWrapper.element);
+    const difficultStar = await this.starIcon(cardWrapper.element);
 
     cardWrapper.addChildren([cardImage.element, cardInfo.element, soundElement.element, difficultStar]);
 
@@ -94,54 +94,77 @@ class WordCard {
   }
 
   starIcon(cardWrapper: HTMLDivElement) {
-    const userWordsId: string[] = [];
-    this.userWords?.forEach((wordWithId) => userWordsId.push(wordWithId.wordId));
-    const isUserWord = userWordsId.includes(this.word.id);
     let difficultStarIcon: HTMLImageElement;
 
-    const eventOnBlankStar = () => {
+    let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
+    const eventOnStar = async () => {
+      userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
+      console.log('im here');
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
       }
-      state.user?.createUserWord(state.user.user, this.word.id, {
-        difficulty: 'hard',
-        optional: {},
-      });
-      difficultStarIcon.src = starFill;
-      cardWrapper.classList.add('card__difficult');
-      difficultStarIcon.removeEventListener('click', eventOnBlankStar);
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      difficultStarIcon.addEventListener('click', eventOnFilledStar);
+      if (!userWord) {
+        throw new Error('Invalid user data!');
+      }
+
+      // not user word
+      if (!userWord?.length) {
+        await state.user?.createUserWord(state.user.user, this.word.id, {
+          difficulty: 'hard',
+          optional: {
+            win: 0,
+            lose: 0,
+            learned: false,
+            new: 'no date',
+          },
+        });
+        difficultStarIcon.src = starFill;
+        cardWrapper.classList.add('card__difficult');
+      }
+
+      // user word hard
+      else if (userWord[0].difficulty === 'hard') {
+        await state.user?.updateUserWord(state.user.user, this.word.id, {
+          difficulty: 'easy',
+          optional: userWord[0].optional,
+        });
+        difficultStarIcon.src = starBlank;
+        cardWrapper.classList.remove('card__difficult');
+        if (window.location.hash === '#/section/6/0') {
+          window.location.reload();
+        }
+      }
+
+      // user word not hard
+      else {
+        await state.user?.updateUserWord(state.user.user, this.word.id, {
+          difficulty: 'hard',
+          optional: userWord[0].optional,
+        });
+        difficultStarIcon.src = starFill;
+        cardWrapper.classList.add('card__difficult');
+      }
+      difficultStarIcon.removeEventListener('click', eventOnStar);
+      console.log('🚀 ~ state.user.userWords', state.user?.user.userWords);
+      if (state.user) {
+        // state.user.userWords = await state.user.getUserAggregatedWords(state.user.user, {});
+      }
+      difficultStarIcon.addEventListener('click', eventOnStar);
     };
 
-    const eventOnFilledStar = () => {
-      state.user?.deleteUserWord(state.user?.user, this.word.id);
-      difficultStarIcon.src = starBlank;
-      cardWrapper.classList.remove('card__difficult');
-      difficultStarIcon.removeEventListener('click', eventOnFilledStar);
-      difficultStarIcon.addEventListener('click', eventOnBlankStar);
-    };
-
-    if (!isUserWord) {
-      difficultStarIcon = new CustomClickableElement('img', 'click', eventOnBlankStar, {
-        className: 'card__star',
-        src: starBlank,
-        alt: 'star',
-      }).element;
-    } else {
-      difficultStarIcon = new CustomClickableElement('img', 'click', eventOnFilledStar, {
-        className: 'card__star',
-        src: starFill,
-        alt: 'star',
-      }).element;
-    }
+    difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
+      className: 'card__star',
+      src: starBlank,
+      alt: 'star',
+    }).element;
 
     if (!this.isAuthorized) {
       difficultStarIcon.classList.add('inactive');
     }
 
-    if (isUserWord) {
+    if (userWord && userWord?.length && userWord[0].difficulty === 'hard') {
       cardWrapper.classList.add('card__difficult');
+      difficultStarIcon.src = starFill;
     }
 
     return difficultStarIcon;

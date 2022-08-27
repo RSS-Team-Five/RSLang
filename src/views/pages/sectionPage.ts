@@ -127,7 +127,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.isAuthorized) {
-    allUserWordsOnPage = state.user.user.userWords;
+    if (state.user.user.userWords) {
+      allUserWordsOnPage = state.user.user.userWords?.filter((word) => word.difficulty === 'hard');
+    }
     if (allUserWordsOnPage?.length === 0) {
       const infoForUser = new CustomElement('p', {
         className: 'section__cards-info',
@@ -138,18 +140,20 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       cards.addChildren([infoForUser.element]);
     } else if (allUserWordsOnPage) {
       allUserWordsOnPage.forEach(async (word: UserWordsType) => {
-        const userWord = await new Word(word.wordId).getOneWord();
-        if ('id' in word) {
-          const wordCardElement = new WordCard(userWord).createCard();
-          cards.addChildren([wordCardElement]);
-        } else {
-          throw new Error('Error during getting word');
+        if (word.difficulty === 'hard') {
+          const userWord = await new Word(word.wordId).getOneWord();
+          if ('id' in word) {
+            const wordCardElement = await new WordCard(userWord).createCard();
+            cards.addChildren([wordCardElement]);
+          } else {
+            throw new Error('Error during getting word');
+          }
         }
       });
     }
   }
   allWordsOnPage.forEach(async (word: IWord) => {
-    const wordCardElement = new WordCard(word).createCard();
+    const wordCardElement = await new WordCard(word).createCard();
     cards.addChildren([wordCardElement]);
   });
 
