@@ -58,7 +58,7 @@ Chart.register(
 
 function drawChart(gameWords: IGameWord[], diagramChart: CustomElement<'canvas'>) {
   const correctAnswers = gameWords.filter((word) => word.guess).length;
-  const wrongAnswers = gameWords.filter((word) => !word.guess).length;
+  const wrongAnswers = gameWords.filter((word) => word.guess !== null && !word.guess).length;
   let inRow = 0;
   let repeat = 0;
   gameWords.forEach((word) => {
