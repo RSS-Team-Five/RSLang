@@ -1,12 +1,12 @@
-import { oneWordFromAPI } from '../../api/words/wordsApi';
 import Section from '../../controllers/Section';
+import Word from '../../controllers/Word';
 import config from '../../models/Config';
 import state from '../../models/State';
 import IWord from '../../types/IWord';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
-import createWordCard from '../components/wordCard';
+import WordCard from '../components/WordCardClass';
 
 function createPagination(group: GroupType, page: PageType) {
   const navigationBetweenPages = new CustomElement('div', {
@@ -68,18 +68,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     className: 'section__navigation',
   });
 
-  const buttonsNames = [
-    'Учебник',
-    `${config.SECTION_CARD[0].sectionName}`,
-    `${config.SECTION_CARD[1].sectionName}`,
-    `${config.SECTION_CARD[2].sectionName}`,
-    `${config.SECTION_CARD[3].sectionName}`,
-    `${config.SECTION_CARD[4].sectionName}`,
-    `${config.SECTION_CARD[5].sectionName}`,
-    `${config.SECTION_CARD[6].sectionName}`,
-    'Игра 1',
-    'Игра 2',
-  ];
+  const buttonsNames = ['Учебник', ...config.SECTION_CARD.map((el) => el.sectionName), 'Игра 1', 'Игра 2'];
   const buttonsLinks = [
     '#/book',
     '#/section/0/0',
@@ -105,7 +94,6 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       innerHTML: `${button}`,
     });
 
-    console.log(buttonElement.element.innerHTML);
     if (
       !state.user?.isAuthorized &&
       (buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}` ||
@@ -135,33 +123,35 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   const section = new Section(group, page);
   let allWordsOnPage: IWord[] = [];
   let allUserWordsOnPage: UserWordsType[] | null = [];
+  await state.user?.getAllUserWords(state.user?.user);
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.isAuthorized) {
-    await state.user?.getAllUserWords(state.user?.user);
-    allUserWordsOnPage = state.user.user.userWords;
+    if (state.user.user.userWords) {
+      allUserWordsOnPage = state.user.user.userWords?.filter((word) => word.difficulty === 'hard');
+    }
     if (allUserWordsOnPage?.length === 0) {
       const infoForUser = new CustomElement('p', {
         className: 'section__cards-info',
-        innerHTML: `Добро пожаловать, ${state.user?.user.name}!
+        innerHTML: `Добро пожаловать!
         В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
         Давай попробуем сделать это прямо сейчас! Удачи!`,
       });
       cards.addChildren([infoForUser.element]);
-    } else if (group === config.BOOK.maxGroup && allUserWordsOnPage) {
+    } else if (allUserWordsOnPage) {
       allUserWordsOnPage.forEach(async (word: UserWordsType) => {
-        const userWord: IWord | unknown = await oneWordFromAPI(word.wordId);
-        if (userWord) {
-          const userWordForRes = userWord as IWord;
-          allWordsOnPage.push(userWordForRes);
+        const userWord = await new Word(word.wordId).getOneWord();
+        if ('id' in word) {
+          const wordCardElement = await new WordCard(userWord).createCard();
+          cards.addChildren([wordCardElement]);
         } else {
           throw new Error('Error during getting word');
         }
       });
     }
   }
-  allWordsOnPage.forEach((word: IWord) => {
-    const wordCardElement = createWordCard(word);
+  allWordsOnPage.forEach(async (word: IWord) => {
+    const wordCardElement = await new WordCard(word).createCard();
     cards.addChildren([wordCardElement]);
   });
 
