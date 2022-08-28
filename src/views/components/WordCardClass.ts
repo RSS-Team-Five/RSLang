@@ -11,6 +11,8 @@ class WordCard {
   word: IWord;
   isAuthorized?: boolean = state.user?.isAuthorized;
   userWords = state.user?.user.userWords;
+  difficultStarIcon!: HTMLImageElement;
+  learnedElement!: HTMLDivElement;
 
   constructor(word: IWord) {
     this.word = word;
@@ -25,8 +27,9 @@ class WordCard {
     const cardInfo = this.info();
     const soundElement = this.soundIcon();
     const difficultStar = await this.starIcon(cardWrapper.element);
+    const learnedMark = await this.learnedWord(cardWrapper.element);
 
-    cardWrapper.addChildren([cardImage.element, cardInfo.element, soundElement.element, difficultStar]);
+    cardWrapper.addChildren([cardImage.element, cardInfo.element, soundElement.element, difficultStar, learnedMark]);
 
     return cardWrapper.element;
   }
@@ -93,9 +96,7 @@ class WordCard {
     return soundIconElement;
   }
 
-  starIcon(cardWrapper: HTMLDivElement) {
-    let difficultStarIcon: HTMLImageElement;
-
+  async starIcon(cardWrapper: HTMLDivElement) {
     let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
     const eventOnStar = async () => {
       userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
@@ -117,7 +118,7 @@ class WordCard {
             new: 'no date',
           },
         });
-        difficultStarIcon.src = starFill;
+        this.difficultStarIcon.src = starFill;
         cardWrapper.classList.add('card__difficult');
       }
 
@@ -127,11 +128,13 @@ class WordCard {
           difficulty: 'easy',
           optional: userWord[0].optional,
         });
-        difficultStarIcon.src = starBlank;
+        this.difficultStarIcon.src = starBlank;
         cardWrapper.classList.remove('card__difficult');
-        if (window.location.hash === '#/section/6/0') {
-          window.location.reload();
-        }
+        setTimeout(() => {
+          if (window.location.hash === '#/section/6/0') {
+            window.location.reload();
+          }
+        }, 500);
       }
 
       // user word not hard
@@ -140,36 +143,101 @@ class WordCard {
           difficulty: 'hard',
           optional: userWord[0].optional,
         });
-        difficultStarIcon.src = starFill;
+        this.difficultStarIcon.src = starFill;
         cardWrapper.classList.add('card__difficult');
+        cardWrapper.classList.remove('card__learned');
+        this.learnedElement.innerText = config.WORD.markAsUnlearned;
       }
     };
 
-    difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
+    this.difficultStarIcon = new CustomClickableElement('img', 'click', await eventOnStar, {
       className: 'card__star',
       src: starBlank,
       alt: 'star',
     }).element;
 
     if (!this.isAuthorized) {
-      difficultStarIcon.classList.add('inactive');
+      this.difficultStarIcon.classList.add('inactive');
     }
 
     if (userWord && userWord?.length && userWord[0].difficulty === 'hard') {
       cardWrapper.classList.add('card__difficult');
-      difficultStarIcon.src = starFill;
+      this.difficultStarIcon.src = starFill;
     }
 
-    return difficultStarIcon;
+    return this.difficultStarIcon;
   }
 
-  // learnedWord() {
-  //   const learnedIconElement = new CustomElement('img', {
-  //     className: 'card__sound',
-  //     src: soundIcon,
-  //     alt: 'sound-icon',
-  //   });
-  // }
+  async learnedWord(cardWrapper: HTMLDivElement) {
+    let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
+    const eventOnLearned = async () => {
+      userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
+      if (!this.isAuthorized) {
+        window.location.href = `#/signUp`;
+      }
+      if (!userWord) {
+        throw new Error('Invalid user data!');
+      }
+      // not user word
+      if (!userWord?.length) {
+        await state.user?.createUserWord(state.user.user, this.word.id, {
+          difficulty: 'easy',
+          optional: {
+            win: 0,
+            lose: 0,
+            learned: false,
+            new: 'no date',
+          },
+        });
+        cardWrapper.classList.add('card__learned');
+        this.learnedElement.innerText = config.WORD.markAsLearned;
+      }
+
+      // user word easy
+      else if (userWord[0].difficulty === 'easy') {
+        await state.user?.updateUserWord(state.user.user, this.word.id, {
+          difficulty: 'unmarked',
+          optional: userWord[0].optional,
+        });
+        cardWrapper.classList.remove('card__learned');
+        cardWrapper.classList.remove('card__difficult');
+        this.learnedElement.innerText = config.WORD.markAsUnlearned;
+      }
+
+      // user word not easy
+      else {
+        await state.user?.updateUserWord(state.user.user, this.word.id, {
+          difficulty: 'easy',
+          optional: userWord[0].optional,
+        });
+        cardWrapper.classList.add('card__learned');
+        cardWrapper.classList.remove('card__difficult');
+        this.learnedElement.innerText = config.WORD.markAsLearned;
+        this.difficultStarIcon.src = starBlank;
+        setTimeout(() => {
+          if (window.location.hash === '#/section/6/0') {
+            window.location.reload();
+          }
+        }, 500);
+      }
+    };
+
+    this.learnedElement = new CustomClickableElement('div', 'click', await eventOnLearned, {
+      className: 'card__learned-mark',
+      innerText: config.WORD.markAsUnlearned,
+    }).element;
+
+    if (!this.isAuthorized) {
+      this.learnedElement.classList.add('inactive');
+    }
+
+    if (userWord && userWord?.length && userWord[0].difficulty === 'easy') {
+      cardWrapper.classList.add('card__learned');
+      this.learnedElement.innerText = config.WORD.markAsLearned;
+    }
+
+    return this.learnedElement;
+  }
 }
 
 export default WordCard;

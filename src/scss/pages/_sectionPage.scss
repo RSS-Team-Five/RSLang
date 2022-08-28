@@ -15,6 +15,17 @@
     background-color: $orange;
     opacity: 0.98;
   }
+
+  &__learned {
+    background-color: $blue;
+    opacity: 0.98;
+  }
+
+  &__learned-mark {
+    cursor: pointer;
+    border: solid 1px $dark-gray;
+    border-radius: 5px;
+  }
 }
 
 .section {

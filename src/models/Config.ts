@@ -27,6 +27,11 @@ const config = {
     maxPage: 29,
   },
 
+  WORD: {
+    markAsLearned: 'Слово изучено',
+    markAsUnlearned: 'Слово не изучено',
+  },
+
   DEFAULT_HEADERS: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
