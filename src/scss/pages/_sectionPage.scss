@@ -6,6 +6,26 @@
   &__sound {
     width: 50px;
   }
+
+  &__star {
+    width: 50px;
+  }
+
+  &__difficult {
+    background-color: $orange;
+    opacity: 0.98;
+  }
+
+  &__learned {
+    background-color: $blue;
+    opacity: 0.98;
+  }
+
+  &__learned-mark {
+    border: solid 1px $dark-gray;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 }
 
 .section {

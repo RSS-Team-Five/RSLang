@@ -1,7 +1,9 @@
-export type DifficultyType = 'easy' | 'hard';
+export type DifficultyType = 'easy' | 'hard' | 'unmarked';
 export type OptionalType = {
-  repeat: boolean;
-  key: string;
+  win: number;
+  lose: number;
+  learned: boolean;
+  new: Date | null;
 };
 
 export type UserWordsType = {

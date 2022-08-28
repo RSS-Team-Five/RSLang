@@ -25,7 +25,7 @@ import animal14 from '../assets/images/14-animal.png';
 
 const config = {
   API: {
-    URL: 'http://host1836051.hostland.pro',
+    URL: 'https://team5.site',
     ENDPOINTS: {
       USERS: 'users',
       SIGNIN: 'signin',
@@ -42,6 +42,11 @@ const config = {
   BOOK: {
     maxGroup: 6,
     maxPage: 29,
+  },
+
+  WORD: {
+    markAsLearned: 'Слово изучено',
+    markAsUnlearned: 'Слово не изучено',
   },
 
   DEFAULT_HEADERS: {
