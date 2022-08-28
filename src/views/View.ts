@@ -85,8 +85,6 @@ export default class View {
   }
 
   async renderSprint() {
-    document.body.innerHTML = '';
-    this.renderLayout();
     if (this.content) {
       this.content.innerHTML = '';
       const sprintPage: HTMLElement = await createSprintPage();
