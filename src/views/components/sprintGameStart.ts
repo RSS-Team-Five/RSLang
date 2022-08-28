@@ -9,7 +9,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   let score = 0;
   let points = 10;
   let pointsCounter = 0;
-  let timer: NodeJS.Timeout;
+  let timer: ReturnType<typeof setTimeout>;
   let counting = 60;
 
   gameIntro.element.classList.add('none');
