@@ -10,4 +10,5 @@ export type ObserverCallback = (...args: string[] | boolean[]) => void;
 interface ObserverEvents {
   userAuthorized: string;
   audioChallengeModelUpd: string;
+  audioChallengeResult: string;
 }
