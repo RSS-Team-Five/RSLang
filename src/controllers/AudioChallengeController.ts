@@ -36,7 +36,10 @@ export default class AudioChallengeController {
   getAnswers() {
     if (this.model.words) {
       const trueAnswer = this.model.words[this.model.currentWord];
-      const answers = this.model.words.filter((el) => el !== trueAnswer).slice(0, 4);
+      const answers = this.model.words
+        .filter((el) => el !== trueAnswer)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4);
       this.model.answers = answers.concat(trueAnswer).sort(() => Math.random() - 0.5);
     }
   }
@@ -49,12 +52,12 @@ export default class AudioChallengeController {
   next() {
     if (this.model.words) {
       this.model.currentWord += 1;
-      this.model.attempts = 1;
-      this.getAnswers();
       if (this.model.currentWord >= this.model.words?.length) {
         this.model.currentWord = 0;
         state.events?.notify('audioChallengeResult');
       } else {
+        this.model.attempts = 1;
+        this.getAnswers();
         state.events?.notify('audioChallengeModelUpd');
       }
     }
