@@ -1,0 +1,307 @@
+.game {
+  @include flex;
+
+  height: calc(100% - 94px);
+
+  &__word {
+    margin: 10px 0;
+    font-size: 30px;
+
+    &_translate {
+      margin-top: 0;
+      font-size: 20px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    margin-bottom: 20px;
+    column-gap: 10px;
+
+    &_wrong {
+      padding: 10px;
+      color: $white;
+      background-color: $red;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:focus {
+        border: none;
+      }
+
+      &:hover {
+        scale: 1.1;
+      }
+    }
+
+    &_right {
+      padding: 10px;
+      color: $white;
+      background-color: $green;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:focus {
+        border: none;
+      }
+
+      &:hover {
+        scale: 1.1;
+      }
+    }
+  }
+
+  &__card {
+    @include flex;
+  }
+
+  &__animal {
+    height: 60px;
+  }
+
+  &__points_progress {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    column-gap: 5px;
+
+    &_dot {
+      width: 20px;
+      height: 20px;
+      background-color: $middle-gray;
+      border-radius: 50%;
+    }
+  }
+
+  &__points {
+    width: 40vw;
+    margin: 10px;
+    padding: 10px 0;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  &__score {
+    margin: 0 10px;
+    color: $green;
+    font-weight: 900;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  &__container {
+    @include flex;
+
+    width: 40vw;
+    margin: 0 auto;
+    background-color: $lavender;
+    animation: none;
+  }
+
+  &__result {
+    &__table {
+      width: 70vh;
+      height: 60vh;
+      padding: 10px;
+      overflow-y: scroll;
+      background-color: $lavender;
+      box-shadow: 0 5px 10px 2px $light-shadow;
+    }
+
+    &__word-line {
+      display: flex;
+      font-size: 20px;
+      column-gap: 10px;
+    }
+
+    &__word {
+      color: $dark-gray;
+      font-weight: 900;
+    }
+
+    &__word__correctness {
+      align-self: center;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    &__diagram {
+      width: 504px;
+      height: 304px;
+    }
+
+    &__total-score {
+      display: flex;
+      font-size: 20px;
+      column-gap: 5px;
+    }
+  }
+
+  &__sound {
+    align-self: end;
+    margin: 20px 20px 0;
+  }
+
+  &__timer {
+    &__counting {
+      width: 38px;
+      margin-top: 0;
+      padding: 10px;
+      color: $green;
+      font-weight: 900;
+      font-size: 30px;
+      text-align: center;
+      border: solid 5px $green;
+      border-radius: 50%;
+    }
+  }
+
+  &__field {
+    @include flex;
+
+    user-select: none;
+  }
+}
+
+.counting {
+  &_red {
+    color: $red;
+    border-color: $red;
+  }
+
+  &_yellow {
+    color: $yellow;
+    border-color: $yellow;
+  }
+}
+
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-green;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+.animate {
+  &_red {
+    animation: pulse-red 1s;
+  }
+
+  &_green {
+    animation: pulse-green 1s;
+  }
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-red;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+.points {
+  &_red {
+    background-color: $transparent-red;
+  }
+
+  &_orange {
+    background-color: $transparent-orange;
+  }
+
+  &_yellow {
+    background-color: $transparent-yellow;
+  }
+
+  &_green {
+    background-color: $transparent-green;
+  }
+
+  &_blue {
+    background-color: $transparent-blue;
+  }
+
+  &_dark-blue {
+    background-color: $transparent-dark-blue;
+  }
+
+  &_purple {
+    background-color: $transparent-purple;
+  }
+}
+
+.dot {
+  &_actual {
+    background-color: $orange;
+  }
+}
+
+.none {
+  display: none;
+}
+
+.total-score {
+  &__points {
+    color: $green;
+    font-weight: 600;
+  }
+}
+
+.result {
+  &__table {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.header {
+  &__again-button {
+    height: fit-content;
+    margin-top: 10px;
+    padding: 10px;
+    color: $white;
+    background-color: $green;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:focus {
+      border: none;
+    }
+
+    &:hover {
+      scale: 1.1;
+    }
+  }
+}
+
+.correct {
+  &_green {
+    background-color: $green;
+  }
+
+  &_red {
+    background-color: $red;
+  }
+}

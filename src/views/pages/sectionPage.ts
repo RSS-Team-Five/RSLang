@@ -68,7 +68,12 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     className: 'section__navigation',
   });
 
-  const buttonsNames = ['Учебник', ...config.SECTION_CARD.map((el) => el.sectionName), 'Игра 1', 'Игра 2'];
+  const buttonsNames = [
+    'Учебник',
+    ...config.SECTION_CARD.map((el) => el.sectionName),
+    `${config.GAMES.MAIN[0].gameName}`,
+    'Игра 2',
+  ];
   const buttonsLinks = [
     '#/book',
     '#/section/0/0',
@@ -78,7 +83,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     '#/section/4/0',
     '#/section/5/0',
     '#/section/6/0',
-    '#/games',
+    `#/games/${config.GAMES.MAIN[0].gameUrl}`,
     '#/games',
   ];
 
@@ -94,12 +99,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       innerHTML: `${button}`,
     });
 
-    if (
-      !state.user?.isAuthorized &&
-      (buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}` ||
-        buttonElement.element.innerHTML === 'Игра 1' ||
-        buttonElement.element.innerHTML === 'Игра 2')
-    ) {
+    if (!state.user?.isAuthorized && buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}`) {
       buttonElement.element.classList.add('inactive');
       buttonElement.element.onclick = (e) => {
         e.preventDefault();

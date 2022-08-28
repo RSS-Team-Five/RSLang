@@ -51,6 +51,7 @@
     "webpack-dev-server": "^4.10.0"
   },
   "dependencies": {
+    "chart.js": "^3.9.1",
     "normalize.css": "^8.0.1",
     "ts-number-range": "^1.0.4"
   }
