@@ -36,7 +36,6 @@ export default class App {
     this.state.router.route('/section/:group/:page', view.renderSection.bind(view));
     this.state.router.route('/games', view.renderGames.bind(view));
     this.state.router.route('/games/sprint', view.renderSprint.bind(view));
-    this.state.router.route('/games/audiocall', view.renderAudioCall.bind(view));
     this.state.router.route('/promo', view.renderPromo.bind(view));
     this.state.router.route('/statistics', view.renderStatistics.bind(view));
     this.state.router.route('/404', view.render404.bind(view));
