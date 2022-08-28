@@ -13,8 +13,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "cSpell.words": [
-    "clickw"
-  ],
   "git.ignoreLimitWarning": true
 }
