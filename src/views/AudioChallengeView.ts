@@ -24,8 +24,6 @@ export default class AudioChallengeView {
     this.view.element.innerHTML = '';
     if (model.words && model.answers) {
       const word = model.words[model.currentWord];
-      console.log(model);
-      console.log(word);
       const wordBlock = new CustomElement('div', {});
       const wordAudio = new Audio(`${config.API.URL}/${word.audio}`);
       const btnSpeech = new CustomElement('button', { innerText: 'Прослушать' });
