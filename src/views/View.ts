@@ -13,7 +13,6 @@ import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
 import createSprintPage from './pages/sprintPage';
-import createAudioCallPage from './pages/audioCallPage';
 
 export default class View {
   content: HTMLElement | null;
@@ -89,16 +88,6 @@ export default class View {
       this.content.innerHTML = '';
       const sprintPage: HTMLElement = await createSprintPage();
       this.content?.append(sprintPage);
-      const footerElement = this.content.parentElement?.nextElementSibling;
-      if (footerElement) footerElement.innerHTML = '';
-    }
-  }
-
-  async renderAudioCall() {
-    if (this.content) {
-      this.content.innerHTML = '';
-      const audioCallPage: HTMLElement = await createAudioCallPage();
-      this.content?.append(audioCallPage);
       const footerElement = this.content.parentElement?.nextElementSibling;
       if (footerElement) footerElement.innerHTML = '';
     }
