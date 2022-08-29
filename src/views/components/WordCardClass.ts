@@ -47,7 +47,7 @@ class WordCard {
       className: 'card__winlose',
     });
 
-    if (this.userWords) {
+    if (this.userWords && state.user?.isAuthorized) {
       for (let i = 0; i < this.userWords?.length; i += 1) {
         if (this.userWords[i].wordId === this.word.id) {
           const win = new CustomElement('p', {
