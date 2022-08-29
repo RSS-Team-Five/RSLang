@@ -133,8 +133,8 @@ export const getUserAggregatedWords = async (
     filter?: object;
   }
 ) => {
-  const groupUrl = group ? `${groupQuire}=${group}` : '';
-  const pageUrl = page ? `&${pageQuire}=${page}` : '';
+  const groupUrl = group! >= 0 ? `${groupQuire}=${group}` : '';
+  const pageUrl = page! >= 0 ? `&${pageQuire}=${page}` : '';
   const wordsPerPageUrl = wordsPerPage ? `&wordsPerPage=${wordsPerPage}` : '';
   const filterUrl = filter ? `&filter=${JSON.stringify(filter)}` : '';
   try {

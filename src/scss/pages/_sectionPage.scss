@@ -33,4 +33,13 @@
     display: flex;
     flex-flow: row wrap;
   }
+
+  &__learned {
+    background-color: $yellow;
+  }
+
+  &__pages-current-learned {
+    background-color: $green;
+  }
+
 }

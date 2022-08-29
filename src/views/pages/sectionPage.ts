@@ -8,14 +8,14 @@ import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
 import WordCard from '../components/WordCardClass';
 
-function createPagination(group: GroupType, page: PageType) {
+async function createPagination(groupPag: GroupType, pagePag: PageType, isAllLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
     className: 'section__pages',
   });
 
   const buttonLinkLeft = new CustomElement('a', {
     className: 'section__pages-link',
-    href: `#/section/${group}/${page - 1}`,
+    href: `#/section/${groupPag}/${pagePag - 1}`,
   });
 
   const buttonElementLeft = new CustomElement('button', {
@@ -27,12 +27,16 @@ function createPagination(group: GroupType, page: PageType) {
 
   const currentPage = new CustomElement('p', {
     className: 'section__pages-current',
-    innerText: `Page ${page + 1}`,
+    innerText: `Page ${pagePag + 1}`,
   });
+
+  if (isAllLearned) {
+    currentPage.element.classList.add('section__pages-current-learned');
+  }
 
   const buttonLinkRight = new CustomElement('a', {
     className: 'section__pages-link',
-    href: `#/section/${group}/${page + 1}`,
+    href: `#/section/${groupPag}/${pagePag + 1}`,
   });
 
   const buttonElementRight = new CustomElement('button', {
@@ -42,12 +46,12 @@ function createPagination(group: GroupType, page: PageType) {
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
-  if (page === 0) {
+  if (pagePag === 0) {
     buttonLinkLeft.element.classList.add('inactive');
     buttonElementLeft.element.setAttribute('disabled', '');
   }
 
-  if (page === config.BOOK.maxPage) {
+  if (pagePag === config.BOOK.maxPage) {
     buttonLinkRight.element.classList.add('inactive');
     buttonElementRight.element.setAttribute('disabled', '');
   }
@@ -155,8 +159,22 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     cards.addChildren([wordCardElement]);
   });
 
+  let count: number = 0;
+  const userWordsForCheck = state.user?.user.userWords;
+  allWordsOnPage.forEach(async (word: IWord) => {
+    userWordsForCheck?.forEach((uWord) => {
+      if (word.id === uWord.wordId && uWord.difficulty === 'easy') {
+        count += 1;
+      }
+    });
+  });
+  let isAllLearned: boolean = false;
+  if (count === allWordsOnPage.length) {
+    isAllLearned = true;
+    mainWrapper.element.classList.add('section__learned');
+  }
   // pagination
-  const pagination = createPagination(group, page);
+  const pagination = await createPagination(group, page, isAllLearned);
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
