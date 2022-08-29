@@ -12,6 +12,7 @@ import createPromoPage from './pages/promoPage';
 import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
+import createSprintPage from './pages/sprintPage';
 import AudioChallengeView from './AudioChallengeView';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import AudioChallengeController from '../controllers/AudioChallengeController';
@@ -82,6 +83,16 @@ export default class View {
       this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
       this.content?.append(gamesPage);
+    }
+  }
+
+  async renderSprint() {
+    if (this.content) {
+      this.content.innerHTML = '';
+      const sprintPage: HTMLElement = await createSprintPage();
+      this.content?.append(sprintPage);
+      const footerElement = this.content.parentElement?.nextElementSibling;
+      if (footerElement) footerElement.innerHTML = '';
     }
   }
 

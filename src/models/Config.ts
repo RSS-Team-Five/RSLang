@@ -5,6 +5,23 @@ import section3 from '../assets/images/03-section.jpg';
 import section4 from '../assets/images/04-section.jpg';
 import section5 from '../assets/images/05-section.jpg';
 import section6 from '../assets/images/06-difficult.jpg';
+import sprint from '../assets/images/sprint.jpg';
+import audiocall from '../assets/images/audio-call.jpg';
+import animal0 from '../assets/images/00-animal.png';
+import animal1 from '../assets/images/01-animal.png';
+import animal2 from '../assets/images/02-animal.png';
+import animal3 from '../assets/images/03-animal.png';
+import animal4 from '../assets/images/04-animal.png';
+import animal5 from '../assets/images/05-animal.png';
+import animal6 from '../assets/images/06-animal.png';
+import animal7 from '../assets/images/07-animal.png';
+import animal8 from '../assets/images/08-animal.png';
+import animal9 from '../assets/images/09-animal.png';
+import animal10 from '../assets/images/10-animal.png';
+import animal11 from '../assets/images/11-animal.png';
+import animal12 from '../assets/images/12-animal.png';
+import animal13 from '../assets/images/13-animal.png';
+import animal14 from '../assets/images/14-animal.png';
 
 const config = {
   API: {
@@ -74,6 +91,85 @@ const config = {
       sectionName: 'Твои сложные слова',
     },
   ],
+
+  GAMES: {
+    MAIN: [
+      {
+        imgUrl: sprint,
+        alt: 'sprint-game',
+        gameName: 'Спринт',
+        gameUrl: 'sprint',
+      },
+      {
+        imgUrl: audiocall,
+        alt: 'audiocall-game',
+        gameName: 'Аудиовызов',
+        gameUrl: 'audiocall',
+      },
+    ],
+    SPRINT: [
+      {
+        imgUrl: animal0,
+        alt: '00-animal',
+      },
+      {
+        imgUrl: animal1,
+        alt: '01-animal',
+      },
+      {
+        imgUrl: animal2,
+        alt: '02-animal',
+      },
+      {
+        imgUrl: animal3,
+        alt: '03-animal',
+      },
+      {
+        imgUrl: animal4,
+        alt: '04-animal',
+      },
+      {
+        imgUrl: animal5,
+        alt: '05-animal',
+      },
+      {
+        imgUrl: animal6,
+        alt: '06-animal',
+      },
+      {
+        imgUrl: animal7,
+        alt: '07-animal',
+      },
+      {
+        imgUrl: animal8,
+        alt: '08-animal',
+      },
+      {
+        imgUrl: animal9,
+        alt: '09-animal',
+      },
+      {
+        imgUrl: animal10,
+        alt: '10-animal',
+      },
+      {
+        imgUrl: animal11,
+        alt: '11-animal',
+      },
+      {
+        imgUrl: animal12,
+        alt: '12-animal',
+      },
+      {
+        imgUrl: animal13,
+        alt: '13-animal',
+      },
+      {
+        imgUrl: animal14,
+        alt: '14-animal',
+      },
+    ],
+  },
 };
 
 export default config;

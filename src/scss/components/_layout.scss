@@ -1,0 +1,27 @@
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.main {
+  flex: 1 0 auto;
+
+  &__container {
+    height: 100%;
+  }
+}
+
+.footer {
+  flex: 0 0 auto;
+}

@@ -1,0 +1,9 @@
+.games-wrapper {
+  display: flex;
+}
+
+.game {
+  &__img {
+    height: 150px;
+  }
+}
