@@ -226,7 +226,6 @@ class WordCard {
             new: userWord[0].optional.new,
           },
         });
-        console.log(await state.user?.getAllUserWords(state.user.user));
         cardWrapper.classList.remove('card__learned');
         cardWrapper.classList.remove('card__difficult');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
