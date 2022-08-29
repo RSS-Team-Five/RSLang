@@ -5,7 +5,7 @@ function isAllLearned(allWordsOnPage: IWord[]): { isTrue: boolean; countLearned:
   let count: number = 0;
   if (state.user?.isAuthorized) {
     const userWordsForCheck = state.user?.user.userWords;
-    allWordsOnPage.forEach(async (word: IWord) => {
+    allWordsOnPage.forEach((word: IWord) => {
       userWordsForCheck?.forEach((uWord) => {
         if (word.id === uWord.wordId && uWord.optional.learned) {
           count += 1;
