@@ -26,6 +26,11 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+  &__winlose {
+    display: flex;
+    flex-flow: row wrap;
+  }
 }
 
 .section {
