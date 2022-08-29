@@ -6,9 +6,10 @@ import IWord from '../../types/IWord';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
+import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
 
-async function createPagination(groupPag: GroupType, pagePag: PageType, isAllLearned: boolean) {
+async function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
     className: 'section__pages',
   });
@@ -30,7 +31,7 @@ async function createPagination(groupPag: GroupType, pagePag: PageType, isAllLea
     innerText: `Page ${pagePag + 1}`,
   });
 
-  if (isAllLearned) {
+  if (isAllWordsLearned) {
     currentPage.element.classList.add('section__pages-current-learned');
   }
 
@@ -76,7 +77,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     'Учебник',
     ...config.SECTION_CARD.map((el) => el.sectionName),
     `${config.GAMES.MAIN[0].gameName}`,
-    'Игра 2',
+    `${config.GAMES.MAIN[1].gameName}`,
   ];
   const buttonsLinks = [
     '#/book',
@@ -88,20 +89,23 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     '#/section/5/0',
     '#/section/6/0',
     `#/games/${config.GAMES.MAIN[0].gameUrl}`,
-    '#/games',
+    `#/games/${config.GAMES.MAIN[1].gameUrl}`,
   ];
 
+  let buttonElement: CustomElement<'button'>;
+  const allButtons: HTMLButtonElement[] = [];
   buttonsNames.forEach((button, index) => {
     const buttonLink = new CustomElement('a', {
       className: 'section__button-link',
       href: `${buttonsLinks[index]}`,
     });
 
-    const buttonElement = new CustomElement('button', {
-      className: 'section__button',
+    buttonElement = new CustomElement('button', {
+      className: `section__button section__button-${buttonsLinks[index]}`,
       type: 'button',
       innerHTML: `${button}`,
     });
+    allButtons.push(buttonElement.element);
 
     if (!state.user?.isAuthorized && buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}`) {
       buttonElement.element.classList.add('inactive');
@@ -159,22 +163,19 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     cards.addChildren([wordCardElement]);
   });
 
-  let count: number = 0;
-  const userWordsForCheck = state.user?.user.userWords;
-  allWordsOnPage.forEach(async (word: IWord) => {
-    userWordsForCheck?.forEach((uWord) => {
-      if (word.id === uWord.wordId && uWord.difficulty === 'easy') {
-        count += 1;
-      }
-    });
-  });
-  let isAllLearned: boolean = false;
-  if (count === allWordsOnPage.length) {
-    isAllLearned = true;
+  let isAllWordsLearned: boolean = false;
+  if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
+    isAllWordsLearned = true;
     mainWrapper.element.classList.add('section__learned');
+    const gamesButtons = allButtons.slice(-2);
+    gamesButtons.forEach((button) => {
+      button.classList.add('inactive');
+      button.setAttribute('disabled', '');
+    });
   }
+
   // pagination
-  const pagination = await createPagination(group, page, isAllLearned);
+  const pagination = await createPagination(group, page, isAllWordsLearned);
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }

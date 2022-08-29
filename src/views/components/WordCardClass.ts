@@ -6,6 +6,16 @@ import starBlank from '../../assets/icons/02icon-star.png';
 import starFill from '../../assets/icons/02icon-star-red.png';
 import state from '../../models/State';
 import CustomClickableElement from '../../utils/customClickableElement';
+import isAllLearned from '../../utils/isAllLearned';
+import Section from '../../controllers/Section';
+
+async function needToReload(): Promise<void> {
+  const section = new Section(state.group, state.page);
+  const allWordsOnPage = await section.getWordsOnPage();
+  if (isAllLearned(allWordsOnPage).isTrue || isAllLearned(allWordsOnPage).countLearned === allWordsOnPage.length - 1) {
+    window.location.reload();
+  }
+}
 
 class WordCard {
   word: IWord;
@@ -134,7 +144,8 @@ class WordCard {
           if (window.location.hash === '#/section/6/0') {
             window.location.reload();
           }
-        }, 500);
+          needToReload();
+        }, 0);
       }
 
       // user word not hard
@@ -147,6 +158,7 @@ class WordCard {
         cardWrapper.classList.add('card__difficult');
         cardWrapper.classList.remove('card__learned');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        needToReload();
       }
     };
 
@@ -202,6 +214,7 @@ class WordCard {
         cardWrapper.classList.remove('card__learned');
         cardWrapper.classList.remove('card__difficult');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        needToReload();
       }
 
       // user word not easy
@@ -219,6 +232,7 @@ class WordCard {
             window.location.reload();
           }
         }, 500);
+        needToReload();
       }
     };
 
@@ -229,9 +243,8 @@ class WordCard {
 
     if (!this.isAuthorized) {
       this.learnedElement.classList.add('inactive');
-    }
-
-    if (userWord && userWord?.length && userWord[0].difficulty === 'easy') {
+      cardWrapper.classList.remove('card__learned');
+    } else if (userWord && userWord?.length && userWord[0].difficulty === 'easy') {
       cardWrapper.classList.add('card__learned');
       this.learnedElement.innerText = config.WORD.markAsLearned;
     }
