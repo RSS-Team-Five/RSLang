@@ -9,7 +9,7 @@ import CustomElement from '../../utils/customElement';
 import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
 
-async function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
+function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
     className: 'section__pages',
   });
@@ -175,7 +175,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   }
 
   // pagination
-  const pagination = await createPagination(group, page, isAllWordsLearned);
+  const pagination = createPagination(group, page, isAllWordsLearned);
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
