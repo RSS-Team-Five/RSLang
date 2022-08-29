@@ -49,9 +49,6 @@ class WordCard {
 
     if (this.userWords) {
       for (let i = 0; i < this.userWords?.length; i += 1) {
-        console.log('🚀 ~ this.word.id', this.word.id);
-        console.log('🚀 ~ this.userWords[i].id', this.userWords[i].wordId);
-
         if (this.userWords[i].wordId === this.word.id) {
           const win = new CustomElement('p', {
             className: 'card__win',
@@ -68,7 +65,6 @@ class WordCard {
         }
       }
     }
-    console.log('🚀 ~ winLoseElement', winLoseElement);
     return winLoseElement;
   }
 
