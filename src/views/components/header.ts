@@ -39,11 +39,7 @@ function header(): HTMLElement {
 
   userIconLink.addChildren([userIcon.element]);
 
-  const eventOnBurger = () => {
-    createBurgerMenu();
-  };
-
-  const burgerIcon = new CustomClickableElement('img', 'click', eventOnBurger, {
+  const burgerIcon = new CustomClickableElement('img', 'click', createBurgerMenu, {
     className: 'header__burger burger',
     src: menuIcon,
     alt: 'menu-icon',

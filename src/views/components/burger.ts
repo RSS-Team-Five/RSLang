@@ -4,7 +4,6 @@ function createBurgerMenu(): void {
   const burgerWrapper = new CustomElement('div', {
     className: 'burger__wrapper',
   });
-  // !!! ПОМЕНЯТЬ ИМЯ ВТОРОЙ ИГРЫ
   const allLinks = [
     { name: 'book' },
     { name: 'games/sprint' },
