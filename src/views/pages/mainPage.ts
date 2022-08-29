@@ -1,3 +1,4 @@
+import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
 function createMainPage() {
@@ -15,6 +16,14 @@ function createMainPage() {
       href: link,
       innerText: `${names[i].name}   `,
     });
+    if (!state.user?.isAuthorized && linkElement.element.innerHTML === 'СТАТИСТИКА   ') {
+      linkElement.element.classList.add('inactive');
+      linkElement.element.style.cursor = 'pointer';
+      linkElement.element.onclick = (e) => {
+        e.preventDefault();
+        window.location.href = `#/signUp`;
+      };
+    }
     mainWrapper.addChildren([linkElement.element]);
     return mainWrapper.element;
   });
