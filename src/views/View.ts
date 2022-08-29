@@ -96,8 +96,8 @@ export default class View {
   renderAboutUs() {
     if (this.content) {
       this.content.innerHTML = '';
-      const promoPage: HTMLElement = createAboutUsPage();
-      this.content?.append(promoPage);
+      const aboutUsPage: HTMLElement = createAboutUsPage();
+      this.content?.append(aboutUsPage);
     }
   }
 
