@@ -29,14 +29,14 @@ function createBurgerMenu(): void {
     { name: 'book' },
     { name: 'games/sprint' },
     { name: 'games/audio-challenge' },
-    { name: 'promo' },
+    { name: 'aboutUs' },
     { name: 'statistics' },
   ];
   const names = [
     { name: 'УЧЕБНИК' },
     { name: 'ИГРА СПРИНТ' },
     { name: 'ИГРА АУДИОВЫЗОВ' },
-    { name: 'О ПРИЛОЖЕНИИ' },
+    { name: 'О НАС' },
     { name: 'СТАТИСТИКА' },
   ];
 

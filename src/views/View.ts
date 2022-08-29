@@ -8,11 +8,11 @@ import dialogSignUp from './components/dialogSignUp';
 import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
 import createMainPage from './pages/mainPage';
-import createPromoPage from './pages/promoPage';
 import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
 import createSprintPage from './pages/sprintPage';
+import createAboutUsPage from './pages/aboutUsPage';
 
 export default class View {
   content: HTMLElement | null;
@@ -93,10 +93,10 @@ export default class View {
     }
   }
 
-  renderPromo() {
+  renderAboutUs() {
     if (this.content) {
       this.content.innerHTML = '';
-      const promoPage: HTMLElement = createPromoPage();
+      const promoPage: HTMLElement = createAboutUsPage();
       this.content?.append(promoPage);
     }
   }
