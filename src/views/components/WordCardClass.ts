@@ -136,7 +136,12 @@ class WordCard {
       else if (userWord[0].difficulty === 'hard') {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'easy',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: true,
+            new: userWord[0].optional.new,
+          },
         });
         this.difficultStarIcon.src = starBlank;
         cardWrapper.classList.remove('card__difficult');
@@ -152,7 +157,12 @@ class WordCard {
       else {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'hard',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: false,
+            new: userWord[0].optional.new,
+          },
         });
         this.difficultStarIcon.src = starFill;
         cardWrapper.classList.add('card__difficult');
@@ -162,7 +172,7 @@ class WordCard {
       }
     };
 
-    this.difficultStarIcon = new CustomClickableElement('img', 'click', await eventOnStar, {
+    this.difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
       className: 'card__star',
       src: starBlank,
       alt: 'star',
@@ -197,7 +207,7 @@ class WordCard {
           optional: {
             win: 0,
             lose: 0,
-            learned: false,
+            learned: true,
             new: 'no date',
           },
         });
@@ -205,23 +215,34 @@ class WordCard {
         this.learnedElement.innerText = config.WORD.markAsLearned;
       }
 
-      // user word easy
-      else if (userWord[0].difficulty === 'easy') {
+      // learned user word
+      else if (userWord[0].optional.learned) {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'unmarked',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: false,
+            new: userWord[0].optional.new,
+          },
         });
+        console.log(await state.user?.getAllUserWords(state.user.user));
         cardWrapper.classList.remove('card__learned');
         cardWrapper.classList.remove('card__difficult');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
         needToReload();
       }
 
-      // user word not easy
+      // not learned user word
       else {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'easy',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: true,
+            new: userWord[0].optional.new,
+          },
         });
         cardWrapper.classList.add('card__learned');
         cardWrapper.classList.remove('card__difficult');
@@ -236,7 +257,7 @@ class WordCard {
       }
     };
 
-    this.learnedElement = new CustomClickableElement('div', 'click', await eventOnLearned, {
+    this.learnedElement = new CustomClickableElement('div', 'click', eventOnLearned, {
       className: 'card__learned-mark',
       innerText: config.WORD.markAsUnlearned,
     }).element;
@@ -244,7 +265,7 @@ class WordCard {
     if (!this.isAuthorized) {
       this.learnedElement.classList.add('inactive');
       cardWrapper.classList.remove('card__learned');
-    } else if (userWord && userWord?.length && userWord[0].difficulty === 'easy') {
+    } else if (userWord && userWord?.length && userWord[0].optional.learned) {
       cardWrapper.classList.add('card__learned');
       this.learnedElement.innerText = config.WORD.markAsLearned;
     }
