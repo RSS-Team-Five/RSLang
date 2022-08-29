@@ -1,0 +1,19 @@
+.burger {
+  width: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  /* !!!позиционировать относительно значка меню */
+  &__wrapper {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: $lavender;
+    border: solid 1px $light-shadow;
+    border-radius: 5px;
+  }
+}

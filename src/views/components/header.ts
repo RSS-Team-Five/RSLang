@@ -1,5 +1,8 @@
 import state from '../../models/State';
+import CustomClickableElement from '../../utils/customClickableElement';
 import CustomElement from '../../utils/customElement';
+import menuIcon from '../../assets/icons/menu.png';
+import createBurgerMenu from './burger';
 
 function header(): HTMLElement {
   const container = new CustomElement('div', {
@@ -36,12 +39,17 @@ function header(): HTMLElement {
 
   userIconLink.addChildren([userIcon.element]);
 
-  const burger = new CustomElement('div', {
-    className: 'header__burger',
-    innerText: 'future-burger',
+  const eventOnBurger = () => {
+    createBurgerMenu();
+  };
+
+  const burgerIcon = new CustomClickableElement('img', 'click', eventOnBurger, {
+    className: 'header__burger burger',
+    src: menuIcon,
+    alt: 'menu-icon',
   });
 
-  headerWrapper.addChildren([linkToMainPage.element, userIconLink.element, burger.element]);
+  headerWrapper.addChildren([linkToMainPage.element, userIconLink.element, burgerIcon.element]);
   if (state.user?.isAuthorized) {
     const btnSignOut = new CustomElement('button', { className: 'header__sign-in', innerText: 'Выйти' });
     btnSignOut.element.addEventListener('click', () => {
