@@ -6,6 +6,16 @@ import starBlank from '../../assets/icons/02icon-star.png';
 import starFill from '../../assets/icons/02icon-star-red.png';
 import state from '../../models/State';
 import CustomClickableElement from '../../utils/customClickableElement';
+import isAllLearned from '../../utils/isAllLearned';
+import Section from '../../controllers/Section';
+
+async function needToReload(): Promise<void> {
+  const section = new Section(state.group, state.page);
+  const allWordsOnPage = await section.getWordsOnPage();
+  if (isAllLearned(allWordsOnPage).isTrue || isAllLearned(allWordsOnPage).countLearned === allWordsOnPage.length - 1) {
+    window.location.reload();
+  }
+}
 
 class WordCard {
   word: IWord;
@@ -126,7 +136,12 @@ class WordCard {
       else if (userWord[0].difficulty === 'hard') {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'easy',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: true,
+            new: userWord[0].optional.new,
+          },
         });
         this.difficultStarIcon.src = starBlank;
         cardWrapper.classList.remove('card__difficult');
@@ -134,23 +149,30 @@ class WordCard {
           if (window.location.hash === '#/section/6/0') {
             window.location.reload();
           }
-        }, 500);
+          needToReload();
+        }, 0);
       }
 
       // user word not hard
       else {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'hard',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: false,
+            new: userWord[0].optional.new,
+          },
         });
         this.difficultStarIcon.src = starFill;
         cardWrapper.classList.add('card__difficult');
         cardWrapper.classList.remove('card__learned');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        needToReload();
       }
     };
 
-    this.difficultStarIcon = new CustomClickableElement('img', 'click', await eventOnStar, {
+    this.difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
       className: 'card__star',
       src: starBlank,
       alt: 'star',
@@ -185,7 +207,7 @@ class WordCard {
           optional: {
             win: 0,
             lose: 0,
-            learned: false,
+            learned: true,
             new: 'no date',
           },
         });
@@ -193,22 +215,33 @@ class WordCard {
         this.learnedElement.innerText = config.WORD.markAsLearned;
       }
 
-      // user word easy
-      else if (userWord[0].difficulty === 'easy') {
+      // learned user word
+      else if (userWord[0].optional.learned) {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'unmarked',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: false,
+            new: userWord[0].optional.new,
+          },
         });
         cardWrapper.classList.remove('card__learned');
         cardWrapper.classList.remove('card__difficult');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        needToReload();
       }
 
-      // user word not easy
+      // not learned user word
       else {
         await state.user?.updateUserWord(state.user.user, this.word.id, {
           difficulty: 'easy',
-          optional: userWord[0].optional,
+          optional: {
+            win: userWord[0].optional.win,
+            lose: userWord[0].optional.lose,
+            learned: true,
+            new: userWord[0].optional.new,
+          },
         });
         cardWrapper.classList.add('card__learned');
         cardWrapper.classList.remove('card__difficult');
@@ -219,19 +252,19 @@ class WordCard {
             window.location.reload();
           }
         }, 500);
+        needToReload();
       }
     };
 
-    this.learnedElement = new CustomClickableElement('div', 'click', await eventOnLearned, {
+    this.learnedElement = new CustomClickableElement('div', 'click', eventOnLearned, {
       className: 'card__learned-mark',
       innerText: config.WORD.markAsUnlearned,
     }).element;
 
     if (!this.isAuthorized) {
       this.learnedElement.classList.add('inactive');
-    }
-
-    if (userWord && userWord?.length && userWord[0].difficulty === 'easy') {
+      cardWrapper.classList.remove('card__learned');
+    } else if (userWord && userWord?.length && userWord[0].optional.learned) {
       cardWrapper.classList.add('card__learned');
       this.learnedElement.innerText = config.WORD.markAsLearned;
     }
