@@ -72,7 +72,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     'Учебник',
     ...config.SECTION_CARD.map((el) => el.sectionName),
     `${config.GAMES.MAIN[0].gameName}`,
-    'Игра 2',
+    `${config.GAMES.MAIN[1].gameName}`,
   ];
   const buttonsLinks = [
     '#/book',
@@ -84,7 +84,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     '#/section/5/0',
     '#/section/6/0',
     `#/games/${config.GAMES.MAIN[0].gameUrl}`,
-    '#/games',
+    `#/games/${config.GAMES.MAIN[1].gameUrl}/${group}/${page}`,
   ];
 
   buttonsNames.forEach((button, index) => {
