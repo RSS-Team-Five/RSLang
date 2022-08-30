@@ -1,10 +1,11 @@
 import CustomElement from '../../utils/customElement';
 
 function createAboutUsPage() {
-  const hi = new CustomElement('p', {
-    innerText: 'Hello! I/m a promo page!',
+  const aboutUsWrapper = new CustomElement('div', {
+    className: 'aboutUs__wrapper',
   });
-  return hi.element;
+
+  return aboutUsWrapper.element;
 }
 
 export default createAboutUsPage;
