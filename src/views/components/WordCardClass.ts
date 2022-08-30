@@ -33,15 +33,49 @@ class WordCard {
       className: 'section__cards-card card',
     });
 
+    const winLose = await this.winLose();
     const cardImage = this.cardImage();
     const cardInfo = this.info();
     const soundElement = this.soundIcon();
     const difficultStar = await this.starIcon(cardWrapper.element);
     const learnedMark = await this.learnedWord(cardWrapper.element);
 
-    cardWrapper.addChildren([cardImage.element, cardInfo.element, soundElement.element, difficultStar, learnedMark]);
+    cardWrapper.addChildren([
+      winLose.element,
+      cardImage.element,
+      cardInfo.element,
+      soundElement.element,
+      difficultStar,
+      learnedMark,
+    ]);
 
     return cardWrapper.element;
+  }
+
+  async winLose() {
+    const winLoseElement = new CustomElement('div', {
+      className: 'card__winlose',
+    });
+
+    if (this.userWords && state.user?.isAuthorized) {
+      for (let i = 0; i < this.userWords?.length; i += 1) {
+        if (this.userWords[i].wordId === this.word.id) {
+          const win = new CustomElement('p', {
+            className: 'card__win',
+            innerHTML: `Wins: ${this.userWords[i].optional.win}`,
+          });
+
+          const lose = new CustomElement('p', {
+            className: 'card__win',
+            innerHTML: `Loses: ${this.userWords[i].optional.lose}`,
+          });
+
+          winLoseElement.addChildren([win.element, lose.element]);
+          break;
+        }
+      }
+    }
+    return winLoseElement;
   }
 
   cardImage() {
