@@ -12,3 +12,8 @@ export type UserWordsType = {
   difficulty: DifficultyType;
   optional: OptionalType;
 };
+
+export type UserWordsForGame = {
+  difficulty: DifficultyType;
+  optional: OptionalType;
+};
