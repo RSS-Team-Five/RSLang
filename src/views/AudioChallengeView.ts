@@ -51,11 +51,13 @@ export default class AudioChallengeView {
       model.answers.forEach((answer) => {
         const btnAnswer = new CustomElement('button', { innerText: answer.wordTranslate });
         if (model.attempts) {
-          btnAnswer.element.addEventListener('click', () => this.controller.try());
-        } else if (answer === word) {
-          btnAnswer.element.style.color = 'yellow';
-        } else {
-          btnAnswer.element.style.color = 'red';
+          btnAnswer.element.addEventListener('click', () => this.controller.try(answer));
+        } else if (answer === model.userAnswer) {
+          if (answer === word) {
+            btnAnswer.element.style.color = 'yellow';
+          } else {
+            btnAnswer.element.style.color = 'red';
+          }
         }
 
         answersBlock.addChildren([btnAnswer.element]);
@@ -67,11 +69,27 @@ export default class AudioChallengeView {
     }
   }
 
-  renderResult() {
+  renderResult(model: AudioChallengeModel) {
+    // TODO перерисовать результаты.
     this.view.element.innerHTML = '';
+    const result = new CustomElement('div', {
+      innerText: `SCORE - ${model.gameStatistic.score}\nSERIES - ${model.gameStatistic.winSeries}\n`,
+    });
+    const win = new CustomElement('div', { innerText: `WIN - ${model.gameStatistic.win.length}\n` });
+    model.gameStatistic.win.forEach((word) => {
+      const row = new CustomElement('p', { innerText: `${word.word} - ${word.wordTranslate}` });
+      win.addChildren([row.element]);
+    });
+    const lose = new CustomElement('div', { innerText: `LOSE - ${model.gameStatistic.lose.length}\n` });
+    model.gameStatistic.lose.forEach((word) => {
+      const row = new CustomElement('p', { innerText: `${word.word} - ${word.wordTranslate}` });
+      lose.addChildren([row.element]);
+    });
+    result.addChildren([win.element, lose.element]);
+
     const mainPageLink = new CustomElement('a', { href: '#/', innerText: 'На главную' });
     const newGameLink = new CustomElement('a', { href: '#/games/audio-challenge', innerText: 'Играть заново' });
 
-    this.view.addChildren([mainPageLink.element, newGameLink.element]);
+    this.view.addChildren([result.element, mainPageLink.element, newGameLink.element]);
   }
 }
