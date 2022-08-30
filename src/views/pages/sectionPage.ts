@@ -89,7 +89,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     '#/section/5/0',
     '#/section/6/0',
     `#/games/${config.GAMES.MAIN[0].gameUrl}`,
-    `#/games/${config.GAMES.MAIN[1].gameUrl}`,
+    `#/games/${config.GAMES.MAIN[1].gameUrl}/${group}/${page}`,
   ];
 
   let buttonElement: CustomElement<'button'>;

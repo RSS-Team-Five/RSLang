@@ -13,6 +13,10 @@ import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
 import createSprintPage from './pages/sprintPage';
 import createAboutUsPage from './pages/aboutUsPage';
+import AudioChallengeView from './AudioChallengeView';
+import AudioChallengeModel from '../models/AudioChallengeModel';
+import AudioChallengeController from '../controllers/AudioChallengeController';
+import createAudioChallengePage from './pages/audioChallengePage';
 
 export default class View {
   content: HTMLElement | null;
@@ -130,6 +134,28 @@ export default class View {
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();
+    }
+  }
+
+  async renderAudioChallenge(group: string, page: string) {
+    if (this.content) {
+      this.content.innerHTML = '';
+
+      const model = new AudioChallengeModel();
+      const controller = new AudioChallengeController(model);
+      const view = new AudioChallengeView(controller);
+      const game: HTMLElement = view.start();
+
+      state.events?.subscribe('audioChallengeModelUpd', () => view.renderGame(model));
+      state.events?.subscribe('audioChallengeResult', () => view.renderResult(model));
+
+      if (group && page) {
+        this.content?.append(game);
+        await controller.getWords(group, page);
+      } else {
+        const audioChallengePage: HTMLElement = await createAudioChallengePage();
+        this.content?.append(audioChallengePage);
+      }
     }
   }
 }
