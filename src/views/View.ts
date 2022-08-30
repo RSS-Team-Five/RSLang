@@ -16,6 +16,7 @@ import createSprintPage from './pages/sprintPage';
 import AudioChallengeView from './AudioChallengeView';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import AudioChallengeController from '../controllers/AudioChallengeController';
+import createAudioChallengePage from './pages/audioChallengePage';
 
 export default class View {
   content: HTMLElement | null;
@@ -147,22 +148,14 @@ export default class View {
       const game: HTMLElement = view.start();
 
       state.events?.subscribe('audioChallengeModelUpd', () => view.renderGame(model));
-      state.events?.subscribe('audioChallengeResult', () => view.renderResult());
+      state.events?.subscribe('audioChallengeResult', () => view.renderResult(model));
 
       if (group && page) {
         this.content?.append(game);
         await controller.getWords(group, page);
       } else {
-        const difficultPanel = new CustomElement('div', { className: 'difficult' });
-        for (let groupNumber = 0; groupNumber < config.BOOK.maxGroup; groupNumber += 1) {
-          const difficultBtn = new CustomElement('a', {
-            className: 'link difficult__link',
-            innerText: `${groupNumber}`,
-            href: `#/games/audio-challenge/${groupNumber}/all`,
-          });
-          difficultPanel.addChildren([difficultBtn.element]);
-        }
-        this.content?.append(difficultPanel.element);
+        const audioChallengePage: HTMLElement = await createAudioChallengePage();
+        this.content?.append(audioChallengePage);
       }
     }
   }
