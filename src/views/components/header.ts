@@ -54,7 +54,7 @@ function header(): HTMLElement {
   } else {
     const btnSignIn = new CustomElement('button', { className: 'header__sign-out', innerText: 'Войти' });
     btnSignIn.element.addEventListener('click', () => state.router?.view('/signIn'));
-    headerWrapper.addChildren([]);
+    headerWrapper.addChildren([btnSignIn.element]);
   }
 
   const burgerIcon = new CustomClickableElement('img', 'click', createBurgerMenu, {
