@@ -6,7 +6,7 @@ import section4 from '../assets/images/04-section.jpg';
 import section5 from '../assets/images/05-section.jpg';
 import section6 from '../assets/images/06-difficult.jpg';
 import sprint from '../assets/images/sprint.jpg';
-import audiocall from '../assets/images/audio-call.jpg';
+import audioChallenge from '../assets/images/audio-call.jpg';
 import animal0 from '../assets/images/00-animal.png';
 import animal1 from '../assets/images/01-animal.png';
 import animal2 from '../assets/images/02-animal.png';
@@ -101,10 +101,10 @@ const config = {
         gameUrl: 'sprint',
       },
       {
-        imgUrl: audiocall,
-        alt: 'audiocall-game',
+        imgUrl: audioChallenge,
+        alt: 'Audio challenge game',
         gameName: 'Аудиовызов',
-        gameUrl: 'audiocall',
+        gameUrl: 'audio-challenge',
       },
     ],
     SPRINT: [

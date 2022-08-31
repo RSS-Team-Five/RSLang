@@ -1,0 +1,15 @@
+.about-us {
+  &__cards {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__img {
+    width: 200px;
+  }
+}

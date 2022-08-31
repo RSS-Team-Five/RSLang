@@ -6,16 +6,17 @@ import IWord from '../../types/IWord';
 import { GroupType, PageType } from '../../types/SectionTypes';
 import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
+import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
 
-function createPagination(group: GroupType, page: PageType) {
+function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
     className: 'section__pages',
   });
 
   const buttonLinkLeft = new CustomElement('a', {
     className: 'section__pages-link',
-    href: `#/section/${group}/${page - 1}`,
+    href: `#/section/${groupPag}/${pagePag - 1}`,
   });
 
   const buttonElementLeft = new CustomElement('button', {
@@ -27,12 +28,16 @@ function createPagination(group: GroupType, page: PageType) {
 
   const currentPage = new CustomElement('p', {
     className: 'section__pages-current',
-    innerText: `Page ${page + 1}`,
+    innerText: `Page ${pagePag + 1}`,
   });
+
+  if (isAllWordsLearned) {
+    currentPage.element.classList.add('section__pages-current-learned');
+  }
 
   const buttonLinkRight = new CustomElement('a', {
     className: 'section__pages-link',
-    href: `#/section/${group}/${page + 1}`,
+    href: `#/section/${groupPag}/${pagePag + 1}`,
   });
 
   const buttonElementRight = new CustomElement('button', {
@@ -42,12 +47,12 @@ function createPagination(group: GroupType, page: PageType) {
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
-  if (page === 0) {
+  if (pagePag === 0) {
     buttonLinkLeft.element.classList.add('inactive');
     buttonElementLeft.element.setAttribute('disabled', '');
   }
 
-  if (page === config.BOOK.maxPage) {
+  if (pagePag === config.BOOK.maxPage) {
     buttonLinkRight.element.classList.add('inactive');
     buttonElementRight.element.setAttribute('disabled', '');
   }
@@ -72,7 +77,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     'Учебник',
     ...config.SECTION_CARD.map((el) => el.sectionName),
     `${config.GAMES.MAIN[0].gameName}`,
-    'Игра 2',
+    `${config.GAMES.MAIN[1].gameName}`,
   ];
   const buttonsLinks = [
     '#/book',
@@ -84,20 +89,23 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     '#/section/5/0',
     '#/section/6/0',
     `#/games/${config.GAMES.MAIN[0].gameUrl}`,
-    '#/games',
+    `#/games/${config.GAMES.MAIN[1].gameUrl}/${group}/${page}`,
   ];
 
+  let buttonElement: CustomElement<'button'>;
+  const allButtons: HTMLButtonElement[] = [];
   buttonsNames.forEach((button, index) => {
     const buttonLink = new CustomElement('a', {
       className: 'section__button-link',
       href: `${buttonsLinks[index]}`,
     });
 
-    const buttonElement = new CustomElement('button', {
-      className: 'section__button',
+    buttonElement = new CustomElement('button', {
+      className: `section__button section__button-${buttonsLinks[index]}`,
       type: 'button',
       innerHTML: `${button}`,
     });
+    allButtons.push(buttonElement.element);
 
     if (!state.user?.isAuthorized && buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}`) {
       buttonElement.element.classList.add('inactive');
@@ -155,8 +163,19 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     cards.addChildren([wordCardElement]);
   });
 
+  let isAllWordsLearned: boolean = false;
+  if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
+    isAllWordsLearned = true;
+    mainWrapper.element.classList.add('section__learned');
+    const gamesButtons = allButtons.slice(-2);
+    gamesButtons.forEach((button) => {
+      button.classList.add('inactive');
+      button.setAttribute('disabled', '');
+    });
+  }
+
   // pagination
-  const pagination = createPagination(group, page);
+  const pagination = createPagination(group, page, isAllWordsLearned);
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
