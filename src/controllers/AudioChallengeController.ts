@@ -29,12 +29,20 @@ export default class AudioChallengeController {
         words = words.filter((word: IWord) => word.userWord?.difficulty !== 'easy' && word.page <= page).slice(-20);
       }
     } else {
-      const wordsPromises = [];
-      for (let pageCounter = 0; pageCounter <= config.BOOK.maxPage; pageCounter += 1) {
-        wordsPromises.push(wordsFromAPI(Number(group), pageCounter));
+      const wordsPromises: Promise<unknown>[] = [];
+      const randomPage = new Set();
+      while (randomPage.size < 10) {
+        randomPage.add(Math.floor(Math.random() * config.BOOK.maxPage));
       }
+
+      randomPage.forEach((page) => {
+        if (typeof page === 'number') {
+          wordsPromises.push(wordsFromAPI(Number(group), page));
+        }
+      });
+
       words = (await Promise.all(wordsPromises)) as IWord[];
-      words = words.filter((array) => Array.isArray(array)).flat();
+      words = words.flat();
     }
 
     this.model.words = words.sort(() => Math.random() - 0.5).slice(0, 20);
