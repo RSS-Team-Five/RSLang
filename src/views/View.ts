@@ -100,7 +100,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const aboutUsPage: HTMLElement = createAboutUsPage();
-      this.content?.append(aboutUsPage);
+      this.content?.append(aboutUsPage, this.footerElement);
     }
   }
 
