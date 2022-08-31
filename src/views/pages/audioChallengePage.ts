@@ -1,9 +1,8 @@
 import config from '../../models/Config';
-import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 
 async function createAudioChallengePage() {
-  let level: number | undefined = state.group;
+  let level: number | undefined;
 
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper game',
