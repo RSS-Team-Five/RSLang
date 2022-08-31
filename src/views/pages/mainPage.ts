@@ -6,6 +6,7 @@ function createMainPage() {
   });
 
   const mainFuncCalls = [{ name: 'book' }, { name: 'games' }, { name: 'aboutUs' }, { name: 'statistics' }];
+
   const names = [{ name: 'УЧЕБНИК' }, { name: 'ИГРЫ' }, { name: 'О НАС' }, { name: 'СТАТИСТИКА' }];
 
   mainFuncCalls.map((item, i) => {
