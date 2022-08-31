@@ -44,10 +44,11 @@ export default class App {
     this.state.router.route('/games/audio-challenge', view.renderAudioChallenge.bind(view));
     this.state.router.route('/games/audio-challenge/:group/:page', view.renderAudioChallenge.bind(view));
 
-    this.state.router.view('/');
+    this.state.router?.resolve();
 
     window.addEventListener('load', () => this.state.router?.resolve());
     window.addEventListener('hashchange', () => this.state.router?.resolve());
+
     window.addEventListener('beforeunload', () => {
       if (this.state.user?.userId && this.state.user?.token && this.state.user?.refreshToken) {
         localStorage.setItem('userId', this.state.user.userId);
