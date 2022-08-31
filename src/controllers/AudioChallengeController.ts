@@ -102,13 +102,13 @@ export default class AudioChallengeController {
         this.model.lastAnswerWin = true;
         this.model.winSeries = 1;
       }
-    } else {
-      this.model.gameStatistic.lose?.push(this.model.trueAnswer!);
-      this.model.lastAnswerWin = false;
       this.model.gameStatistic.winSeries =
         this.model.gameStatistic.winSeries > this.model.winSeries
           ? this.model.gameStatistic.winSeries
           : this.model.winSeries;
+    } else {
+      this.model.gameStatistic.lose?.push(this.model.trueAnswer!);
+      this.model.lastAnswerWin = false;
     }
   }
 
