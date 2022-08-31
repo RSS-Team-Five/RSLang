@@ -4,12 +4,21 @@ import IGameWord from '../../types/IGameWord';
 import IWord from '../../types/IWord';
 import shuffle from '../../utils/shuffleArray';
 
-async function getSprintWords(level: number) {
+async function getSprintWords(level: number, pageLevel: number | undefined) {
   const pagesSet = new Set<number>();
 
-  while (pagesSet.size < 3) {
-    const page = Math.floor(Math.random() * (config.BOOK.maxPage + 1));
-    pagesSet.add(page);
+  if (pageLevel === undefined) {
+    while (pagesSet.size < 3) {
+      const page = Math.floor(Math.random() * (config.BOOK.maxPage + 1));
+      pagesSet.add(page);
+    }
+  } else {
+    pagesSet.add(pageLevel);
+    let page = pageLevel;
+    while (page - 1 > -1 && pagesSet.size < 3) {
+      pagesSet.add(page - 1);
+      page -= 1;
+    }
   }
   const pagesArr = Array.from(pagesSet);
 
@@ -21,10 +30,12 @@ async function getSprintWords(level: number) {
       wordsArray = wordsArray.concat(wordsFromPage);
     })
   );
+
+  console.log(wordsArray);
   wordsArray = shuffle(wordsArray);
 
-  const correctWords = JSON.parse(JSON.stringify(wordsArray.slice(0, config.BOOK.maxPage + 1))) as IGameWord[];
-  const incorrectWords = JSON.parse(JSON.stringify(wordsArray.slice(config.BOOK.maxPage + 1))) as IGameWord[];
+  const correctWords = JSON.parse(JSON.stringify(wordsArray.slice(0, wordsArray.length / 2 + 1))) as IGameWord[];
+  const incorrectWords = JSON.parse(JSON.stringify(wordsArray.slice(wordsArray.length / 2 + 1))) as IGameWord[];
 
   incorrectWords.forEach((word) => {
     const randomIndex = Math.floor(Math.random() * wordsArray.length);

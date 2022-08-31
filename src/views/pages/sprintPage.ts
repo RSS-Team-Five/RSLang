@@ -3,8 +3,11 @@ import CustomElement from '../../utils/customElement';
 import startSprintGame from '../components/sprintGameStart';
 import getSprintWords from '../components/sprintWords';
 
-async function createSprintPage() {
+async function createSprintPage(group: string | undefined, page: string | undefined) {
   let level: number | undefined;
+  let pageLevel: number | undefined;
+  if (group) level = +group;
+  if (page) pageLevel = +page;
 
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper game',
@@ -61,7 +64,7 @@ async function createSprintPage() {
 
   gameStartButton.element.addEventListener('click', async () => {
     if (level !== undefined) {
-      const { gameWords, wordsArray } = await getSprintWords(level);
+      const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
       const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
       mainWrapper.element.classList.add('sprint');
       mainWrapper.addChildren([gameField.element]);

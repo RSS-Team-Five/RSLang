@@ -88,10 +88,10 @@ export default class View {
     }
   }
 
-  async renderSprint() {
+  async renderSprint(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
-      const sprintPage: HTMLElement = await createSprintPage();
+      const sprintPage: HTMLElement = await createSprintPage(group, page);
       this.content?.append(sprintPage);
     }
   }
