@@ -42,6 +42,11 @@ function createBookPage() {
         window.location.href = `#/section/${index}/0`;
       }
     });
+    if (index === config.BOOK.maxGroup) {
+      state.events?.subscribe('userAuthorized', () => {
+        cardWrapper.element.classList.toggle('inactive');
+      });
+    }
 
     sectionsWrapper.addChildren([cardWrapper.element]);
   });

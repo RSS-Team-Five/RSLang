@@ -36,11 +36,13 @@ export default class App {
     this.state.router.route('/section/:group/:page', view.renderSection.bind(view));
     this.state.router.route('/games', view.renderGames.bind(view));
     this.state.router.route('/games/sprint', view.renderSprint.bind(view));
-    this.state.router.route('/promo', view.renderPromo.bind(view));
+    this.state.router.route('/aboutUs', view.renderAboutUs.bind(view));
     this.state.router.route('/statistics', view.renderStatistics.bind(view));
     this.state.router.route('/404', view.render404.bind(view));
     this.state.router.route('/signUp', view.renderSignUp.bind(view));
     this.state.router.route('/signIn', view.renderSignIn.bind(view));
+    this.state.router.route('/games/audio-challenge', view.renderAudioChallenge.bind(view));
+    this.state.router.route('/games/audio-challenge/:group/:page', view.renderAudioChallenge.bind(view));
 
     this.state.router.view('/');
 

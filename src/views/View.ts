@@ -8,17 +8,23 @@ import dialogSignUp from './components/dialogSignUp';
 import createBookPage from './pages/bookPage';
 import createGamesPage from './pages/gamesPage';
 import createMainPage from './pages/mainPage';
-import createPromoPage from './pages/promoPage';
 import createSectionPage from './pages/sectionPage';
 import createStatisticPage from './pages/statisticPage';
 import dialogSignIn from './components/dialogSignIn';
 import createSprintPage from './pages/sprintPage';
+import createAboutUsPage from './pages/aboutUsPage';
+import AudioChallengeView from './AudioChallengeView';
+import AudioChallengeModel from '../models/AudioChallengeModel';
+import AudioChallengeController from '../controllers/AudioChallengeController';
+import createAudioChallengePage from './pages/audioChallengePage';
 
 export default class View {
   content: HTMLElement | null;
+  footerElement: HTMLElement;
 
   constructor() {
     this.content = null;
+    this.footerElement = footer();
   }
 
   renderLayout() {
@@ -34,7 +40,6 @@ export default class View {
       className: 'main__container container content',
     });
     main.addChildren([container.element]);
-    const footerElement = footer();
 
     state.events?.subscribe('userAuthorized', () => {
       headerElement.element.innerHTML = '';
@@ -42,14 +47,14 @@ export default class View {
     });
 
     this.content = container.element;
-    document.body.append(headerElement.element, main.element, footerElement);
+    document.body.append(headerElement.element, main.element);
   }
 
   renderMain() {
     if (this.content) {
       this.content.innerHTML = '';
       const mainPage: HTMLElement = createMainPage();
-      this.content?.append(mainPage);
+      this.content?.append(mainPage, this.footerElement);
     }
   }
 
@@ -57,7 +62,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const bookPage: HTMLElement = createBookPage();
-      this.content?.append(bookPage);
+      this.content?.append(bookPage, this.footerElement);
     }
   }
 
@@ -68,7 +73,7 @@ export default class View {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
         const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
-        this.content?.append(sectionPage);
+        this.content?.append(sectionPage, this.footerElement);
       } else {
         window.location.href = `#/404`;
       }
@@ -79,7 +84,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
-      this.content?.append(gamesPage);
+      this.content?.append(gamesPage, this.footerElement);
     }
   }
 
@@ -88,16 +93,14 @@ export default class View {
       this.content.innerHTML = '';
       const sprintPage: HTMLElement = await createSprintPage();
       this.content?.append(sprintPage);
-      const footerElement = this.content.parentElement?.nextElementSibling;
-      if (footerElement) footerElement.innerHTML = '';
     }
   }
 
-  renderPromo() {
+  renderAboutUs() {
     if (this.content) {
       this.content.innerHTML = '';
-      const promoPage: HTMLElement = createPromoPage();
-      this.content?.append(promoPage);
+      const aboutUsPage: HTMLElement = createAboutUsPage();
+      this.content?.append(aboutUsPage);
     }
   }
 
@@ -105,7 +108,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const statisticPage: HTMLElement = createStatisticPage();
-      this.content?.append(statisticPage);
+      this.content?.append(statisticPage, this.footerElement);
     }
   }
 
@@ -131,6 +134,28 @@ export default class View {
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();
+    }
+  }
+
+  async renderAudioChallenge(group: string, page: string) {
+    if (this.content) {
+      this.content.innerHTML = '';
+
+      const model = new AudioChallengeModel();
+      const controller = new AudioChallengeController(model);
+      const view = new AudioChallengeView(controller);
+      const game: HTMLElement = view.start();
+
+      state.events?.subscribe('audioChallengeModelUpd', () => view.renderGame(model));
+      state.events?.subscribe('audioChallengeResult', () => view.renderResult(model));
+
+      if (group && page) {
+        this.content?.append(game);
+        await controller.getWords(group, page);
+      } else {
+        const audioChallengePage: HTMLElement = await createAudioChallengePage();
+        this.content?.append(audioChallengePage);
+      }
     }
   }
 }
