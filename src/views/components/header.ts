@@ -43,9 +43,14 @@ function header(): HTMLElement {
     const btnSignOut = new CustomElement('button', { className: 'header__sign-in', innerText: 'Выйти' });
     btnSignOut.element.addEventListener('click', () => {
       if (state.user) {
+        console.log('ads');
+
         localStorage.clear();
         state.user.name = null;
         state.user.email = null;
+        state.user.userId = null;
+        state.user.token = null;
+        state.user.refreshToken = null;
         state.user.isAuthorized = false;
         state.events?.notify('userAuthorized');
       }
