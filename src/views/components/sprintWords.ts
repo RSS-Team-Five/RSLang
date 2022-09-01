@@ -11,6 +11,7 @@ async function getSprintWords(level: number, pageLevel: number | undefined) {
 
   if (state.user?.isAuthorized && pageLevel !== undefined) {
     const words = await state.user.getUserAggregatedWords(state.user.user, {
+      wordsPerPage: 3600,
       filter: { 'userWord.optional.learned': true },
     });
     userLearnedWords = words[0].paginatedResults;
