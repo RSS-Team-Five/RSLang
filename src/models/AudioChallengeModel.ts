@@ -9,6 +9,8 @@ export default class AudioChallengeModel {
   attempts: number;
   lastAnswerWin: boolean;
   winSeries: number;
+  newWords: number;
+  learnedWords: number;
   gameStatistic: { win: IWord[]; lose: IWord[]; winSeries: number; score: number };
 
   constructor() {
@@ -20,6 +22,8 @@ export default class AudioChallengeModel {
     this.attempts = 1;
     this.lastAnswerWin = false;
     this.winSeries = 0;
+    this.newWords = 0;
+    this.learnedWords = 0;
     this.gameStatistic = { win: [], lose: [], winSeries: 0, score: 0 };
   }
 }
