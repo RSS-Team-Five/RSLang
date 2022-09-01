@@ -159,7 +159,6 @@ class WordCard {
             win: 0,
             lose: 0,
             learned: false,
-            new: 'no date',
           },
         });
         this.difficultStarIcon.src = starFill;
@@ -174,7 +173,6 @@ class WordCard {
             win: userWord[0].optional.win,
             lose: userWord[0].optional.lose,
             learned: true,
-            new: userWord[0].optional.new,
           },
         });
         this.difficultStarIcon.src = starBlank;
@@ -195,7 +193,6 @@ class WordCard {
             win: userWord[0].optional.win,
             lose: userWord[0].optional.lose,
             learned: false,
-            new: userWord[0].optional.new,
           },
         });
         this.difficultStarIcon.src = starFill;
@@ -242,7 +239,6 @@ class WordCard {
             win: 0,
             lose: 0,
             learned: true,
-            new: 'no date',
           },
         });
         cardWrapper.classList.add('card__learned');
@@ -257,7 +253,6 @@ class WordCard {
             win: userWord[0].optional.win,
             lose: userWord[0].optional.lose,
             learned: false,
-            new: userWord[0].optional.new,
           },
         });
         cardWrapper.classList.remove('card__learned');
@@ -274,7 +269,6 @@ class WordCard {
             win: userWord[0].optional.win,
             lose: userWord[0].optional.lose,
             learned: true,
-            new: userWord[0].optional.new,
           },
         });
         cardWrapper.classList.add('card__learned');
