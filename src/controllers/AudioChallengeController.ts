@@ -7,7 +7,7 @@ import { createUserWord, getUserAggregatedWords, updateUserWord } from '../api/u
 import { GroupType, PageType } from '../types/SectionTypes';
 import { UserWordsForGame } from '../types/UserWordParameters';
 import dateNow from '../utils/dateNow';
-import { getUserStatistic } from '../api/users/usersStatisticApi';
+import { getUserStatistic, upsertUserStatistic } from '../api/users/usersStatisticApi';
 import { GameStatisticType, UserStatisticsOptionalInterface } from '../types/UserStatisticsType';
 
 export default class AudioChallengeController {
@@ -153,6 +153,7 @@ export default class AudioChallengeController {
         }
       }
     } else {
+      this.model.newWords += 1;
       const win = this.model.userAnswer === this.model.trueAnswer ? 1 : 0;
       const lose = this.model.userAnswer === this.model.trueAnswer ? 0 : 1;
       const userWord: UserWordsForGame = {
@@ -196,10 +197,10 @@ export default class AudioChallengeController {
       } else {
         console.log('UpdateStatistic');
 
-        // const statisticLearnedWords = statistic.learnedWords + learnedWords;
-        const statisticDate = statistic.optional[date];
+        const statisticLearnedWords = statistic.learnedWords + learnedWords;
 
-        if (statisticDate) {
+        if ('optional' in statistic && date in statistic.optional) {
+          const statisticDate = statistic.optional[date];
           const dayStatisticOptional: UserStatisticsOptionalInterface = {
             DAY: {
               newWordsPerDay: this.model.newWords + statisticDate.DAY.newWordsPerDay,
@@ -235,7 +236,18 @@ export default class AudioChallengeController {
           Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
         }
 
-        // UPD
+        const responseUpdStatistic = await upsertUserStatistic(
+          { userId, token },
+          { learnedWords: statisticLearnedWords, optional }
+        );
+        if ('isUnsuccess' in responseUpdStatistic) {
+          state.router?.view('/signIn');
+        } else if ('isBad' in responseUpdStatistic) {
+          // Этого не должно происходить
+          console.log(responseUpdStatistic);
+        } else {
+          console.log('Statistic updated');
+        }
       }
     }
   }
