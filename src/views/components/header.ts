@@ -46,6 +46,9 @@ function header(): HTMLElement {
         localStorage.clear();
         state.user.name = null;
         state.user.email = null;
+        state.user.userId = null;
+        state.user.token = null;
+        state.user.refreshToken = null;
         state.user.isAuthorized = false;
         state.events?.notify('userAuthorized');
       }
