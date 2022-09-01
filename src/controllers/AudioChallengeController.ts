@@ -151,7 +151,7 @@ export default class AudioChallengeController {
       const lose = this.model.userAnswer === this.model.trueAnswer ? 0 : 1;
       const userWord: UserWordsForGame = {
         difficulty: 'unmarked',
-        optional: { win, lose, learned: false, new: new Date() },
+        optional: { win, lose, learned: false },
       };
 
       if (state.user && this.model.trueAnswer) {
