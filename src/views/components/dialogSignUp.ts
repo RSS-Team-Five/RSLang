@@ -159,7 +159,7 @@ function dialogSignUp() {
         if ('userId' in resultSignIn) {
           const resultCreateStatistic = await upsertUserStatistic(
             {
-              userId: resultSignIn.UserId,
+              userId: resultSignIn.userId,
               token: resultSignIn.token,
             },
             {
@@ -170,6 +170,8 @@ function dialogSignUp() {
           if ('isBad' in resultCreateStatistic) {
             console.log(resultCreateStatistic);
           } else if ('isUnsuccess' in resultCreateStatistic) {
+            console.log(resultCreateStatistic);
+          } else {
             console.log(resultCreateStatistic);
           }
 
