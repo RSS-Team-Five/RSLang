@@ -16,6 +16,8 @@ function drawChart(gameWords: IGameWord[], diagramChart: CustomElement<'canvas'>
       repeat = 0;
     }
   });
+  if (repeat > inRow) inRow = repeat;
+
   const ctx = diagramChart.element as ChartItem;
   const myChart = new Chart(ctx, {
     type: 'doughnut',

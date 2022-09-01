@@ -1,4 +1,5 @@
 import config from '../../models/Config';
+import { UserStatisticsType } from '../../types/UserStatisticsType';
 
 const usersUrl = `${config.API.URL}/${config.API.ENDPOINTS.USERS}`;
 
@@ -23,7 +24,7 @@ export const getUserStatistic = async ({ userId, token }: { userId: string | nul
 
 export const upsertUserStatistic = async (
   { userId, token }: { userId: string | null; token: string | null },
-  { learnedWords, optional = {} }: { learnedWords: number; optional: {} }
+  { learnedWords, optional = {} }: UserStatisticsType
 ) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/statistics`, {
