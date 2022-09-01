@@ -3,7 +3,6 @@ export type OptionalType = {
   win: number;
   lose: number;
   learned: boolean;
-  new: Date | null;
 };
 
 export type UserWordsType = {
