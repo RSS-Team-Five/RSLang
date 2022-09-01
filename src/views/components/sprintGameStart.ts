@@ -13,9 +13,8 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   let timer: ReturnType<typeof setTimeout>;
   let counting = 60;
 
-  if (state.user?.user.isAuthorized) {
+  if (state.user?.isAuthorized) {
     await state.user.getAllUserWords(state.user.user);
-    console.log(state.user?.user);
   }
 
   gameIntro.element.classList.add('none');
@@ -108,7 +107,6 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   async function addLoseWord(id: string) {
     if (state.user?.isAuthorized) {
-      await state.user.getUserWord(state.user.user, id);
       const word = state.user.user.userWords?.filter((e) => e.wordId === id);
       if (!word || word.length === 0) {
         await state.user.createUserWord(state.user.user, id, {
@@ -131,7 +129,6 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   async function addWinWord(id: string) {
     if (state.user?.isAuthorized) {
-      await state.user.getUserWord(state.user.user, id);
       const word = state.user.user.userWords?.filter((e) => e.wordId === id);
       if (!word || word.length === 0) {
         await state.user.createUserWord(state.user.user, id, {
