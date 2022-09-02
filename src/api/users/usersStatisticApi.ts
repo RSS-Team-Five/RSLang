@@ -24,7 +24,7 @@ export const getUserStatistic = async ({ userId, token }: { userId: string | nul
 
 export const upsertUserStatistic = async (
   { userId, token }: { userId: string | null; token: string | null },
-  { learnedWords, optional = {} }: UserStatisticsType
+  { learnedWords, optional }: UserStatisticsType
 ) => {
   try {
     const response = await fetch(`${usersUrl}/${userId}/statistics`, {
