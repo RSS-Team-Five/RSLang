@@ -13,9 +13,42 @@ export default class AudioChallengeView {
     this.view = new CustomElement('div', { className: 'game' });
   }
 
-  start() {
+  start(model: AudioChallengeModel) {
     const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
     this.view.addChildren([spinner.element]);
+
+    document.addEventListener('keypress', (e) => {
+      if (model.words && model.answers) {
+        if (e.code === 'Space') {
+          const word = model.words[model.currentWord];
+          const wordAudio = new Audio(`${config.API.URL}/${word.audio}`);
+          wordAudio.play();
+        }
+        if (e.code === 'Enter') {
+          this.controller.next();
+        }
+        if (e.code === 'Digit1') {
+          const answer = model.answers[0];
+          this.controller.try(answer);
+        }
+        if (e.code === 'Digit2') {
+          const answer = model.answers[1];
+          this.controller.try(answer);
+        }
+        if (e.code === 'Digit3') {
+          const answer = model.answers[2];
+          this.controller.try(answer);
+        }
+        if (e.code === 'Digit4') {
+          const answer = model.answers[3];
+          this.controller.try(answer);
+        }
+        if (e.code === 'Digit5') {
+          const answer = model.answers[4];
+          this.controller.try(answer);
+        }
+      }
+    });
 
     return this.view.element;
   }
@@ -48,8 +81,8 @@ export default class AudioChallengeView {
       const answersBlock = new CustomElement('div', {});
       const nextBtn = new CustomElement('button', { innerText: model.attempts ? 'Не знаю' : 'Дальше' });
 
-      model.answers.forEach((answer) => {
-        const btnAnswer = new CustomElement('button', { innerText: answer.wordTranslate });
+      model.answers.forEach((answer, idx) => {
+        const btnAnswer = new CustomElement('button', { innerText: `${idx + 1} ${answer.wordTranslate}` });
         if (model.attempts) {
           btnAnswer.element.addEventListener('click', () => this.controller.try(answer));
         } else if (answer === model.userAnswer) {
