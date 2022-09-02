@@ -9,6 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .header {
@@ -25,4 +26,8 @@ body {
 
 .footer {
   flex: 0 0 auto;
+}
+
+.container {
+  max-width: 1440px;
 }
