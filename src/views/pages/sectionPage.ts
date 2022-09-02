@@ -130,11 +130,11 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const section = new Section(group, page);
   let allWordsOnPage: IWord[] = [];
-  let allUserWordsOnPage: UserWordsType[] | null = [];
-  await state.user?.getAllUserWords(state.user?.user);
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
   } else if (state.user?.isAuthorized) {
+    let allUserWordsOnPage: UserWordsType[] | null = [];
+    await state.user?.getAllUserWords(state.user?.user);
     if (state.user.user.userWords) {
       allUserWordsOnPage = state.user.user.userWords?.filter((word) => word.difficulty === 'hard');
     }
