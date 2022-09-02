@@ -1,14 +1,10 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 import warningIcon from '../../assets/icons/warning.svg';
-import closeIcon from '../../assets/icons/close.svg';
 import { upsertUserStatistic } from '../../api/users/usersStatisticApi';
 
 function dialogSignUp() {
   const dialog = new CustomElement('dialog', { className: 'dialog' });
-  const btnClose = new CustomElement('img', { className: 'dialog__close', src: closeIcon });
-  btnClose.element.addEventListener('click', () => dialog.element.close());
-
   const header = new CustomElement('h2', { className: 'dialog__header', textContent: 'Регистрация' });
   const form = new CustomElement('form', { className: 'dialog__form form', noValidate: true });
 
@@ -71,7 +67,7 @@ function dialogSignUp() {
   });
 
   form.addChildren([name.element, email.element, password.element, btnSignUp.element]);
-  dialog.addChildren([btnClose.element, header.element, form.element, linkSignIn.element]);
+  dialog.addChildren([header.element, form.element, linkSignIn.element]);
 
   linkSignIn.element.addEventListener('click', (e) => {
     e.preventDefault();

@@ -1,7 +1,6 @@
 .dialog {
   @include flex();
 
-  position: relative;
   gap: 5px;
   align-items: stretch;
   width: 250px;
@@ -11,15 +10,6 @@
   &::backdrop {
     backdrop-filter: blur(20px);
     transition: backdrop-filter 0.5s ease;
-  }
-
-  &__close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
   }
 
   &__link {
