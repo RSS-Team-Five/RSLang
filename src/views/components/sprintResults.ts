@@ -171,15 +171,27 @@ async function drawResults(
             learned: learnedWords + statisticDate.DAY.learned,
           },
         };
-        const gameStatisticOptional: UserStatisticsOptionalInterface = {
-          SPRINT: {
-            newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.SPRINT.newWordsPerDay,
-            answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.SPRINT.answersAccuracy) / 2,
-            inRow: gameStatistic.inRow > statisticDate.SPRINT.inRow ? gameStatistic.inRow : statisticDate.DAY.inRow,
-            learned: gameStatistic.learned + statisticDate.SPRINT.learned,
-          },
-        };
-        Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+        if (statistic.optional[date].SPRINT) {
+          const gameStatisticOptional: UserStatisticsOptionalInterface = {
+            SPRINT: {
+              newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.SPRINT.newWordsPerDay,
+              answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.SPRINT.answersAccuracy) / 2,
+              inRow: gameStatistic.inRow > statisticDate.SPRINT.inRow ? gameStatistic.inRow : statisticDate.DAY.inRow,
+              learned: gameStatistic.learned + statisticDate.SPRINT.learned,
+            },
+          };
+          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+        } else {
+          const gameStatisticOptional: UserStatisticsOptionalInterface = {
+            SPRINT: {
+              newWordsPerDay: gameStatistic.newWordsPerDay,
+              answersAccuracy: gameStatistic.answersAccuracy / 2,
+              inRow: gameStatistic.inRow,
+              learned: gameStatistic.learned,
+            },
+          };
+          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+        }
       } else {
         statisticLearnedWords = learnedWords;
         const dayStatisticOptional: UserStatisticsOptionalInterface = {
@@ -203,14 +215,13 @@ async function drawResults(
       if ('isUnsuccess' in responseUpdStatistic) {
         state.router?.view('/signIn');
       }
-      console.log({
-        learnedWords: statisticLearnedWords,
-        optional,
-      });
     }
   }
 
   await saveUserStatistic();
+
+  const stat = await state.user?.getUserStatistic(state.user.user);
+  console.log(stat);
 }
 
 export default drawResults;
