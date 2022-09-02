@@ -23,6 +23,12 @@ async function createAudioChallengePage() {
       'Это игра улучшает восприятие речи на слух.\nТвоя задача - выбрать правильный перевод слов.\nЧем больше ты дашь правильных ответов, тем больше баллов получишь.',
   });
 
+  const gameKeys = new CustomElement('p', {
+    className: 'game__keys',
+    innerText:
+      'Чтобы играть с помощью клавиатуры, используй клавиши:\n1, 2, 3, 4, 5 - чтобы дать ответ,\nspace - для воспроизведения звука,\nenter - чтобы пропустить вопрос или перейти к следующему вопросу.',
+  });
+
   const gameLevelDescription = new CustomElement('h3', {
     className: 'game__level-description',
     textContent: 'Выбери уровень сложности',
@@ -66,6 +72,7 @@ async function createAudioChallengePage() {
   gameIntro.addChildren([
     gameName.element,
     gameDescription.element,
+    gameKeys.element,
     gameLevelDescription.element,
     gameLevelBox.element,
     gameStartButton.element,
