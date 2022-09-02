@@ -1,0 +1,41 @@
+.header {
+  background-color: transparent;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    margin-top: 52px;
+  }
+
+  &__links {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
+    text-shadow: 0 4px 4px rgba(0 0 0 / 25%);
+  }
+
+  &__right-container {
+    display: flex;
+    align-items: center;
+    column-gap: 65px;
+  }
+
+  &__sign-in,
+  &__sign-out {
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.orange-color {
+  color: $orange;
+}
+
+.blue-color {
+  color: $blue;
+}
