@@ -1,12 +1,12 @@
 .burger {
+  position: relative;
+  z-index: 4;
+  display: inline-block;
+  align-self: center;
   width: 70px;
   height: 70px;
-  display: inline-block;
-  position: relative;
   background-color: $white;
   border-radius: 50%;
-  z-index: 4;
-  align-self: center;
   cursor: pointer;
 
   /* !!!позиционировать относительно значка меню */
@@ -36,16 +36,15 @@
 .burger::before,
 .burger::after {
   position: absolute;
-  content: '';
-  background-color: $blue;
+  top: 29px;
+  left: 15px;
   width: 40px;
   height: 2px;
-  transition: all 0.4s ease-out;
-  left: 15px;
-  top: 29px;
+  background-color: $blue;
+  content: '';
 }
 
 .burger::after {
-  height: 5px;
   top: 39px;
+  height: 5px;
 }
