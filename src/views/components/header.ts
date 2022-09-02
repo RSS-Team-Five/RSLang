@@ -18,24 +18,6 @@ function header(): HTMLElement {
     href: '#/',
   });
 
-  // const userIconLink = new CustomElement('a', {
-  //   className: 'header__links',
-  //   href: '#/statistics',
-  // });
-
-  // const userIcon = !state.user?.isAuthorized
-  //   ? new CustomElement('img', {
-  //       className: 'header__links-img',
-  //       src: '',
-  //       alt: 'unauthorized icon',
-  //     })
-  //   : new CustomElement('img', {
-  //       className: 'header__links-img',
-  //       src: '',
-  //       alt: 'authorized icon',
-  //     });
-
-  // userIconLink.addChildren([userIcon.element]);
   headerWrapper.addChildren([linkToMainPage.element]);
 
   const rightContainer = new CustomElement('div', {
@@ -43,7 +25,7 @@ function header(): HTMLElement {
   });
 
   if (state.user?.isAuthorized) {
-    const btnSignOut = new CustomElement('button', { className: 'header__sign-in', innerText: 'Выйти' });
+    const btnSignOut = new CustomElement('button', { className: 'header__sign-in', innerText: 'Выйти'.toUpperCase() });
     btnSignOut.element.addEventListener('click', () => {
       if (state.user) {
         localStorage.clear();
@@ -58,7 +40,7 @@ function header(): HTMLElement {
     });
     rightContainer.addChildren([btnSignOut.element]);
   } else {
-    const btnSignIn = new CustomElement('button', { className: 'header__sign-out', innerText: 'Войти' });
+    const btnSignIn = new CustomElement('button', { className: 'header__sign-out', innerText: 'Войти'.toUpperCase() });
     btnSignIn.element.addEventListener('click', () => state.router?.view('/signIn'));
     rightContainer.addChildren([btnSignIn.element]);
   }

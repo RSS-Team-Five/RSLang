@@ -5,6 +5,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 52px;
+    height: 80px;
+    align-items: center;
   }
 
   &__links {
@@ -17,35 +19,16 @@
   &__right-container {
     display: flex;
     column-gap: 65px;
+    align-items: center;
   }
 
-  &__burger {
-    width: 70px;
-    height: 70px;
-    display: inline-block;
-    position: relative;
-    background-color: $white;
-    border-radius: 50%;
-    z-index: 4;
-    align-self: center;
+  &__sign-in,
+  &__sign-out {
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    background-color: transparent;
     cursor: pointer;
-  }
-
-  &__burger::before,
-  &__burger::after {
-    position: absolute;
-    content: '';
-    background-color: $blue;
-    width: 40px;
-    height: 2px;
-    transition: all 0.4s ease-out;
-    left: 15px;
-    top: 29px;
-  }
-
-  &__burger::after {
-    height: 5px;
-    top: 39px;
   }
 }
 
