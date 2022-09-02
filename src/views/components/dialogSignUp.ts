@@ -1,6 +1,7 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
 import warningIcon from '../../assets/icons/warning.svg';
+import { upsertUserStatistic } from '../../api/users/usersStatisticApi';
 
 function dialogSignUp() {
   const dialog = new CustomElement('dialog', { className: 'dialog' });
@@ -153,10 +154,27 @@ function dialogSignUp() {
         password: passwordInput.element.value,
       };
       const resultSignUp = await state.user?.createUser(props);
-
       if ('id' in resultSignUp) {
         const resultSignIn = await state.user?.signInUser(props);
         if ('userId' in resultSignIn) {
+          const resultCreateStatistic = await upsertUserStatistic(
+            {
+              userId: resultSignIn.userId,
+              token: resultSignIn.token,
+            },
+            {
+              learnedWords: 0,
+              optional: {},
+            }
+          );
+          if ('isBad' in resultCreateStatistic) {
+            console.log(resultCreateStatistic);
+          } else if ('isUnsuccess' in resultCreateStatistic) {
+            console.log(resultCreateStatistic);
+          } else {
+            console.log(resultCreateStatistic);
+          }
+
           if (state.user) state.user.isAuthorized = true;
           state.events?.notify('userAuthorized');
           dialog.element.close();

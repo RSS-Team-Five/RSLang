@@ -6,6 +6,9 @@ import IWord from '../types/IWord';
 import { createUserWord, getUserAggregatedWords, updateUserWord } from '../api/users/usersWordsApi';
 import { GroupType, PageType } from '../types/SectionTypes';
 import { UserWordsForGame } from '../types/UserWordParameters';
+import dateNow from '../utils/dateNow';
+import { getUserStatistic, upsertUserStatistic } from '../api/users/usersStatisticApi';
+import { GameStatisticType, UserStatisticsOptionalInterface } from '../types/UserStatisticsType';
 
 export default class AudioChallengeController {
   model: AudioChallengeModel;
@@ -123,6 +126,9 @@ export default class AudioChallengeController {
   async userStatistic() {
     if (this.model.trueAnswer?.userWord) {
       const userWord = this.model.trueAnswer?.userWord;
+      if (userWord.optional.win === 0 && userWord.optional.lose === 0) {
+        this.model.newWords += 1;
+      }
 
       if (this.model.userAnswer === this.model.trueAnswer) {
         const maxWins = userWord.difficulty === 'hard' ? 5 : 3;
@@ -130,7 +136,7 @@ export default class AudioChallengeController {
         if (userWord.optional.win >= maxWins) {
           userWord.optional.learned = true;
           userWord.difficulty = 'easy';
-          // TODO добавить в статистику +1 learned
+          this.model.learnedWords += 1;
         }
       } else {
         userWord.optional.lose += 1;
@@ -147,6 +153,7 @@ export default class AudioChallengeController {
         }
       }
     } else {
+      this.model.newWords += 1;
       const win = this.model.userAnswer === this.model.trueAnswer ? 1 : 0;
       const lose = this.model.userAnswer === this.model.trueAnswer ? 0 : 1;
       const userWord: UserWordsForGame = {
@@ -165,7 +172,83 @@ export default class AudioChallengeController {
     return this;
   }
 
-  saveUserStatistic() {
-    return this;
+  async saveUserStatistic() {
+    const wins = this.model.gameStatistic.win.length;
+    const loses = this.model.gameStatistic.lose.length;
+    const date = dateNow();
+    const { learnedWords } = this.model;
+    const gameStatistic: GameStatisticType = {
+      newWordsPerDay: this.model.newWords,
+      answersAccuracy: wins / (wins + loses),
+      inRow: this.model.winSeries,
+      learned: learnedWords,
+    };
+    const optional: Record<number, UserStatisticsOptionalInterface> = {};
+    optional[date] = {};
+
+    if (state.user) {
+      const { userId, token } = state.user;
+      const statistic = await getUserStatistic({ userId, token });
+      if ('isUnsuccess' in statistic) {
+        state.router?.view('/signIn');
+      } else if ('isNotFound' in statistic) {
+        // Этого не должно происходить
+        console.log(statistic);
+      } else {
+        console.log('UpdateStatistic');
+
+        const statisticLearnedWords = statistic.learnedWords + learnedWords;
+
+        if ('optional' in statistic && date in statistic.optional) {
+          const statisticDate = statistic.optional[date];
+          const dayStatisticOptional: UserStatisticsOptionalInterface = {
+            DAY: {
+              newWordsPerDay: this.model.newWords + statisticDate.DAY.newWordsPerDay,
+              answersAccuracy: (wins / (wins + loses) + statisticDate.DAY.answersAccuracy) / 2,
+              inRow: this.model.winSeries > statisticDate.DAY.inRow ? this.model.winSeries : statisticDate.DAY.inRow,
+              learned: learnedWords + statisticDate.DAY.learned,
+            },
+          };
+          const gameStatisticOptional: UserStatisticsOptionalInterface = {
+            AUDIOCHALLENGE: {
+              newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.AUDIOCHALLENGE.newWordsPerDay,
+              answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.AUDIOCHALLENGE.answersAccuracy) / 2,
+              inRow:
+                gameStatistic.inRow > statisticDate.AUDIOCHALLENGE.inRow
+                  ? gameStatistic.inRow
+                  : statisticDate.DAY.inRow,
+              learned: gameStatistic.learned + statisticDate.AUDIOCHALLENGE.learned,
+            },
+          };
+          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+        } else {
+          const dayStatisticOptional: UserStatisticsOptionalInterface = {
+            DAY: {
+              newWordsPerDay: this.model.newWords,
+              answersAccuracy: wins / (wins + loses),
+              inRow: this.model.winSeries,
+              learned: learnedWords,
+            },
+          };
+          const gameStatisticOptional: UserStatisticsOptionalInterface = {
+            AUDIOCHALLENGE: gameStatistic,
+          };
+          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+        }
+
+        const responseUpdStatistic = await upsertUserStatistic(
+          { userId, token },
+          { learnedWords: statisticLearnedWords, optional }
+        );
+        if ('isUnsuccess' in responseUpdStatistic) {
+          state.router?.view('/signIn');
+        } else if ('isBad' in responseUpdStatistic) {
+          // Этого не должно происходить
+          console.log(responseUpdStatistic);
+        } else {
+          console.log('Statistic updated');
+        }
+      }
+    }
   }
 }
