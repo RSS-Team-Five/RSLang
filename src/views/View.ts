@@ -123,7 +123,9 @@ export default class View {
       this.content.append(spinner.element);
       const statisticPage: HTMLElement = await createStatisticPage();
       this.content.innerHTML = '';
-      this.content?.append(statisticPage, this.footerElement);
+      this.content?.append(statisticPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
