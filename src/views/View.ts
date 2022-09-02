@@ -54,7 +54,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const mainPage: HTMLElement = createMainPage();
-      this.content?.append(mainPage, this.footerElement);
+      this.content?.append(mainPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -62,7 +64,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const bookPage: HTMLElement = createBookPage();
-      this.content?.append(bookPage, this.footerElement);
+      this.content?.append(bookPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -73,7 +77,9 @@ export default class View {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
         const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
-        this.content?.append(sectionPage, this.footerElement);
+        this.content?.append(sectionPage);
+        document.body.append(this.footerElement);
+        this.footerElement.hidden = false;
       } else {
         window.location.href = `#/404`;
       }
@@ -84,7 +90,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
-      this.content?.append(gamesPage, this.footerElement);
+      this.content?.append(gamesPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -93,6 +101,7 @@ export default class View {
       this.content.innerHTML = '';
       const sprintPage: HTMLElement = await createSprintPage(group, page);
       this.content?.append(sprintPage);
+      this.footerElement.hidden = true;
     }
   }
 
@@ -100,7 +109,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const aboutUsPage: HTMLElement = createAboutUsPage();
-      this.content?.append(aboutUsPage, this.footerElement);
+      this.content?.append(aboutUsPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -108,7 +119,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       const statisticPage: HTMLElement = createStatisticPage();
-      this.content?.append(statisticPage, this.footerElement);
+      this.content?.append(statisticPage);
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -155,6 +168,7 @@ export default class View {
       } else {
         const audioChallengePage: HTMLElement = await createAudioChallengePage();
         this.content?.append(audioChallengePage);
+        this.footerElement.hidden = true;
       }
     }
   }
