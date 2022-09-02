@@ -17,6 +17,7 @@ import AudioChallengeView from './AudioChallengeView';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import AudioChallengeController from '../controllers/AudioChallengeController';
 import createAudioChallengePage from './pages/audioChallengePage';
+import spinnerPath from '../assets/icons/spinner.gif';
 
 export default class View {
   content: HTMLElement | null;
@@ -104,10 +105,13 @@ export default class View {
     }
   }
 
-  renderStatistics() {
+  async renderStatistics() {
     if (this.content) {
       this.content.innerHTML = '';
-      const statisticPage: HTMLElement = createStatisticPage();
+      const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
+      this.content.append(spinner.element);
+      const statisticPage: HTMLElement = await createStatisticPage();
+      this.content.innerHTML = '';
       this.content?.append(statisticPage, this.footerElement);
     }
   }
