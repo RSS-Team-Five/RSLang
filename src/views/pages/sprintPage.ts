@@ -3,8 +3,11 @@ import CustomElement from '../../utils/customElement';
 import startSprintGame from '../components/sprintGameStart';
 import getSprintWords from '../components/sprintWords';
 
-async function createSprintPage() {
+async function createSprintPage(group: string | undefined, page: string | undefined) {
   let level: number | undefined;
+  let pageLevel: number | undefined;
+  if (group) level = +group;
+  if (page) pageLevel = +page;
 
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper game',
@@ -61,10 +64,28 @@ async function createSprintPage() {
 
   gameStartButton.element.addEventListener('click', async () => {
     if (level !== undefined) {
-      const { gameWords, wordsArray } = await getSprintWords(level);
-      const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
+      const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
+      if (gameWords.length === 0) {
+        gameIntro.element.classList.add('none');
+        const sorry = new CustomElement('div', {
+          className: 'game__sorry',
+        });
+        const sorryText = new CustomElement('div', {
+          className: 'game__sorry_text',
+          innerText: 'Ты уже выучил все слова с этой и предыдущей страницы учебника.\nВыбери другу страницу.',
+        });
+        const sorryButton = new CustomElement('a', {
+          className: 'game__sorry_button',
+          textContent: 'Вернуться к учебнику',
+          href: `#/book`,
+        });
+        sorry.addChildren([sorryText.element, sorryButton.element]);
+        mainWrapper.addChildren([sorry.element]);
+      } else {
+        const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
+        mainWrapper.addChildren([gameField.element]);
+      }
       mainWrapper.element.classList.add('sprint');
-      mainWrapper.addChildren([gameField.element]);
     }
   });
 
