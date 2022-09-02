@@ -189,14 +189,14 @@ export default class AudioChallengeController {
     if (state.user) {
       const { userId, token } = state.user;
       const statistic = await getUserStatistic({ userId, token });
+
       if ('isUnsuccess' in statistic) {
         state.router?.view('/signIn');
       } else if ('isNotFound' in statistic) {
         // Этого не должно происходить
         console.log(statistic);
       } else {
-        console.log('UpdateStatistic');
-
+        Object.assign(optional, statistic.optional);
         const statisticLearnedWords = statistic.learnedWords + learnedWords;
 
         if ('optional' in statistic && date in statistic.optional) {
@@ -209,18 +209,25 @@ export default class AudioChallengeController {
               learned: learnedWords + statisticDate.DAY.learned,
             },
           };
-          const gameStatisticOptional: UserStatisticsOptionalInterface = {
-            AUDIOCHALLENGE: {
-              newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.AUDIOCHALLENGE.newWordsPerDay,
-              answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.AUDIOCHALLENGE.answersAccuracy) / 2,
-              inRow:
-                gameStatistic.inRow > statisticDate.AUDIOCHALLENGE.inRow
-                  ? gameStatistic.inRow
-                  : statisticDate.DAY.inRow,
-              learned: gameStatistic.learned + statisticDate.AUDIOCHALLENGE.learned,
-            },
-          };
-          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          if ('AUDIOCHALLENGE' in statistic.optional[date]) {
+            const gameStatisticOptional: UserStatisticsOptionalInterface = {
+              AUDIOCHALLENGE: {
+                newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.AUDIOCHALLENGE.newWordsPerDay,
+                answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.AUDIOCHALLENGE.answersAccuracy) / 2,
+                inRow:
+                  gameStatistic.inRow > statisticDate.AUDIOCHALLENGE.inRow
+                    ? gameStatistic.inRow
+                    : statisticDate.DAY.inRow,
+                learned: gameStatistic.learned + statisticDate.AUDIOCHALLENGE.learned,
+              },
+            };
+            Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          } else {
+            const gameStatisticOptional: UserStatisticsOptionalInterface = {
+              AUDIOCHALLENGE: gameStatistic,
+            };
+            Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          }
         } else {
           const dayStatisticOptional: UserStatisticsOptionalInterface = {
             DAY: {
