@@ -329,7 +329,7 @@ export default class User {
       if (!user.isUnsuccess && !user.isError) statistic = await this.getUserStatistic({ userId, token: user.token });
     }
     this.user.userStatistic = statistic;
-    return this.user;
+    return this.user.userStatistic;
   }
 
   async upsertUserStatistic(
