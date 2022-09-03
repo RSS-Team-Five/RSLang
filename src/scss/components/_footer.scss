@@ -1,8 +1,10 @@
 .footer {
+  position: relative;
+
   &__dots {
     position: absolute;
-    left: 354px;
     bottom: 23px;
+    left: 354px;
   }
 
   &__triangle {
@@ -13,7 +15,7 @@
     height: 0;
     border-color: transparent transparent $white transparent;
     border-style: solid;
-    border-width: 0px 305px 200px 305px;
+    border-width: 0 305px 200px;
   }
 
   &__container {
@@ -30,11 +32,16 @@
   &__links,
   &__members,
   &__date {
+    z-index: 2;
     align-self: center;
     color: $blue;
-    z-index: 2;
     transition: 0.3s;
     user-select: none;
+  }
+
+  &__members {
+    display: flex;
+    column-gap: 10px;
   }
 
   &__links:hover,
@@ -42,9 +49,24 @@
     color: $orange;
     text-shadow: 0 4px 4px rgba(0 0 0 / 25%);
   }
+}
 
-  &__members {
-    display: flex;
-    column-gap: 10px;
+.orange-triangle {
+  .footer {
+    &__triangle {
+      border-color: transparent transparent $dark-orange transparent;
+    }
+
+    &__links,
+    &__members,
+    &__date {
+      color: $white;
+    }
+
+    &__links:hover,
+    &__members:hover {
+      color: $blue;
+      text-shadow: 0 4px 4px rgba(0 0 0 / 25%);
+    }
   }
 }

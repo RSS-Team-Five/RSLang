@@ -1,37 +1,79 @@
 .games {
   display: flex;
   justify-content: space-between;
-  column-gap: 60px;
   margin-top: 85px;
+  column-gap: 60px;
 
   &__name {
     max-width: 451px;
     margin: 0 0 0 47px;
+    color: $orange;
     font-weight: 600;
     font-size: 96px;
     line-height: 117px;
-    color: $orange;
   }
 
   &__img {
     height: 150px;
   }
+
+  &__wrapper:nth-child(1) {
+    position: relative;
+    margin-bottom: 54px;
+  }
 }
 
 .games-wrapper {
   @include flex;
+
   justify-content: flex-start;
 
-  .game_item {
-    display: flex;
-    flex-direction: row;
-    column-gap: 41px;
+  .game {
+    &_item {
+      display: flex;
+      flex-direction: row;
+      column-gap: 41px;
+    }
   }
 }
 
-.games__wrapper:nth-child(1) {
-  position: relative;
-  margin-bottom: 54px;
+.game-info {
+  max-width: 580px;
+
+  &__name {
+    margin: 0;
+    color: $white;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+  }
+
+  &__description {
+    margin: 0 0 15px;
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__button {
+    padding: 10px 40px;
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid $white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__button:hover {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
 }
 
 .games-wrapper:nth-child(2) {
@@ -41,44 +83,5 @@
 
   .outer-ball2 {
     order: 2;
-  }
-}
-
-.game-info {
-  max-width: 580px;
-
-  &__name {
-    margin: 0;
-    font-weight: 500;
-    font-size: 64px;
-    line-height: 78px;
-    color: $white;
-  }
-
-  &__description {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    margin: 0 0 15px 0;
-    color: $white;
-  }
-
-  &__button {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    background-color: transparent;
-    color: $white;
-    text-align: center;
-    padding: 10px 40px;
-    border: 1px solid $white;
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-  &__button:hover {
-    background-color: $orange;
-    color: $blue;
-    border-color: $orange;
   }
 }
