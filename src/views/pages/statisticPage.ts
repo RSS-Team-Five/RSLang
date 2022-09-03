@@ -59,7 +59,7 @@ function templateAudioStatistic(statistic: UserStatisticsOptionalInterface) {
     statistic.AUDIOCHALLENGE !== undefined ? statistic.AUDIOCHALLENGE : ZERO_STATS.AUDIOCHALLENGE!;
   const audioStatistic = new CustomElement('div', { className: 'today__audio audio-stats' });
 
-  const audioImage = getOuterBall(1);
+  const audioImage = getOuterBall(2);
   const audioWrapper = new CustomElement('div', { className: 'audio-stats__wrapper' });
   const audioHeader = new CustomElement('h4', { className: 'audio-stats__header', innerText: 'Аудио вызов' });
 

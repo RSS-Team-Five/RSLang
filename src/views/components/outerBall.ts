@@ -5,6 +5,12 @@ export default function getOuterBall(index: number) {
   const outerBall = new CustomElement('div', {
     className: `outer-ball${index}`,
   });
+  outerBall.element.addEventListener('mouseover', () => {
+    outerBall.element.classList.add('move');
+  });
+  outerBall.element.addEventListener('mouseout', () => {
+    outerBall.element.classList.remove('move');
+  });
 
   const InnerBall = new CustomElement('div', {
     className: `inner-ball${index}_first`,
