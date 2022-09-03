@@ -125,7 +125,6 @@ export default class View {
   async renderStatistics() {
     if (this.content) {
       this.content.innerHTML = '';
-      this.deleteStyle();
       this.addStatisticStyle();
       const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
       this.content.append(spinner.element);
@@ -188,6 +187,7 @@ export default class View {
   }
 
   deleteStyle() {
+    this.deleteStatisticStyle();
     document.body.classList.remove('blue-background');
     document.body.classList.remove('orange-background');
     document.body.classList.remove('grey-background');
@@ -211,8 +211,20 @@ export default class View {
 
   addStatisticStyle() {
     this.deleteStyle();
-    document.body.classList.add('orange-background');
+    this.content?.classList.add('statistic-page');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
+    this.content?.parentElement?.previousElementSibling?.classList.add('statistic-background');
+    this.content?.parentElement?.classList.add('blue-background');
     this.footerElement.classList.add('white-triangle');
+    this.footerElement.classList.add('blue-background');
+  }
+
+  deleteStatisticStyle() {
+    this.content?.classList.remove('statistic-page');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
+    this.content?.parentElement?.previousElementSibling?.classList.remove('statistic-background');
+    this.content?.parentElement?.classList.remove('blue-background');
+    this.footerElement.classList.remove('white-triangle');
+    this.footerElement.classList.remove('blue-background');
   }
 }

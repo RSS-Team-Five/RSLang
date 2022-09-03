@@ -3,6 +3,7 @@ import state from '../../models/State';
 import { UserStatisticsOptionalInterface } from '../../types/UserStatisticsType';
 import CustomElement from '../../utils/customElement';
 import dateNow from '../../utils/dateNow';
+import getOuterBall from '../components/outerBall';
 
 const ZERO_STATS: UserStatisticsOptionalInterface = {
   DAY: { newWordsPerDay: 0, answersAccuracy: 0, inRow: 0, learned: 0 },
@@ -13,20 +14,43 @@ const ZERO_STATS: UserStatisticsOptionalInterface = {
 function templateWordStatistic(statistic: UserStatisticsOptionalInterface) {
   const { newWordsPerDay, answersAccuracy, learned } = statistic.DAY !== undefined ? statistic.DAY : ZERO_STATS.DAY!;
   const wordsStatistic = new CustomElement('div', { className: 'today__words words-stats' });
-  const wordsHeader = new CustomElement('h4', { className: 'words-stats__header', innerText: 'Всего' });
-  const wordsNew = new CustomElement('div', {
-    className: 'words-stats__new',
-    innerText: `Новых слов: ${newWordsPerDay}`,
+  const wordsStatisticWrapper = new CustomElement('div', { className: 'words-stats__wrapper' });
+
+  const wordsNewLine = new CustomElement('div', { className: 'words-stats__line line' });
+  const wordsNewText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Новых слов',
   });
-  const wordsLearned = new CustomElement('div', {
-    className: 'words-stats__learned',
-    innerText: `Слов изучено: ${learned}`,
+  const wordsNewData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${newWordsPerDay}`,
   });
-  const wordsAccuracy = new CustomElement('div', {
-    className: 'words-stats__accuracy',
-    innerText: `Правильных ответов: ${(answersAccuracy * 100).toFixed()}%`,
+  wordsNewLine.addChildren([wordsNewText.element, wordsNewData.element]);
+
+  const wordsLearnedLine = new CustomElement('div', { className: 'words-stats__line line' });
+  const wordsLearnedText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Слов изучено',
   });
-  wordsStatistic.addChildren([wordsHeader.element, wordsNew.element, wordsLearned.element, wordsAccuracy.element]);
+  const wordsLearnedData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${learned}`,
+  });
+  wordsLearnedLine.addChildren([wordsLearnedText.element, wordsLearnedData.element]);
+
+  const wordsAccuracyLine = new CustomElement('div', { className: 'words-stats__line line' });
+  const wordsAccuracyText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Правильных ответов',
+  });
+  const wordsAccuracyData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${(answersAccuracy * 100).toFixed()}%`,
+  });
+  wordsAccuracyLine.addChildren([wordsAccuracyText.element, wordsAccuracyData.element]);
+
+  wordsStatisticWrapper.addChildren([wordsNewLine.element, wordsLearnedLine.element, wordsAccuracyLine.element]);
+  wordsStatistic.addChildren([wordsStatisticWrapper.element]);
   return wordsStatistic.element;
 }
 
@@ -34,20 +58,51 @@ function templateAudioStatistic(statistic: UserStatisticsOptionalInterface) {
   const { newWordsPerDay, answersAccuracy, inRow } =
     statistic.AUDIOCHALLENGE !== undefined ? statistic.AUDIOCHALLENGE : ZERO_STATS.AUDIOCHALLENGE!;
   const audioStatistic = new CustomElement('div', { className: 'today__audio audio-stats' });
+
+  const audioImage = getOuterBall(2);
+  const audioWrapper = new CustomElement('div', { className: 'audio-stats__wrapper' });
   const audioHeader = new CustomElement('h4', { className: 'audio-stats__header', innerText: 'Аудио вызов' });
-  const audioNew = new CustomElement('div', {
-    className: 'audio-stats__new',
-    innerText: `Новых слов: ${newWordsPerDay}`,
+
+  const audioNewLine = new CustomElement('div', { className: 'audio-stats__line line' });
+  const audioNewText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Новых слов:',
   });
-  const audioAccuracy = new CustomElement('div', {
-    className: 'audio-stats__accuracy',
-    innerText: `Правильных ответов: ${(answersAccuracy * 100).toFixed()}%`,
+  const audioNewData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${newWordsPerDay}`,
   });
-  const audioSeries = new CustomElement('div', {
-    className: 'audio-stats__series',
-    innerText: `Серия: ${inRow}`,
+  audioNewLine.addChildren([audioNewText.element, audioNewData.element]);
+
+  const audioAccuracyLine = new CustomElement('div', { className: 'audio-stats__line line' });
+  const audioAccuracyText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Правильных ответов:',
   });
-  audioStatistic.addChildren([audioHeader.element, audioNew.element, audioAccuracy.element, audioSeries.element]);
+  const audioAccuracyData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${(answersAccuracy * 100).toFixed()}%`,
+  });
+  audioAccuracyLine.addChildren([audioAccuracyText.element, audioAccuracyData.element]);
+
+  const audioSeriesLine = new CustomElement('div', { className: 'audio-stats__line line' });
+  const audioSeriesText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Серия верных ответов:',
+  });
+  const audioSeriesData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${inRow}`,
+  });
+  audioSeriesLine.addChildren([audioSeriesText.element, audioSeriesData.element]);
+
+  audioWrapper.addChildren([
+    audioHeader.element,
+    audioNewLine.element,
+    audioAccuracyLine.element,
+    audioSeriesLine.element,
+  ]);
+  audioStatistic.addChildren([audioWrapper.element, audioImage]);
   return audioStatistic.element;
 }
 
@@ -55,39 +110,75 @@ function templateSprintStatistic(statistic: UserStatisticsOptionalInterface) {
   const { newWordsPerDay, answersAccuracy, inRow } =
     statistic.SPRINT !== undefined ? statistic.SPRINT : ZERO_STATS.SPRINT!;
   const sprintStatistic = new CustomElement('div', { className: 'today__sprint sprint-stats' });
+
+  const sprintImage = getOuterBall(1);
+  const sprintWrapper = new CustomElement('div', { className: 'sprint-stats__wrapper' });
   const sprintHeader = new CustomElement('h4', { className: 'sprint-stats__header', innerText: 'Спринт' });
-  const sprintNew = new CustomElement('div', {
-    className: 'sprint-stats__new',
-    innerText: `Новых слов: ${newWordsPerDay}`,
+
+  const sprintNewLine = new CustomElement('div', { className: 'sprint-stats__line line' });
+  const sprintNewText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Новых слов:',
   });
-  const sprintAccuracy = new CustomElement('div', {
-    className: 'sprint-stats__accuracy',
-    innerText: `Правильных ответов: ${(answersAccuracy * 100).toFixed()}%`,
+  const sprintNewData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${newWordsPerDay}`,
   });
-  const sprintSeries = new CustomElement('div', {
-    className: 'sprint-stats__series',
-    innerText: `Серия: ${inRow}`,
+  sprintNewLine.addChildren([sprintNewText.element, sprintNewData.element]);
+
+  const sprintAccuracyLine = new CustomElement('div', { className: 'sprint-stats__line line' });
+  const sprintAccuracyText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Правильных ответов:',
   });
-  sprintStatistic.addChildren([sprintHeader.element, sprintNew.element, sprintAccuracy.element, sprintSeries.element]);
+  const sprintAccuracyData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${(answersAccuracy * 100).toFixed()}%`,
+  });
+  sprintAccuracyLine.addChildren([sprintAccuracyText.element, sprintAccuracyData.element]);
+
+  const sprintSeriesLine = new CustomElement('div', { className: 'sprint-stats__line line' });
+  const sprintSeriesText = new CustomElement('div', {
+    className: 'line__text',
+    innerText: 'Серия верных ответов:',
+  });
+  const sprintSeriesData = new CustomElement('div', {
+    className: 'line__data',
+    innerText: `${inRow}`,
+  });
+  sprintSeriesLine.addChildren([sprintSeriesText.element, sprintSeriesData.element]);
+
+  sprintWrapper.addChildren([
+    sprintHeader.element,
+    sprintNewLine.element,
+    sprintAccuracyLine.element,
+    sprintSeriesLine.element,
+  ]);
+  sprintStatistic.addChildren([sprintImage, sprintWrapper.element]);
   return sprintStatistic.element;
 }
 
 function renderStatisticToday(statistic: UserStatisticsOptionalInterface) {
   const statisticToday = new CustomElement('div', { className: 'statistic__today today' });
-  const todayHeader = new CustomElement('h2', { className: 'today__header', innerText: 'Статистика за сегодня' });
+  const todayWrapper = new CustomElement('div', { className: 'today__wrapper' });
+  const todayHeader = new CustomElement('h2', { className: 'today__header', innerText: 'Итоги дня' });
 
+  const allStatistic = new CustomElement('div', { className: 'today__info' });
   const wordsStatistic = templateWordStatistic(statistic);
   const audioStatistic = templateAudioStatistic(statistic);
   const sprintStatistic = templateSprintStatistic(statistic);
+  allStatistic.addChildren([wordsStatistic, sprintStatistic, audioStatistic]);
 
-  statisticToday.addChildren([todayHeader.element, wordsStatistic, audioStatistic, sprintStatistic]);
+  todayWrapper.addChildren([todayHeader.element, allStatistic.element]);
+  statisticToday.addChildren([todayWrapper.element]);
 
   return statisticToday.element;
 }
 
 function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInterface>) {
   const statisticAll = new CustomElement('div', { className: 'statistic__all all' });
-  const allHeader = new CustomElement('h2', { className: 'all__header', innerText: 'Статистика за все время' });
+  const allWrapper = new CustomElement('div', { className: 'all__wrapper' });
+  const allHeader = new CustomElement('h2', { className: 'all__header', innerText: 'Итоги за все время' });
 
   const dates = Object.keys(statistic)
     .sort((a, b) => Number(a) - Number(b))
@@ -96,18 +187,19 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
     const date = new Date(+item);
     return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}`;
   });
-  labels.length = 10;
+  labels.length = 12;
 
   const newWordsData = dates.map((item) => statistic[+item].DAY?.newWordsPerDay);
   const learnedWordsData = dates.map((item) => statistic[+item].DAY?.learned);
 
+  const allCharts = new CustomElement('div', { className: 'all__charts' });
   const newWords = new CustomElement('div', { className: 'all__new-words new-words' });
   const newWordsCtx = new CustomElement('canvas', { className: 'new-words__ctx' });
   newWords.addChildren([newWordsCtx.element]);
-
   const learnedWords = new CustomElement('div', { className: 'all__learned-words learned-words' });
   const learnedWordsCtx = new CustomElement('canvas', { className: 'learned-words__ctx' });
   learnedWords.addChildren([learnedWordsCtx.element]);
+  allCharts.addChildren([newWords.element, learnedWords.element]);
 
   Chart.defaults.font.family = 'Montserrat, sans-serif';
   Chart.defaults.font.size = 16;
@@ -125,6 +217,7 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
           data: newWordsData,
           backgroundColor:'rgba(255, 255, 255, 0.75)',
           borderColor: 'rgba(255, 255, 255, 1)',
+          barThickness: 5,
           borderWidth: 1,
         },
       ],
@@ -138,13 +231,18 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
         legend: {
           display: false,
         }
-      },
-      layout: {
-        padding: 20
-      },        
+      },       
       scales: {
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.25)',
+          }
+        },
         y: {
           beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.25)',
+          }
         },
       },
     },
@@ -173,20 +271,26 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
         legend: {
           display: false,
         }
-      },
-      layout: {
-        padding: 20
-      },        
+      },       
       scales: {
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.25)',
+          }
+        },
         y: {
           beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.25)',
+          }
         },
       },
     },
   });
   /* eslint-enable */
 
-  statisticAll.addChildren([allHeader.element, newWords.element, learnedWords.element]);
+  allWrapper.addChildren([allHeader.element, allCharts.element]);
+  statisticAll.addChildren([allWrapper.element]);
   return statisticAll.element;
 }
 
