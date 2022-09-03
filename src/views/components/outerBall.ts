@@ -1,14 +1,16 @@
 import CustomElement from '../../utils/customElement';
 import arrow from '../../assets/icons/Arrow 1.png';
 
-export default function getOuterBall(index: number) {
+export default function getOuterBall(index: number, target: HTMLElement | null = null) {
   const outerBall = new CustomElement('div', {
     className: `outer-ball${index}`,
   });
-  outerBall.element.addEventListener('mouseover', () => {
+  const animateTarget = target !== null ? target : outerBall.element;
+
+  animateTarget.addEventListener('mouseover', () => {
     outerBall.element.classList.add('move');
   });
-  outerBall.element.addEventListener('mouseout', () => {
+  animateTarget.addEventListener('mouseout', () => {
     outerBall.element.classList.remove('move');
   });
 

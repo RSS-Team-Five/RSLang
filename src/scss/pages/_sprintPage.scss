@@ -3,6 +3,12 @@
 
   height: calc(100% - 94px);
 
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
   &__word {
     margin: 10px 0;
     font-size: 30px;
