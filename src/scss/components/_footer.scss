@@ -15,12 +15,13 @@
     height: 0;
     border-color: transparent transparent $white transparent;
     border-style: solid;
-    border-width: 0 305px 200px;
+    border-width: 0 298px 200px;
   }
 
   &__container {
     display: flex;
     justify-content: flex-end;
+    position: relative;
   }
 
   &__wrapper {
