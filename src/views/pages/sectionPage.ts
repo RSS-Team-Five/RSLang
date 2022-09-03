@@ -132,8 +132,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   let allWordsOnPage: IWord[] = [];
   if (group !== config.BOOK.maxGroup) {
     allWordsOnPage = await section.getWordsOnPage();
-  }
-  if (state.user?.isAuthorized) {
+  } else if (state.user?.isAuthorized) {
     let allUserWordsOnPage: UserWordsType[] | null = [];
     await state.user?.getAllUserWords(state.user?.user);
     if (state.user.user.userWords) {
@@ -160,6 +159,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     }
   }
 
+  if (state.user?.isAuthorized) {
+    await state.user?.getAllUserWords(state.user?.user);
+  }
   allWordsOnPage.forEach(async (word: IWord) => {
     const wordCardElement = await new WordCard(word).createCard();
     cards.addChildren([wordCardElement]);
