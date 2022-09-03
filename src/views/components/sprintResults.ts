@@ -159,6 +159,7 @@ async function drawResults(
         state.router?.view('/signIn');
       }
       let statisticLearnedWords;
+      Object.assign(optional, statistic.optional);
 
       if ('optional' in statistic && date in statistic.optional) {
         statisticLearnedWords = statistic.learnedWords + learnedWords;
