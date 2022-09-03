@@ -16,6 +16,10 @@ function createGamesPage() {
     className: 'games-wrapper',
   });
 
+  const gamesLine = new CustomElement('span', {
+    className: 'games-wrapper_line',
+  });
+
   config.GAMES.MAIN.forEach((game, index) => {
     const gameWrapper = new CustomElement('div', {
       className: 'games__wrapper game_item',
@@ -76,7 +80,7 @@ function createGamesPage() {
 
     gameWrapper.addChildren([gameImg.element, gameInfo.element]);
 
-    gamesWrapper.addChildren([gameWrapper.element]);
+    gamesWrapper.addChildren([gameWrapper.element, gamesLine.element]);
   });
 
   mainWrapper.addChildren([pageName.element, gamesWrapper.element]);
