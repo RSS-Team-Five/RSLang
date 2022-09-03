@@ -18,7 +18,7 @@ async function getSprintWords(level: number, pageLevel: number | undefined) {
   }
 
   if (pageLevel === undefined) {
-    while (pagesSet.size < 3) {
+    while (pagesSet.size < 1) {
       const page = Math.floor(Math.random() * (config.BOOK.maxPage + 1));
       pagesSet.add(page);
     }

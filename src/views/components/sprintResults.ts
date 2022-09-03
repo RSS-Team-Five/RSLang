@@ -119,6 +119,63 @@ async function drawResults(
     }
   });
 
+  async function addLoseAndWinWords(wordsWord: IGameWord) {
+    if (state.user?.isAuthorized) {
+      if (wordsWord.guess) {
+        wordsWord.win = 1;
+        wordsWord.lose = 0;
+      } else {
+        wordsWord.win = 0;
+        wordsWord.lose = 1;
+      }
+      const word = state.user?.user.userWords?.filter((e) => e.wordId === wordsWord.id);
+      if (!word || word.length === 0) {
+        wordsWord.new = true;
+        await state.user?.createUserWord(state.user.user, wordsWord.id, {
+          difficulty: 'unmarked',
+          optional: { win: wordsWord.win, lose: wordsWord.lose, learned: false },
+        });
+      } else {
+        let dif = word[0].difficulty;
+        const lost = word[0].optional.lose;
+        const won = word[0].optional.win;
+        let learn;
+        const maxWins = dif === 'hard' ? 5 : 3;
+        if (wordsWord.guess) {
+          if (won + 1 >= maxWins) {
+            dif = 'easy';
+            learn = true;
+          } else learn = false;
+          await state.user?.updateUserWord(state.user.user, wordsWord.id, {
+            difficulty: dif,
+            optional: { win: won + 1, lose: lost, learned: learn },
+          });
+          wordsWord.learned = learn;
+          wordsWord.win = won + 1;
+          wordsWord.lose = lost;
+          if (won === 0 && lost === 0) wordsWord.new = true;
+        } else {
+          if (dif === 'easy') dif = 'unmarked';
+          learn = false;
+          await state.user?.updateUserWord(state.user.user, wordsWord.id, {
+            difficulty: dif,
+            optional: { win: won, lose: lost + 1, learned: learn },
+          });
+          wordsWord.learned = learn;
+          wordsWord.win = won;
+          wordsWord.lose = lost + 1;
+          if (won === 0 && lost === 0) wordsWord.new = true;
+        }
+      }
+    }
+  }
+
+  await Promise.allSettled(
+    gameWords.map(async (gameWord: IGameWord) => {
+      await addLoseAndWinWords(gameWord);
+    })
+  );
+
   async function saveUserStatistic() {
     if (state.user?.isAuthorized) {
       const date = dateNow();
@@ -157,72 +214,65 @@ async function drawResults(
       const statistic = await getUserStatistic(state.user.user);
       if ('isUnsuccess' in statistic) {
         state.router?.view('/signIn');
-      }
-      let statisticLearnedWords;
-      Object.assign(optional, statistic.optional);
+      } else {
+        Object.assign(optional, statistic.optional);
+        const statisticLearnedWords = statistic.learnedWords + learnedWords;
 
-      if ('optional' in statistic && date in statistic.optional) {
-        statisticLearnedWords = statistic.learnedWords + learnedWords;
-        const statisticDate = statistic.optional[date];
-        const dayStatisticOptional: UserStatisticsOptionalInterface = {
-          DAY: {
-            newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.DAY.newWordsPerDay,
-            answersAccuracy: (accuracy + statisticDate.DAY.answersAccuracy) / 2,
-            inRow: inRow > statisticDate.DAY.inRow ? inRow : statisticDate.DAY.inRow,
-            learned: learnedWords + statisticDate.DAY.learned,
-          },
-        };
-        if (statistic.optional[date].SPRINT) {
-          const gameStatisticOptional: UserStatisticsOptionalInterface = {
-            SPRINT: {
-              newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.SPRINT.newWordsPerDay,
-              answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.SPRINT.answersAccuracy) / 2,
-              inRow: gameStatistic.inRow > statisticDate.SPRINT.inRow ? gameStatistic.inRow : statisticDate.DAY.inRow,
-              learned: gameStatistic.learned + statisticDate.SPRINT.learned,
+        if ('optional' in statistic && date in statistic.optional) {
+          const statisticDate = statistic.optional[date];
+          const dayStatisticOptional: UserStatisticsOptionalInterface = {
+            DAY: {
+              newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.DAY.newWordsPerDay,
+              answersAccuracy: (accuracy + statisticDate.DAY.answersAccuracy) / 2,
+              inRow: inRow > statisticDate.DAY.inRow ? inRow : statisticDate.DAY.inRow,
+              learned: learnedWords + statisticDate.DAY.learned,
             },
           };
-          Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          if ('SPRINT' in statistic.optional[date]) {
+            const gameStatisticOptional: UserStatisticsOptionalInterface = {
+              SPRINT: {
+                newWordsPerDay: gameStatistic.newWordsPerDay + statisticDate.SPRINT.newWordsPerDay,
+                answersAccuracy: (gameStatistic.answersAccuracy + statisticDate.SPRINT.answersAccuracy) / 2,
+                inRow: gameStatistic.inRow > statisticDate.SPRINT.inRow ? gameStatistic.inRow : statisticDate.DAY.inRow,
+                learned: gameStatistic.learned + statisticDate.SPRINT.learned,
+              },
+            };
+            Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          } else {
+            const gameStatisticOptional: UserStatisticsOptionalInterface = {
+              SPRINT: gameStatistic,
+            };
+            Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
+          }
         } else {
-          const gameStatisticOptional: UserStatisticsOptionalInterface = {
-            SPRINT: {
+          const dayStatisticOptional: UserStatisticsOptionalInterface = {
+            DAY: {
               newWordsPerDay: gameStatistic.newWordsPerDay,
-              answersAccuracy: gameStatistic.answersAccuracy / 2,
-              inRow: gameStatistic.inRow,
-              learned: gameStatistic.learned,
+              answersAccuracy: accuracy,
+              inRow,
+              learned: learnedWords,
             },
+          };
+          const gameStatisticOptional: UserStatisticsOptionalInterface = {
+            SPRINT: gameStatistic,
           };
           Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
         }
-      } else {
-        statisticLearnedWords = learnedWords;
-        const dayStatisticOptional: UserStatisticsOptionalInterface = {
-          DAY: {
-            newWordsPerDay: gameStatistic.newWordsPerDay,
-            answersAccuracy: accuracy,
-            inRow,
-            learned: learnedWords,
-          },
-        };
-        const gameStatisticOptional: UserStatisticsOptionalInterface = {
-          SPRINT: gameStatistic,
-        };
-        Object.assign(optional[date], dayStatisticOptional, gameStatisticOptional);
-      }
 
-      const responseUpdStatistic = await upsertUserStatistic(state.user.user, {
-        learnedWords: statisticLearnedWords,
-        optional,
-      });
-      if ('isUnsuccess' in responseUpdStatistic) {
-        state.router?.view('/signIn');
+        const responseUpdStatistic = await upsertUserStatistic(state.user.user, {
+          learnedWords: statisticLearnedWords,
+          optional,
+        });
+        if ('isUnsuccess' in responseUpdStatistic) {
+          state.router?.view('/signIn');
+        } else {
+          console.log('Statistic updated');
+        }
       }
     }
   }
 
   await saveUserStatistic();
-
-  const stat = await state.user?.getUserStatistic(state.user.user);
-  console.log(stat);
 }
 
 export default drawResults;

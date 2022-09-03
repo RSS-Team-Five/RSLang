@@ -105,69 +105,6 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     textContent: 'Верно'.toUpperCase(),
   });
 
-  async function addLoseWord(wordFromGame: IGameWord) {
-    if (state.user?.isAuthorized) {
-      const word = state.user.user.userWords?.filter((e) => e.wordId === wordFromGame.id);
-      if (!word || word.length === 0) {
-        await state.user.createUserWord(state.user.user, wordFromGame.id, {
-          difficulty: 'unmarked',
-          optional: { win: 0, lose: 1 },
-        });
-        wordFromGame.learned = false;
-        wordFromGame.win = 0;
-        wordFromGame.lose = 1;
-        wordFromGame.new = true;
-      } else {
-        let dif = word[0].difficulty;
-        if (dif === 'easy') dif = 'unmarked';
-        const learn = false;
-        const lost = word[0].optional.lose;
-        const won = word[0].optional.win;
-        await state.user.updateUserWord(state.user.user, wordFromGame.id, {
-          difficulty: dif,
-          optional: { win: won, lose: lost + 1, learned: learn },
-        });
-        wordFromGame.learned = learn;
-        wordFromGame.win = won;
-        wordFromGame.lose = lost + 1;
-        if (won === 0 && lost === 0) wordFromGame.new = true;
-      }
-    }
-  }
-
-  async function addWinWord(wordFromGame: IGameWord) {
-    if (state.user?.isAuthorized) {
-      const word = state.user.user.userWords?.filter((e) => e.wordId === wordFromGame.id);
-      if (!word || word.length === 0) {
-        await state.user.createUserWord(state.user.user, wordFromGame.id, {
-          difficulty: 'unmarked',
-          optional: { win: 1, lose: 0 },
-        });
-        wordFromGame.win = 1;
-        wordFromGame.lose = 0;
-        wordFromGame.new = true;
-      } else {
-        let dif = word[0].difficulty;
-        const lost = word[0].optional.lose;
-        const won = word[0].optional.win;
-        let learn;
-        const maxWins = dif === 'hard' ? 5 : 3;
-        if (won + 1 >= maxWins) {
-          dif = 'easy';
-          learn = true;
-        } else learn = false;
-        await state.user.updateUserWord(state.user.user, wordFromGame.id, {
-          difficulty: dif,
-          optional: { win: won + 1, lose: lost, learned: learn },
-        });
-        wordFromGame.learned = learn;
-        wordFromGame.win = won + 1;
-        wordFromGame.lose = lost;
-        if (won === 0 && lost === 0) wordFromGame.new = true;
-      }
-    }
-  }
-
   function refreshWords() {
     gameWord.element.textContent = gameWords[count].word;
     gameWordTranslate.element.textContent = gameWords[count].wordTranslate;
@@ -290,11 +227,9 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     if (actualWord && gameWordTranslate.element.textContent === actualWord.wordTranslate) {
       gameWords[wordIndex].guess = false;
       refreshProgress();
-      await addLoseWord(gameWords[wordIndex]);
     } else {
       gameWords[wordIndex].guess = true;
       refreshPoints();
-      await addWinWord(gameWords[wordIndex]);
     }
     if (count < gameWords.length) {
       refreshWords();
@@ -310,11 +245,9 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     if (actualWord && gameWordTranslate.element.textContent === actualWord.wordTranslate) {
       gameWords[wordIndex].guess = true;
       refreshPoints();
-      await addWinWord(gameWords[wordIndex]);
     } else {
       gameWords[wordIndex].guess = false;
       refreshProgress();
-      await addLoseWord(gameWords[wordIndex]);
     }
     if (count < gameWords.length) {
       refreshWords();
