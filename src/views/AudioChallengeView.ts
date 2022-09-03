@@ -125,4 +125,27 @@ export default class AudioChallengeView {
 
     this.view.addChildren([result.element, mainPageLink.element, newGameLink.element]);
   }
+
+  renderNoWords() {
+    this.view.element.innerHTML = '';
+
+    const gameSorry = new CustomElement('div', {
+      className: 'sorry',
+    });
+
+    const sorryText = new CustomElement('p', {
+      className: 'sorry__text',
+      innerText: 'Ты уже выучил все слова с этой и предыдущей страницы учебника.\nВыбери другу страницу.',
+    });
+
+    const sorryLink = new CustomElement('a', {
+      className: 'sorry__link link',
+      href: '#/book',
+      innerText: 'Вернуться к учебнику',
+    });
+
+    gameSorry.addChildren([sorryText.element, sorryLink.element]);
+
+    this.view.addChildren([gameSorry.element]);
+  }
 }

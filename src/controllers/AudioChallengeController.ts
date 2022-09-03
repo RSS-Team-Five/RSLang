@@ -30,6 +30,10 @@ export default class AudioChallengeController {
       if (p !== 'all') {
         const page: PageType = Number(p) < 0 || Number(p) >= config.BOOK.maxPage ? 0 : (Number(p) as PageType);
         words = words.filter((word: IWord) => word.userWord?.difficulty !== 'easy' && word.page <= page).slice(-20);
+        if (words.length === 0) {
+          state.events?.notify('gameNoWords');
+          return false;
+        }
       }
     } else {
       const wordsPromises: Promise<unknown>[] = [];
@@ -52,6 +56,7 @@ export default class AudioChallengeController {
     this.model.currentWord = 0;
     this.getAnswers();
     state.events?.notify('audioChallengeModelUpd');
+    return true;
   }
 
   getAnswers() {

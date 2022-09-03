@@ -165,6 +165,7 @@ export default class View {
 
       state.events?.subscribe('audioChallengeModelUpd', () => view.renderGame(model));
       state.events?.subscribe('audioChallengeResult', () => view.renderResult(model));
+      state.events?.subscribe('gameNoWords', () => view.renderNoWords());
 
       if (group && page) {
         this.content?.append(game);

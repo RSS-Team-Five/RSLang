@@ -11,4 +11,5 @@ interface ObserverEvents {
   userAuthorized: string;
   audioChallengeModelUpd: string;
   audioChallengeResult: string;
+  gameNoWords: string;
 }
