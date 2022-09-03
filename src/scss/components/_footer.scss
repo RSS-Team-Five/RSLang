@@ -19,9 +19,9 @@
   }
 
   &__container {
+    position: relative;
     display: flex;
     justify-content: flex-end;
-    position: relative;
   }
 
   &__wrapper {
