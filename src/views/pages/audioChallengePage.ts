@@ -65,6 +65,10 @@ async function createAudioChallengePage() {
 
   gameStartButton.element.addEventListener('click', async () => {
     if (level !== undefined) {
+      if (document.body.lastElementChild && document.body.lastElementChild instanceof HTMLElement) {
+        const footer = document.body.lastElementChild;
+        footer.hidden = true;
+      }
       window.location.hash = `#/games/audio-challenge/${level}/all`;
     }
   });

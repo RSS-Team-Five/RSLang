@@ -1,12 +1,12 @@
 .game {
   @include flex;
 
-  height: calc(100% - 94px);
+  justify-content: flex-start;
+  height: calc(100% - 121px);
 
   &__intro {
     display: flex;
     flex-direction: column;
-    align-self: center;
   }
 
   &__word {

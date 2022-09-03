@@ -66,6 +66,10 @@ async function createSprintPage(group: string | undefined, page: string | undefi
   gameStartButton.element.addEventListener('click', async () => {
     const spinner = new CustomElement('img', { className: 'sprint_spinner', src: spinnerPath, alt: 'Spinner' });
     if (level !== undefined) {
+      if (document.body.lastElementChild && document.body.lastElementChild instanceof HTMLElement) {
+        const footer = document.body.lastElementChild;
+        footer.hidden = true;
+      }
       gameIntro.element.classList.add('none');
       mainWrapper.element.append(spinner.element);
       const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
@@ -88,7 +92,6 @@ async function createSprintPage(group: string | undefined, page: string | undefi
         mainWrapper.addChildren([sorry.element]);
       } else {
         gameIntro.element.classList.add('none');
-        mainWrapper.element.append(spinner.element);
         const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
         spinner.element.remove();
         mainWrapper.addChildren([gameField.element]);
