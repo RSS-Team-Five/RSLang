@@ -1,5 +1,4 @@
 import state from '../../models/State';
-import CustomClickableElement from '../../utils/customClickableElement';
 import CustomElement from '../../utils/customElement';
 import createBurgerMenu from './burger';
 
@@ -45,9 +44,11 @@ function header(): HTMLElement {
     rightContainer.addChildren([btnSignIn.element]);
   }
 
-  const burgerIcon = new CustomClickableElement('div', 'click', createBurgerMenu, {
+  const burgerIcon = new CustomElement('div', {
     className: 'header__burger burger',
   });
+  const callBurger = createBurgerMenu.bind(null, burgerIcon.element);
+  burgerIcon.element.addEventListener('click', callBurger);
   rightContainer.addChildren([burgerIcon.element]);
   headerWrapper.addChildren([rightContainer.element]);
   container.addChildren([headerWrapper.element]);
