@@ -1,0 +1,35 @@
+.outer-ball2 {
+  position: relative;
+  min-width: 200px;
+  height: 200px;
+  background-color: $light-grey;
+  border-radius: 50%;
+}
+
+.inner-ball2_first {
+  position: absolute;
+  top: 73px;
+  right: 65px;
+  width: 70px;
+  height: 70px;
+  background-color: $dark-orange;
+  border-radius: 50%;
+}
+
+.inner-ball2_second {
+  position: absolute;
+  top: 25px;
+  right: 60px;
+  width: 80px;
+  height: 80px;
+  background-color: $white;
+  border-radius: 50%;
+}
+
+.inner-arrow2 {
+  position: absolute;
+  top: 58px;
+  right: 88px;
+  width: fit-content;
+  transform: rotate(180deg);
+}

@@ -92,6 +92,10 @@ export default class View {
       this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
       this.content?.append(gamesPage);
+      this.content?.parentElement?.classList.add('blue-background');
+      this.content?.parentElement?.previousElementSibling?.classList.add('blue-background');
+      this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('orange-color');
+      this.footerElement.classList.add('blue-background');
       document.body.append(this.footerElement);
       this.footerElement.hidden = false;
     }

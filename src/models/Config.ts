@@ -5,8 +5,6 @@ import section3 from '../assets/images/03-section.jpg';
 import section4 from '../assets/images/04-section.jpg';
 import section5 from '../assets/images/05-section.jpg';
 import section6 from '../assets/images/06-difficult.jpg';
-import sprint from '../assets/images/sprint.jpg';
-import audioChallenge from '../assets/images/audio-call.jpg';
 import animal0 from '../assets/images/00-animal.png';
 import animal1 from '../assets/images/01-animal.png';
 import animal2 from '../assets/images/02-animal.png';
@@ -95,16 +93,18 @@ const config = {
   GAMES: {
     MAIN: [
       {
-        imgUrl: sprint,
         alt: 'sprint-game',
         gameName: 'Спринт',
         gameUrl: 'sprint',
+        description:
+          'Это игра на время.\nТвоя задача - выбрать правильный перевод слов.\nЧем больше ты дашь правильных ответов за 60 секунд, тем больше баллов получишь.',
       },
       {
-        imgUrl: audioChallenge,
         alt: 'Audio challenge game',
         gameName: 'Аудиовызов',
         gameUrl: 'audio-challenge',
+        description:
+          'Это игра улучшает восприятие речи на слух.\nТвоя задача - выбрать правильный перевод слов.\nЧем больше ты дашь правильных ответов, тем больше баллов получишь.',
       },
     ],
     SPRINT: [
