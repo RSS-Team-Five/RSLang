@@ -1,9 +1,87 @@
-.games-wrapper {
+.games {
   display: flex;
-}
+  justify-content: space-between;
+  margin-top: 85px;
+  column-gap: 60px;
 
-.game {
+  &__name {
+    max-width: 451px;
+    margin: 0 0 0 47px;
+    color: $orange;
+    font-weight: 600;
+    font-size: 96px;
+    line-height: 117px;
+  }
+
   &__img {
     height: 150px;
+  }
+
+  &__wrapper:nth-child(1) {
+    position: relative;
+    margin-bottom: 54px;
+  }
+}
+
+.games-wrapper {
+  @include flex;
+
+  justify-content: flex-start;
+
+  .game {
+    &_item {
+      display: flex;
+      flex-direction: row;
+      column-gap: 41px;
+    }
+  }
+}
+
+.game-info {
+  max-width: 580px;
+
+  &__name {
+    margin: 0;
+    color: $white;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+  }
+
+  &__description {
+    margin: 0 0 15px;
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__button {
+    padding: 10px 40px;
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid $white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__button:hover {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
+}
+
+.games-wrapper:nth-child(2) {
+  .game-info {
+    order: 0;
+  }
+
+  .outer-ball2 {
+    order: 2;
   }
 }

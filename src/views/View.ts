@@ -54,6 +54,7 @@ export default class View {
   renderMain() {
     if (this.content) {
       this.content.innerHTML = '';
+      this.addBlueStyle();
       const mainPage: HTMLElement = createMainPage();
       this.content?.append(mainPage);
       document.body.append(this.footerElement);
@@ -64,6 +65,7 @@ export default class View {
   renderBook() {
     if (this.content) {
       this.content.innerHTML = '';
+      this.addBlueStyle();
       const bookPage: HTMLElement = createBookPage();
       this.content?.append(bookPage);
       document.body.append(this.footerElement);
@@ -74,6 +76,7 @@ export default class View {
   async renderSection(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
+      this.addGreyStyle();
       if (+group <= config.BOOK.maxGroup && +page <= config.BOOK.maxPage) {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
@@ -92,6 +95,7 @@ export default class View {
       this.content.innerHTML = '';
       const gamesPage: HTMLElement = createGamesPage();
       this.content?.append(gamesPage);
+      this.addBlueStyle();
       document.body.append(this.footerElement);
       this.footerElement.hidden = false;
     }
@@ -100,6 +104,7 @@ export default class View {
   async renderSprint(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
+      this.addBlueStyle();
       const sprintPage: HTMLElement = await createSprintPage(group, page);
       this.content?.append(sprintPage);
       this.footerElement.hidden = true;
@@ -109,6 +114,7 @@ export default class View {
   renderAboutUs() {
     if (this.content) {
       this.content.innerHTML = '';
+      this.deleteStyle();
       const aboutUsPage: HTMLElement = createAboutUsPage();
       this.content?.append(aboutUsPage);
       document.body.append(this.footerElement);
@@ -119,6 +125,7 @@ export default class View {
   async renderStatistics() {
     if (this.content) {
       this.content.innerHTML = '';
+      this.deleteStyle();
       const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
       this.content.append(spinner.element);
       const statisticPage: HTMLElement = await createStatisticPage();
@@ -133,6 +140,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.content.innerHTML = 'Page has not been found!';
+      this.deleteStyle();
     }
   }
 
@@ -157,7 +165,7 @@ export default class View {
   async renderAudioChallenge(group: string, page: string) {
     if (this.content) {
       this.content.innerHTML = '';
-
+      this.addBlueStyle();
       const model = new AudioChallengeModel();
       const controller = new AudioChallengeController(model);
       const view = new AudioChallengeView(controller);
@@ -176,5 +184,27 @@ export default class View {
         this.footerElement.hidden = true;
       }
     }
+  }
+
+  deleteStyle() {
+    document.body.classList.remove('blue-background');
+    document.body.classList.remove('orange-background');
+    document.body.classList.remove('grey-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('orange-color');
+    this.footerElement.classList.remove('orange-triangle');
+  }
+
+  addBlueStyle() {
+    this.deleteStyle();
+    document.body.classList.add('blue-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('orange-color');
+  }
+
+  addGreyStyle() {
+    this.deleteStyle();
+    document.body.classList.add('grey-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
+    this.footerElement.classList.add('orange-triangle');
   }
 }

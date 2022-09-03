@@ -1,15 +1,14 @@
 .header {
-  background-color: transparent;
-
   &__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 80px;
-    margin-top: 52px;
+    margin-top: 41px;
   }
 
   &__links {
+    margin-left: 53px;
     font-weight: 700;
     font-size: 48px;
     line-height: 59px;
@@ -26,6 +25,10 @@
   &__sign-out {
     width: fit-content;
     height: fit-content;
+    padding: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -33,9 +36,21 @@
 }
 
 .orange-color {
-  color: $orange;
+  a {
+    color: $orange;
+  }
+
+  button {
+    color: $white;
+  }
 }
 
 .blue-color {
-  color: $blue;
+  a {
+    color: $blue;
+  }
+
+  button {
+    color: $blue;
+  }
 }

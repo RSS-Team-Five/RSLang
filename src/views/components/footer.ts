@@ -1,15 +1,25 @@
 import CustomElement from '../../utils/customElement';
-import logoRSPath from '../../assets/icons/rs_school_js.svg';
+import dots from '../../assets/icons/dots.svg';
 
 function footer(): HTMLElement {
   const footerElement = new CustomElement('footer', {
     className: 'footer',
   });
 
+  const footerDots = new CustomElement('img', {
+    className: 'footer__dots',
+    src: dots,
+    alt: 'footer-dots',
+  });
+
+  const footerTriangle = new CustomElement('div', {
+    className: 'footer__triangle',
+  });
+
   const container = new CustomElement('div', {
     className: 'footer__container container',
   });
-  footerElement.addChildren([container.element]);
+  footerElement.addChildren([footerDots.element, footerTriangle.element, container.element]);
 
   const footerWrapper = new CustomElement('div', {
     className: 'footer__wrapper',
@@ -22,32 +32,33 @@ function footer(): HTMLElement {
     { memberName: 'Юля', memberGithub: 'YuliyaShu' },
   ];
 
+  const membersContainer = new CustomElement('div', {
+    className: 'footer__members',
+  });
+
   const membersLink = teamMembers.map(
     (elem) =>
       new CustomElement('a', {
         className: 'footer__links',
-        innerText: elem.memberName,
+        innerText: elem.memberName.toUpperCase(),
         href: `https://github.com/${elem.memberGithub}`,
       }).element
   );
 
+  membersContainer.addChildren([...membersLink]);
+
   const dateOfProject = new CustomElement('p', {
-    className: 'footer__links',
-    innerHTML: 'august 2022',
+    className: 'footer__date',
+    innerHTML: 'август 2022'.toUpperCase(),
   });
 
   const linkToRS = new CustomElement('a', {
     className: 'footer__links',
     href: 'https://rs.school/js/',
+    innerText: 'rs school'.toUpperCase(),
   });
 
-  const logoRS = new CustomElement('img', {
-    className: 'footer__links-img',
-    src: logoRSPath,
-    alt: 'rs-logo',
-  });
-  linkToRS.addChildren([logoRS.element]);
-  footerWrapper.addChildren([...membersLink, dateOfProject.element, linkToRS.element]);
+  footerWrapper.addChildren([membersContainer.element, dateOfProject.element, linkToRS.element]);
 
   return footerElement.element;
 }
