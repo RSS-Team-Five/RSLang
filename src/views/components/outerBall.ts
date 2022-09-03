@@ -8,7 +8,7 @@ export default function getOuterBall(index: number, target: HTMLElement | null =
   const animateTarget = target !== null ? target : outerBall.element;
 
   animateTarget.addEventListener('mouseover', () => {
-    outerBall.element.classList.add('move');
+    if (!animateTarget.classList.contains('inactive')) outerBall.element.classList.add('move');
   });
   animateTarget.addEventListener('mouseout', () => {
     outerBall.element.classList.remove('move');
