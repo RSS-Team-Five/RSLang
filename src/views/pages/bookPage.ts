@@ -18,22 +18,18 @@ function createBookPage() {
 
   config.SECTION_CARD.forEach((card, index) => {
     const cardWrapper = new CustomElement('div', {
-      className: 'section__wrapper section',
+      className: `section__wrapper section section__${card.alt}`,
     });
 
     if (!state.user?.isAuthorized && card.sectionName === config.SECTION_CARD[config.BOOK.maxGroup].sectionName) {
       cardWrapper.element.classList.add('inactive');
     }
-    const cardImg = new CustomElement('img', {
-      className: 'section__img',
-      src: card.imgUrl,
-      alt: card.alt,
-    });
+
     const cardName = new CustomElement('p', {
-      className: 'section_name',
-      innerText: card.sectionName,
+      className: 'section__wrapper-name wrapper-name',
+      innerHTML: card.sectionName.toUpperCase(),
     });
-    cardWrapper.addChildren([cardImg.element, cardName.element]);
+    cardWrapper.addChildren([cardName.element]);
 
     cardWrapper.element.addEventListener('click', () => {
       if (index === config.BOOK.maxGroup && !state.user?.isAuthorized) {
