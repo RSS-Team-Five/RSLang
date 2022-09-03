@@ -1,3 +1,4 @@
+import { Chart } from 'chart.js';
 import state from '../../models/State';
 import { UserStatisticsOptionalInterface } from '../../types/UserStatisticsType';
 import CustomElement from '../../utils/customElement';
@@ -87,9 +88,105 @@ function renderStatisticToday(statistic: UserStatisticsOptionalInterface) {
 function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInterface>) {
   const statisticAll = new CustomElement('div', { className: 'statistic__all all' });
   const allHeader = new CustomElement('h2', { className: 'all__header', innerText: 'Статистика за все время' });
-  console.log(statistic);
 
-  statisticAll.addChildren([allHeader.element]);
+  const dates = Object.keys(statistic)
+    .sort((a, b) => Number(a) - Number(b))
+    .slice(0, 10);
+  const labels = dates.map((item) => {
+    const date = new Date(+item);
+    return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}`;
+  });
+  labels.length = 10;
+
+  const newWordsData = dates.map((item) => statistic[+item].DAY?.newWordsPerDay);
+  const learnedWordsData = dates.map((item) => statistic[+item].DAY?.learned);
+
+  const newWords = new CustomElement('div', { className: 'all__new-words new-words' });
+  const newWordsCtx = new CustomElement('canvas', { className: 'new-words__ctx' });
+  newWords.addChildren([newWordsCtx.element]);
+
+  const learnedWords = new CustomElement('div', { className: 'all__learned-words learned-words' });
+  const learnedWordsCtx = new CustomElement('canvas', { className: 'learned-words__ctx' });
+  learnedWords.addChildren([learnedWordsCtx.element]);
+
+  Chart.defaults.font.family = 'Montserrat, sans-serif';
+  Chart.defaults.font.size = 16;
+  Chart.defaults.color = '#ffffff';
+
+  // eslint ругается на неиспользуемые переменные. Но нам негде их использовать.
+  /* eslint-disable */
+  const newWordsChart = new Chart(newWordsCtx.element, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Новых слов за день',
+          data: newWordsData,
+          backgroundColor:'rgba(255, 255, 255, 0.75)',
+          borderColor: 'rgba(255, 255, 255, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Новых слов за день',
+        },
+        legend: {
+          display: false,
+        }
+      },
+      layout: {
+        padding: 20
+      },        
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+  const learnedWordsChart = new Chart(learnedWordsCtx.element, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Количество изученных слов',
+          data: learnedWordsData,
+          fill: false,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          borderColor: 'rgba(255, 255, 255, 1)',
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Количество изученных слов',
+        },
+        legend: {
+          display: false,
+        }
+      },
+      layout: {
+        padding: 20
+      },        
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+  /* eslint-enable */
+
+  statisticAll.addChildren([allHeader.element, newWords.element, learnedWords.element]);
   return statisticAll.element;
 }
 

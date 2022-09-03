@@ -126,6 +126,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.deleteStyle();
+      this.addStatisticStyle();
       const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
       this.content.append(spinner.element);
       const statisticPage: HTMLElement = await createStatisticPage();
@@ -206,5 +207,12 @@ export default class View {
     document.body.classList.add('grey-background');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
     this.footerElement.classList.add('orange-triangle');
+  }
+
+  addStatisticStyle() {
+    this.deleteStyle();
+    document.body.classList.add('orange-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
+    this.footerElement.classList.add('white-triangle');
   }
 }
