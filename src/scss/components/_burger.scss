@@ -22,15 +22,6 @@
     border: solid 1px $light-shadow;
     border-radius: 5px;
   }
-
-  &__layout {
-    position: absolute;
-    z-index: 2;
-    width: 100vw;
-    height: 100vh;
-    background-color: $white;
-    opacity: 0.8;
-  }
 }
 
 .burger::before,

@@ -158,6 +158,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       });
     }
   }
+
   allWordsOnPage.forEach(async (word: IWord) => {
     const wordCardElement = await new WordCard(word).createCard();
     cards.addChildren([wordCardElement]);

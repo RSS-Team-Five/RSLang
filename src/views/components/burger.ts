@@ -1,9 +1,9 @@
 import state from '../../models/State';
-import CustomClickableElement from '../../utils/customClickableElement';
 import CustomElement from '../../utils/customElement';
 
 let count: number = 1;
-function createBurgerMenu(): void {
+
+function createBurgerMenu(burger: HTMLElement): void {
   if (document.body.firstElementChild?.classList.contains('burger__wrapper')) {
     document.body.firstElementChild?.remove();
   }
@@ -12,18 +12,12 @@ function createBurgerMenu(): void {
     className: 'burger__wrapper',
   });
 
-  const blurLayout = new CustomClickableElement(
-    'div',
-    'click',
-    () => {
+  const clickOutsideMenu = (e: MouseEvent) => {
+    if (e.target !== burgerWrapper.element && e.target !== burger && burgerWrapper.element.style.display === 'flex') {
       burgerWrapper.element.style.display = 'none';
       count += 1;
-      blurLayout.element.remove();
-    },
-    {
-      className: 'burger__layout',
     }
-  );
+  };
 
   const allLinks = [
     { name: 'book' },
@@ -52,29 +46,30 @@ function createBurgerMenu(): void {
       linkElement.element.style.cursor = 'pointer';
       linkElement.element.onclick = (e) => {
         e.preventDefault();
-        blurLayout.element.remove();
         window.location.href = `#/signUp`;
       };
     }
     linkElement.element.addEventListener('click', () => {
       burgerWrapper.element.remove();
       count += 1;
-      blurLayout.element.remove();
+      document.body.removeEventListener('click', clickOutsideMenu);
       return burgerWrapper;
     });
 
     burgerWrapper.addChildren([linkElement.element]);
     return burgerWrapper.element;
   });
+
   if (count % 2) {
     burgerWrapper.element.style.display = 'flex';
     count += 1;
+    document.body.addEventListener('click', clickOutsideMenu);
   } else {
     burgerWrapper.element.style.display = 'none';
     count += 1;
+    document.body.removeEventListener('click', clickOutsideMenu);
   }
 
-  document.body.append(blurLayout.element);
   document.body.prepend(burgerWrapper.element);
 }
 
