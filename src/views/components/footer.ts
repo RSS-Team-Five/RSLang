@@ -19,7 +19,7 @@ function footer(): HTMLElement {
   const container = new CustomElement('div', {
     className: 'footer__container container',
   });
-  footerElement.addChildren([footerDots.element, footerTriangle.element, container.element]);
+  footerElement.addChildren([footerDots.element, container.element]);
 
   const footerWrapper = new CustomElement('div', {
     className: 'footer__wrapper',
@@ -45,7 +45,7 @@ function footer(): HTMLElement {
       }).element
   );
 
-  membersContainer.addChildren([...membersLink]);
+  membersContainer.addChildren([footerTriangle.element, ...membersLink]);
 
   const dateOfProject = new CustomElement('p', {
     className: 'footer__date',
