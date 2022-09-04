@@ -18,6 +18,9 @@ import AudioChallengeModel from '../models/AudioChallengeModel';
 import AudioChallengeController from '../controllers/AudioChallengeController';
 import createAudioChallengePage from './pages/audioChallengePage';
 import spinnerWhite from '../assets/icons/spinner-white.svg';
+import isAllLearned from '../utils/isAllLearned';
+import Section from '../controllers/Section';
+import IWord from '../types/IWord';
 
 export default class View {
   content: HTMLElement | null;
@@ -49,6 +52,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.addBlueStyle();
+      this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.add(
+        'blue-color'
+      );
       const mainPage: HTMLElement = createMainPage();
       this.content?.append(mainPage);
       document.body.append(this.footerElement);
@@ -75,6 +81,15 @@ export default class View {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
         const sectionPage: HTMLElement = await createSectionPage(groupAdd, pageAdd);
+        const section = new Section(groupAdd, pageAdd);
+        let allWordsOnPage: IWord[] = [];
+        if (groupAdd !== config.BOOK.maxGroup) {
+          allWordsOnPage = await section.getWordsOnPage();
+        }
+
+        if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
+          this.addLearnedStyle();
+        }
         this.content?.append(sectionPage);
         document.body.append(this.footerElement);
         this.footerElement.hidden = false;
@@ -197,8 +212,12 @@ export default class View {
     document.body.classList.remove('orange-background');
     document.body.classList.remove('dark-orange-background');
     document.body.classList.remove('grey-background');
+    document.body.classList.remove('learned-background');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('orange-color');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.remove(
+      'blue-color'
+    );
     this.footerElement.classList.remove('orange-triangle');
   }
 
@@ -230,6 +249,13 @@ export default class View {
     this.content?.parentElement?.classList.add('blue-background');
     this.footerElement.classList.add('white-triangle');
     this.footerElement.classList.add('blue-background');
+  }
+
+  addLearnedStyle() {
+    this.deleteStyle();
+    document.body.classList.add('learned-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
+    this.footerElement.classList.add('orange-triangle');
   }
 
   deleteStatisticStyle() {

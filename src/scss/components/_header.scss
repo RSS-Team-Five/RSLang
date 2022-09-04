@@ -1,4 +1,6 @@
 .header {
+  z-index: 10;
+
   &__wrapper {
     display: flex;
     align-items: center;
@@ -8,6 +10,7 @@
   }
 
   &__links {
+    z-index: 4;
     margin-left: 53px;
     font-weight: 700;
     font-size: 48px;

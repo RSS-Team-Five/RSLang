@@ -1,8 +1,9 @@
 import config from '../../models/Config';
 import IWord from '../../types/IWord';
 import CustomElement from '../../utils/customElement';
-import soundIcon from '../../assets/icons/sound.png';
+import soundIcon from '../../assets/icons/GREEN-sound.png';
 import starBlank from '../../assets/icons/02icon-star.png';
+import orangeStarBlank from '../../assets/icons/Star-orange-blank.png';
 import starFill from '../../assets/icons/02icon-star-red.png';
 import state from '../../models/State';
 import CustomClickableElement from '../../utils/customClickableElement';
@@ -23,71 +24,95 @@ class WordCard {
   userWords = state.user?.user.userWords;
   difficultStarIcon!: HTMLImageElement;
   learnedElement!: HTMLDivElement;
+  infoCard!: CustomElement<'div'>;
 
   constructor(word: IWord) {
     this.word = word;
   }
 
   async createCard() {
+    const userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
     const cardWrapper = new CustomElement('div', {
       className: 'section__cards-card card',
     });
 
-    const winLose = this.winLose();
-    const cardImage = this.cardImage();
+    const cardImageBlock = this.cardImageBlock();
+    const iconsBlock = await this.iconsBlock(cardWrapper);
     const cardInfo = this.info();
-    const soundElement = this.soundIcon();
-    const difficultStar = await this.starIcon(cardWrapper.element);
-    const learnedMark = await this.learnedWord(cardWrapper.element);
 
-    cardWrapper.addChildren([
-      winLose.element,
-      cardImage.element,
-      cardInfo.element,
-      soundElement.element,
-      difficultStar,
-      learnedMark,
-    ]);
+    if (userWord && userWord.length && userWord[0].optional.learned) {
+      this.learnedElement.classList.add('card__icons-learned-button');
+      this.learnedElement.classList.remove('card__icons-learned-mark');
+      this.difficultStarIcon.src = orangeStarBlank;
+      this.infoCard.element.style.color = 'white';
+    }
+    cardWrapper.addChildren([cardImageBlock.element, iconsBlock.element, cardInfo.element]);
 
     return cardWrapper.element;
   }
 
   winLose() {
     const winLoseElement = new CustomElement('div', {
-      className: 'card__winlose',
+      className: 'card__block-winlose',
     });
 
     if (this.userWords && state.user?.isAuthorized) {
       for (let i = 0; i < this.userWords?.length; i += 1) {
         if (this.userWords[i].wordId === this.word.id) {
           const win = new CustomElement('p', {
-            className: 'card__win',
-            innerHTML: `Wins: ${this.userWords[i].optional.win}`,
+            className: 'card__block-winlose-win',
+            innerHTML: `${this.userWords[i].optional.win}`,
+          });
+
+          const slash = new CustomElement('p', {
+            className: 'card__block-winlose-slash',
+            innerText: '/',
           });
 
           const lose = new CustomElement('p', {
-            className: 'card__win',
-            innerHTML: `Loses: ${this.userWords[i].optional.lose}`,
+            className: 'card__block-winlose-lose',
+            innerHTML: `${this.userWords[i].optional.lose}`,
           });
 
-          winLoseElement.addChildren([win.element, lose.element]);
+          winLoseElement.addChildren([win.element, slash.element, lose.element]);
           break;
         }
       }
     }
+    winLoseElement.element.setAttribute('title', 'Верные и неверные ответы');
     return winLoseElement;
   }
 
-  cardImage() {
-    return new CustomElement('img', {
-      className: 'card__image',
+  cardImageBlock() {
+    const imageWrapper = new CustomElement('div', {
+      className: 'card__block',
+    });
+
+    const image = new CustomElement('img', {
+      className: 'card__block-image',
       src: `${config.API.URL}/${this.word.image}`,
       alt: this.word.word,
     });
+
+    const winLose = this.winLose();
+    imageWrapper.addChildren([image.element, winLose.element]);
+    return imageWrapper;
+  }
+
+  async iconsBlock(cardWrapper: CustomElement<'div'>) {
+    const iconsWrapper = new CustomElement('div', {
+      className: 'card__icons',
+    });
+
+    const soundElement = this.soundIcon();
+    const difficultStar = await this.starIcon(cardWrapper.element);
+    const learnedMark = await this.learnedWord(cardWrapper.element);
+    iconsWrapper.addChildren([soundElement.element, difficultStar, learnedMark]);
+    return iconsWrapper;
   }
 
   info() {
-    const infoCard = new CustomElement('div', {
+    this.infoCard = new CustomElement('div', {
       className: 'card__info',
     });
 
@@ -101,14 +126,14 @@ class WordCard {
       this.word.textExampleTranslate,
     ];
 
-    resources.forEach((res) => {
+    resources.forEach((res, i) => {
       const fieldElement = new CustomElement('p', {
-        className: 'card__info-field',
+        className: `card__info-field card__info-field-${i}`,
         innerHTML: res,
-      });
-      infoCard.addChildren([fieldElement.element]);
+      }).element;
+      this.infoCard.addChildren([fieldElement]);
     });
-    return infoCard;
+    return this.infoCard;
   }
 
   soundIcon() {
@@ -132,7 +157,7 @@ class WordCard {
       }, playSound1Duration);
     };
     const soundIconElement = new CustomClickableElement('img', 'click', eventOnSoundIcon, {
-      className: 'card__sound',
+      className: 'card__icons-sound',
       src: soundIcon,
       alt: 'sound-icon',
     });
@@ -167,7 +192,7 @@ class WordCard {
           },
         });
         this.difficultStarIcon.src = starFill;
-        cardWrapper.classList.add('card__difficult');
+        cardWrapper.classList.add('card__icons-difficult');
       }
 
       // user word hard
@@ -181,7 +206,7 @@ class WordCard {
           },
         });
         this.difficultStarIcon.src = starBlank;
-        cardWrapper.classList.remove('card__difficult');
+        cardWrapper.classList.remove('card__icons-difficult');
         setTimeout(() => {
           if (window.location.hash === '#/section/6/0') {
             window.location.reload();
@@ -201,25 +226,32 @@ class WordCard {
           },
         });
         this.difficultStarIcon.src = starFill;
-        cardWrapper.classList.add('card__difficult');
-        cardWrapper.classList.remove('card__learned');
+        cardWrapper.classList.add('card__icons-difficult');
+        cardWrapper.classList.remove('card__icons-learned');
+        this.learnedElement.classList.add('card__icons-learned-mark');
+        this.learnedElement.classList.remove('card__icons-learned-button');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        this.infoCard.element.style.color = '#223c50';
         needToReload();
       }
     };
 
     this.difficultStarIcon = new CustomClickableElement('img', 'click', eventOnStar, {
-      className: 'card__star',
+      className: 'card__icons-star',
       src: starBlank,
       alt: 'star',
     }).element;
+
+    if (userWord && userWord.length && userWord[0].optional.learned) {
+      this.difficultStarIcon.src = orangeStarBlank;
+    }
 
     if (!this.isAuthorized) {
       this.difficultStarIcon.classList.add('inactive');
     }
 
     if (userWord && userWord?.length && userWord[0].difficulty === 'hard') {
-      cardWrapper.classList.add('card__difficult');
+      cardWrapper.classList.add('card__icons-difficult');
       this.difficultStarIcon.src = starFill;
     }
 
@@ -249,7 +281,11 @@ class WordCard {
             learned: true,
           },
         });
-        cardWrapper.classList.add('card__learned');
+        cardWrapper.classList.add('card__icons-learned');
+        this.learnedElement.classList.add('card__icons-learned-button');
+        this.learnedElement.classList.remove('card__icons-learned-mark');
+        this.difficultStarIcon.src = orangeStarBlank;
+        this.infoCard.element.style.color = 'white';
         this.learnedElement.innerText = config.WORD.markAsLearned;
       }
 
@@ -263,9 +299,12 @@ class WordCard {
             learned: false,
           },
         });
-        cardWrapper.classList.remove('card__learned');
-        cardWrapper.classList.remove('card__difficult');
+        cardWrapper.classList.remove('card__icons-learned');
+        cardWrapper.classList.remove('card__icons-difficult');
+        this.learnedElement.classList.add('card__icons-learned-mark');
+        this.learnedElement.classList.remove('card__icons-learned-button');
         this.learnedElement.innerText = config.WORD.markAsUnlearned;
+        this.infoCard.element.style.color = '#223c50';
         needToReload();
       }
 
@@ -279,10 +318,13 @@ class WordCard {
             learned: true,
           },
         });
-        cardWrapper.classList.add('card__learned');
-        cardWrapper.classList.remove('card__difficult');
+        cardWrapper.classList.add('card__icons-learned');
+        cardWrapper.classList.remove('card__icons-difficult');
+        this.learnedElement.classList.add('card__icons-learned-button');
+        this.learnedElement.classList.remove('card__icons-learned-mark');
+        this.difficultStarIcon.src = orangeStarBlank;
+        this.infoCard.element.style.color = 'white';
         this.learnedElement.innerText = config.WORD.markAsLearned;
-        this.difficultStarIcon.src = starBlank;
         setTimeout(() => {
           if (window.location.hash === '#/section/6/0') {
             window.location.reload();
@@ -293,15 +335,15 @@ class WordCard {
     };
 
     this.learnedElement = new CustomClickableElement('div', 'click', eventOnLearned, {
-      className: 'card__learned-mark',
+      className: 'card__icons-learned-mark',
       innerText: config.WORD.markAsUnlearned,
     }).element;
 
     if (!this.isAuthorized) {
       this.learnedElement.classList.add('inactive');
-      cardWrapper.classList.remove('card__learned');
+      cardWrapper.classList.remove('card__icons-learned');
     } else if (userWord && userWord?.length && userWord[0].optional.learned) {
-      cardWrapper.classList.add('card__learned');
+      cardWrapper.classList.add('card__icons-learned');
       this.learnedElement.innerText = config.WORD.markAsLearned;
     }
 
