@@ -42,10 +42,10 @@ export default class View {
     });
     main.addChildren([container.element]);
 
-    state.events?.subscribe('userAuthorized', () => {
-      headerElement.element.innerHTML = '';
-      headerElement.addChildren([header()]);
-    });
+    // state.events?.subscribe('userAuthorized', () => {
+    //   headerElement.element.innerHTML = '';
+    //   headerElement.addChildren([header()]);
+    // });
 
     this.content = container.element;
     document.body.append(headerElement.element, main.element);
