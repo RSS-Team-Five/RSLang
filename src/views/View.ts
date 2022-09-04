@@ -49,6 +49,9 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.addBlueStyle();
+      this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.add(
+        'blue-color'
+      );
       const mainPage: HTMLElement = createMainPage();
       this.content?.append(mainPage);
       document.body.append(this.footerElement);
@@ -199,6 +202,9 @@ export default class View {
     document.body.classList.remove('grey-background');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('orange-color');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.remove(
+      'blue-color'
+    );
     this.footerElement.classList.remove('orange-triangle');
   }
 
