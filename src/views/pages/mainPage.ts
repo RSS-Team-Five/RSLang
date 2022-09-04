@@ -22,7 +22,7 @@ function createMainPage() {
       linkElement.element.style.cursor = 'pointer';
       linkElement.element.onclick = (e) => {
         e.preventDefault();
-        window.location.href = `#/signUp`;
+        state.router?.view('/signUp');
       };
     }
     mainWrapper.addChildren([linkElement.element]);
