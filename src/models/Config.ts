@@ -56,37 +56,37 @@ const config = {
     {
       imgUrl: section0,
       alt: '00-section',
-      sectionName: 'Очень легко',
+      sectionName: '1\nочень\nпростые\nслова',
     },
     {
       imgUrl: section1,
       alt: '01-section',
-      sectionName: 'Легко',
+      sectionName: '2\nпростые\nслова',
     },
     {
       imgUrl: section2,
       alt: '02-section',
-      sectionName: 'Сложнее',
+      sectionName: '3\nнепростые\nслова',
     },
     {
       imgUrl: section3,
       alt: '03-section',
-      sectionName: 'Еще сложнее',
+      sectionName: '4\nтрудные\nслова',
     },
     {
       imgUrl: section4,
       alt: '04-section',
-      sectionName: 'Сложно',
+      sectionName: '5\nочень\nтрудные\nслова',
     },
     {
       imgUrl: section5,
       alt: '05-section',
-      sectionName: 'Очень сложно',
+      sectionName: '6\nсамые\nтрудные\nслова',
     },
     {
       imgUrl: section6,
       alt: '06-difficult',
-      sectionName: 'Твои сложные слова',
+      sectionName: 'твои\nсложные\nслова',
     },
   ],
 
