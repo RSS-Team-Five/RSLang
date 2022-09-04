@@ -425,11 +425,29 @@
   &_green {
     animation: pulse-green 1s;
   }
+
+  &_blue {
+    animation: pulse-blue 1s;
+  }
 }
 
 @keyframes pulse-red {
   0% {
     box-shadow: 0 0 0 0 $transparent-red;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+@keyframes pulse-blue {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-blue;
   }
 
   70% {

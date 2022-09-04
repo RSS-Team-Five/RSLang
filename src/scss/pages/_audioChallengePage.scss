@@ -1,0 +1,63 @@
+.game {
+  &__ac {
+    &__sound {
+      width: 219px;
+      height: 219px;
+      margin: 38px 0 55px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    &__answer {
+        color: $dark-grey;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+
+      &_block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 42px 81px;
+        column-gap: 37px;
+        row-gap: 24px;
+      }
+
+      &_btn {
+        padding: 10px 36px;
+        border: 1px solid $dark-grey;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      &_btn:hover {
+        color: $white;
+        background-color: $transparent-dark-blue;
+      }
+
+      &_next {
+        padding: 10px 24px;
+        border: 4px solid $dark-grey;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      &_next:hover {
+        scale: 1.05;
+      }
+    }
+  }
+
+  &__container {
+    &__ac {
+      @include flex;
+
+      width: 774px;
+      margin: 80px auto 0 auto;
+      background-color: $lavender;
+      animation: none;
+    }
+  }
+}

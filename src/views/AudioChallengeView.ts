@@ -3,6 +3,7 @@ import CustomElement from '../utils/customElement';
 import spinnerWhite from '../assets/icons/spinner-white.svg';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import config from '../models/Config';
+import sound from '../assets/icons/GREEN-sound.png';
 
 export default class AudioChallengeView {
   controller: AudioChallengeController;
@@ -10,7 +11,7 @@ export default class AudioChallengeView {
 
   constructor(controller: AudioChallengeController) {
     this.controller = controller;
-    this.view = new CustomElement('div', { className: 'game' });
+    this.view = new CustomElement('div', { className: 'game__field' });
   }
 
   start() {
@@ -24,12 +25,18 @@ export default class AudioChallengeView {
 
   renderGame(model: AudioChallengeModel) {
     this.view.element.innerHTML = '';
+    const gameContainer = new CustomElement('div', { className: 'game__container__ac' });
+    this.view.addChildren([gameContainer.element]);
     if (model.words && model.answers) {
       const word = model.words[model.currentWord];
-      const wordBlock = new CustomElement('div', {});
+      const wordBlock = new CustomElement('div', { className: 'game__ac__block' });
       const wordAudio = new Audio(`${config.API.URL}/${word.audio}`);
-      const btnSpeech = new CustomElement('button', { innerText: 'Прослушать' });
-      btnSpeech.element.addEventListener('click', () => wordAudio.play());
+      const btnSpeech = new CustomElement('img', { src: sound, alt: 'sound-icon', className: 'game__ac__sound' });
+      btnSpeech.element.addEventListener('click', () => {
+        wordAudio.play();
+        btnSpeech.element.classList.add('animate_blue');
+        setTimeout(() => btnSpeech.element.classList.remove('animate_blue'), 800);
+      });
       if (!model.attempts) {
         btnSpeech.element.style.display = 'none';
       }
@@ -47,11 +54,17 @@ export default class AudioChallengeView {
 
       wordBlock.addChildren([btnSpeech.element, wordImg.element, wordTitle.element]);
 
-      const answersBlock = new CustomElement('div', {});
-      const nextBtn = new CustomElement('button', { innerText: model.attempts ? 'Не знаю' : 'Дальше' });
+      const answersBlock = new CustomElement('div', { className: 'game__ac__answer_block' });
+      const nextBtn = new CustomElement('button', {
+        innerText: model.attempts ? 'Не знаю'.toUpperCase() : 'Дальше'.toUpperCase(),
+        className: 'game__ac__answer_next',
+      });
 
       model.answers.forEach((answer, idx) => {
-        const btnAnswer = new CustomElement('button', { innerText: `${idx + 1} ${answer.wordTranslate}` });
+        const btnAnswer = new CustomElement('button', {
+          innerText: `${idx + 1} ${answer.wordTranslate.toUpperCase()}`,
+          className: 'game__ac__answer_btn',
+        });
         if (model.attempts) {
           btnAnswer.element.addEventListener('click', () => this.controller.try(answer));
         } else if (answer === model.userAnswer) {
@@ -66,14 +79,16 @@ export default class AudioChallengeView {
       });
 
       nextBtn.element.addEventListener('click', () => this.controller.next());
+      answersBlock.addChildren([nextBtn.element]);
 
-      this.view.addChildren([wordBlock.element, answersBlock.element, nextBtn.element]);
+      gameContainer.addChildren([wordBlock.element, answersBlock.element]);
     }
   }
 
   renderResult(model: AudioChallengeModel) {
-    // TODO перерисовать результаты.
     this.view.element.innerHTML = '';
+    const gameContainer = new CustomElement('div', { className: 'game__container__ac' });
+    this.view.addChildren([gameContainer.element]);
     const result = new CustomElement('div', {
       innerText: `SCORE - ${model.gameStatistic.score}\nSERIES - ${model.gameStatistic.winSeries}\n`,
     });
@@ -92,7 +107,7 @@ export default class AudioChallengeView {
     const mainPageLink = new CustomElement('a', { href: '#/', innerText: 'На главную' });
     const newGameLink = new CustomElement('a', { href: '#/games/audio-challenge', innerText: 'Играть заново' });
 
-    this.view.addChildren([result.element, mainPageLink.element, newGameLink.element]);
+    gameContainer.addChildren([result.element, mainPageLink.element, newGameLink.element]);
   }
 
   renderNoWords() {
