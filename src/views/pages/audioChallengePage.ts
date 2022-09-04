@@ -14,7 +14,7 @@ async function createAudioChallengePage() {
   });
 
   const gameText = new CustomElement('div', {
-    className: 'game__intro_text',
+    className: 'game__intro_text_ac',
   });
 
   const gameName = new CustomElement('h2', {
@@ -49,6 +49,7 @@ async function createAudioChallengePage() {
   });
 
   const gameImg = getOuterBall(2, gameStartButton.element);
+  gameImg.classList.add('ac');
 
   if (level === undefined) {
     gameStartButton.element.classList.add('inactive');

@@ -14,6 +14,11 @@
 
     &_text {
       max-width: 584px;
+
+      &_ac {
+        order: 0;
+        max-width: 592px;
+      }
     }
   }
 
@@ -257,6 +262,10 @@
 
     user-select: none;
   }
+}
+
+.ac {
+  order: 1;
 }
 
 .counting {
