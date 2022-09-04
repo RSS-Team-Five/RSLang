@@ -282,6 +282,10 @@ class WordCard {
           },
         });
         cardWrapper.classList.add('card__icons-learned');
+        this.learnedElement.classList.add('card__icons-learned-button');
+        this.learnedElement.classList.remove('card__icons-learned-mark');
+        this.difficultStarIcon.src = orangeStarBlank;
+        this.infoCard.element.style.color = 'white';
         this.learnedElement.innerText = config.WORD.markAsLearned;
       }
 
