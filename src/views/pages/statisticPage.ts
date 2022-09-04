@@ -298,7 +298,7 @@ function renderStatisticError() {
   const statisticError = new CustomElement('div', { className: 'statistic__error error' });
   const errorHeader = new CustomElement('h2', {
     className: 'error__header',
-    innerText: 'У вас, пока, нет статистики.',
+    innerText: `У вас пока нет статистики`.toUpperCase(),
   });
 
   statisticError.addChildren([errorHeader.element]);
