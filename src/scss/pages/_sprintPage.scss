@@ -100,6 +100,19 @@
     background-color: $white;
   }
 
+  &__info-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &_first-row {
+      display: flex;
+      justify-content: space-between;
+      align-self: flex-end;
+      width: calc(50% + 25px);
+    }
+  }
+
   &__word {
     margin: 28px 0;
     font-weight: 700;
@@ -192,6 +205,7 @@
   }
 
   &__score {
+    align-self: center;
     margin: 0 10px;
     color: $blue;
     font-weight: 700;
@@ -249,15 +263,31 @@
     }
   }
 
-  &__sound {
-    align-self: end;
-    margin: 20px 20px 0;
+  &__sound_on,
+  &__sound_of {
+    align-self: center;
+    margin: 20px;
+    width: 114px;
+    color: $white;
+    background-color: $middle-grey;
+    border: 1px solid $middle-grey;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__sound_on:hover,
+  &__sound_of:hover {
+    background-color: $blue;
   }
 
   &__timer {
     &__counting {
       min-width: 110px;
       margin-top: 0;
+      margin-bottom: 30px;
       padding: 20px;
       color: $lavender;
       font-weight: 700;

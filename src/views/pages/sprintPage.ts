@@ -91,12 +91,12 @@ async function createSprintPage(group: string | undefined, page: string | undefi
     const spinner = new CustomElement('dialog', { className: 'spinner' });
     const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
     spinner.addChildren([spinnerImg.element]);
+    const footer = Array.from(document.body.children).filter((e) => e.classList.contains('footer'))[0];
+    if (footer instanceof HTMLElement) {
+      footer.hidden = true;
+    }
 
     if (level !== undefined) {
-      if (document.body.lastElementChild && document.body.lastElementChild instanceof HTMLElement) {
-        const footer = document.body.lastElementChild;
-        footer.hidden = true;
-      }
       gameIntro.element.classList.add('none');
       mainWrapper.element.append(spinner.element);
       spinner.element.showModal();

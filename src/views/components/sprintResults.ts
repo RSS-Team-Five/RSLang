@@ -44,6 +44,10 @@ async function drawResults(
       header.firstElementChild?.classList.remove('blue-color');
       header.firstElementChild?.classList.add('orange-color');
     }
+    const footer = Array.from(document.body.children).filter((e) => e.classList.contains('footer'))[0];
+    if (footer instanceof HTMLElement) {
+      footer.hidden = false;
+    }
   });
 
   resultHeader.addChildren([resultTitle.element, resultAgainButton.element]);
