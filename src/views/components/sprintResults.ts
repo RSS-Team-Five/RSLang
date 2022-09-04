@@ -37,6 +37,13 @@ async function drawResults(
   resultAgainButton.element.addEventListener('click', () => {
     gameIntro.element.classList.remove('none');
     gameField.element.remove();
+    document.body.classList.remove('dark-orange-background');
+    const header = Array.from(document.body.children).filter((e) => e.classList.contains('header'))[0];
+    document.body.classList.add('blue-background');
+    if (header instanceof HTMLElement) {
+      header.firstElementChild?.classList.remove('blue-color');
+      header.firstElementChild?.classList.add('orange-color');
+    }
   });
 
   resultHeader.addChildren([resultTitle.element, resultAgainButton.element]);

@@ -123,8 +123,13 @@ async function createSprintPage(group: string | undefined, page: string | undefi
         const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
         spinner.element.remove();
         mainWrapper.addChildren([gameField.element]);
-        // document.body.classList.add('dark-orange-background');
-        // document.body.firstElementChild?.firstElementChild?.classList.add('blue-color');
+        document.body.classList.remove('blue-background');
+        const header = Array.from(document.body.children).filter((e) => e.classList.contains('header'))[0];
+        document.body.classList.add('dark-orange-background');
+        if (header instanceof HTMLElement) {
+          header.firstElementChild?.classList.remove('orange-color');
+          header.firstElementChild?.classList.add('blue-color');
+        }
       }
       mainWrapper.element.classList.add('sprint');
     }

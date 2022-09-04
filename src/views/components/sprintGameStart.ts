@@ -54,7 +54,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   const gamePoints = new CustomElement('p', {
     className: 'game__points',
-    textContent: `+${points} очков`,
+    textContent: `+${points} очков`.toUpperCase(),
   });
 
   const gamePointsProgress = new CustomElement('div', {
@@ -88,7 +88,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   const gameWordTranslate = new CustomElement('p', {
     className: 'game__word_translate',
-    textContent: gameWords[count].wordTranslate,
+    textContent: gameWords[count].wordTranslate.toUpperCase(),
   });
 
   const gameButtons = new CustomElement('div', {
@@ -107,86 +107,84 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   function refreshWords() {
     gameWord.element.textContent = gameWords[count].word;
-    gameWordTranslate.element.textContent = gameWords[count].wordTranslate;
+    gameWordTranslate.element.textContent = gameWords[count].wordTranslate.toUpperCase();
   }
 
   function refreshPoints() {
-    if (count < gameWords.length) {
-      gameContainer.element.classList.add('animate_green');
-      setTimeout(() => gameContainer.element.classList.remove('animate_green'), 800);
-      count += 1;
-      pointsCounter += 1;
-      if (pointsCounter > 0 && pointsCounter < 4) {
-        dots[pointsCounter - 1].classList.add('dot_actual');
-      }
-      if (pointsCounter === 4) {
-        gameAnimal.element.src = config.GAMES.SPRINT[points / 10].imgUrl;
-        gameAnimal.element.alt = config.GAMES.SPRINT[points / 10].alt;
-        points += 10;
-        pointsCounter = 0;
-        gamePoints.element.textContent = `+${points} очков`;
-        switch (points) {
-          case 20:
-            gamePoints.element.classList.add('points_red');
-            break;
-          case 30:
-            gamePoints.element.classList.remove('points_red');
-            gamePoints.element.classList.add('points_orange');
-            break;
-          case 40:
-            gamePoints.element.classList.remove('points_orange');
-            gamePoints.element.classList.add('points_yellow');
-            break;
-          case 50:
-            gamePoints.element.classList.remove('points_yellow');
-            gamePoints.element.classList.add('points_green');
-            break;
-          case 60:
-            gamePoints.element.classList.remove('points_green');
-            gamePoints.element.classList.add('points_blue');
-            break;
-          case 70:
-            gamePoints.element.classList.remove('points_blue');
-            gamePoints.element.classList.add('points_dark-blue');
-            break;
-          case 80:
-            gamePoints.element.classList.remove('points_dark-blue');
-            gamePoints.element.classList.add('points_purple');
-            break;
-          case 90:
-            gamePoints.element.classList.remove('points_purple');
-            gamePoints.element.classList.add('points_red');
-            break;
-          case 100:
-            gamePoints.element.classList.remove('points_red');
-            gamePoints.element.classList.add('points_orange');
-            break;
-          case 110:
-            gamePoints.element.classList.remove('points_orange');
-            gamePoints.element.classList.add('points_yellow');
-            break;
-          case 120:
-            gamePoints.element.classList.remove('points_yellow');
-            gamePoints.element.classList.add('points_green');
-            break;
-          case 130:
-            gamePoints.element.classList.remove('points_green');
-            gamePoints.element.classList.add('points_blue');
-            break;
-          case 140:
-            gamePoints.element.classList.remove('points_blue');
-            gamePoints.element.classList.add('points_dark-blue');
-            break;
-          default:
-            gamePoints.element.classList.remove('points_dark-blue');
-            gamePoints.element.classList.add('points_purple');
-            break;
-        }
-        dots.forEach((dot) => dot.classList.remove('dot_actual'));
-      }
-      score += points;
-      gameScore.element.textContent = score.toString();
+    gameContainer.element.classList.add('animate_green');
+    setTimeout(() => gameContainer.element.classList.remove('animate_green'), 800);
+    count += 1;
+    pointsCounter += 1;
+    if (pointsCounter > 0 && pointsCounter < 4) {
+      dots[pointsCounter - 1].classList.add('dot_actual');
     }
+    if (pointsCounter === 4) {
+      gameAnimal.element.src = config.GAMES.SPRINT[points / 10].imgUrl;
+      gameAnimal.element.alt = config.GAMES.SPRINT[points / 10].alt;
+      points += 10;
+      pointsCounter = 0;
+      gamePoints.element.textContent = `+${points} очков`.toUpperCase();
+      switch (points) {
+        case 20:
+          gamePoints.element.classList.add('points_red');
+          break;
+        case 30:
+          gamePoints.element.classList.remove('points_red');
+          gamePoints.element.classList.add('points_orange');
+          break;
+        case 40:
+          gamePoints.element.classList.remove('points_orange');
+          gamePoints.element.classList.add('points_yellow');
+          break;
+        case 50:
+          gamePoints.element.classList.remove('points_yellow');
+          gamePoints.element.classList.add('points_green');
+          break;
+        case 60:
+          gamePoints.element.classList.remove('points_green');
+          gamePoints.element.classList.add('points_blue');
+          break;
+        case 70:
+          gamePoints.element.classList.remove('points_blue');
+          gamePoints.element.classList.add('points_dark-blue');
+          break;
+        case 80:
+          gamePoints.element.classList.remove('points_dark-blue');
+          gamePoints.element.classList.add('points_purple');
+          break;
+        case 90:
+          gamePoints.element.classList.remove('points_purple');
+          gamePoints.element.classList.add('points_red');
+          break;
+        case 100:
+          gamePoints.element.classList.remove('points_red');
+          gamePoints.element.classList.add('points_orange');
+          break;
+        case 110:
+          gamePoints.element.classList.remove('points_orange');
+          gamePoints.element.classList.add('points_yellow');
+          break;
+        case 120:
+          gamePoints.element.classList.remove('points_yellow');
+          gamePoints.element.classList.add('points_green');
+          break;
+        case 130:
+          gamePoints.element.classList.remove('points_green');
+          gamePoints.element.classList.add('points_blue');
+          break;
+        case 140:
+          gamePoints.element.classList.remove('points_blue');
+          gamePoints.element.classList.add('points_dark-blue');
+          break;
+        default:
+          gamePoints.element.classList.remove('points_dark-blue');
+          gamePoints.element.classList.add('points_purple');
+          break;
+      }
+      dots.forEach((dot) => dot.classList.remove('dot_actual'));
+    }
+    score += points;
+    gameScore.element.textContent = score.toString();
   }
 
   async function refreshProgress() {
@@ -195,7 +193,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     count += 1;
     pointsCounter = 0;
     points = 10;
-    gamePoints.element.textContent = `+${points} очков`;
+    gamePoints.element.textContent = `+${points} очков`.toUpperCase();
     dots.forEach((dot) => dot.classList.remove('dot_actual'));
     const regex = 'points_[a-zA-Z-]+';
     const classArray = Array.from(gamePoints.element.classList);
@@ -209,10 +207,11 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     counting -= 1;
     gameCounting.element.textContent = counting.toString();
     if (counting === 40) {
-      gameCounting.element.classList.add('counting_yellow');
+      gameCounting.element.classList.add('counting_blue');
     }
     if (counting < 27) {
-      gameCounting.element.classList.add('counting_red');
+      gameCounting.element.classList.remove('counting_blue');
+      gameCounting.element.classList.add('counting_dark-grey');
     }
     if (counting === 0) {
       clearTimeout(timer);

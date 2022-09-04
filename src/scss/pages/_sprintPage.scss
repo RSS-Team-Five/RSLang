@@ -101,26 +101,33 @@
   }
 
   &__word {
-    margin: 10px 0;
-    font-size: 30px;
+    margin: 28px 0;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+    color: $dark-grey;
 
     &_translate {
-      margin-top: 0;
+      margin: 0 0 33px;
+      font-weight: 400;
       font-size: 20px;
+      line-height: 24px;
     }
   }
 
   &__button {
     display: flex;
     margin-bottom: 20px;
-    column-gap: 10px;
+    column-gap: 30px;
 
     &_wrong {
-      padding: 10px;
-      color: $white;
-      background-color: $red;
+      padding: 20px 43px;
+      color: $dark-grey;
+      background-color: $orange;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
 
@@ -129,16 +136,18 @@
       }
 
       &:hover {
-        scale: 1.1;
+        scale: 1.05;
       }
     }
 
     &_right {
-      padding: 10px;
+      padding: 20px 58px;
       color: $white;
-      background-color: $green;
+      background-color: $dark-grey;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
 
@@ -147,7 +156,7 @@
       }
 
       &:hover {
-        scale: 1.1;
+        scale: 1.05;
       }
     }
   }
@@ -157,18 +166,18 @@
   }
 
   &__animal {
-    height: 60px;
+    height: 93px;
   }
 
   &__points_progress {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     column-gap: 5px;
 
     &_dot {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background-color: $middle-grey;
       border-radius: 50%;
     }
@@ -176,24 +185,25 @@
 
   &__points {
     width: 40vw;
-    margin: 10px;
-    padding: 10px 0;
+    margin: 0;
+    padding: 15px 0;
     font-size: 20px;
     text-align: center;
   }
 
   &__score {
     margin: 0 10px;
-    color: $green;
-    font-weight: 900;
-    font-size: 30px;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
     text-align: center;
   }
 
   &__container {
     @include flex;
 
-    width: 40vw;
+    max-width: 774px;
     margin: 0 auto;
     background-color: $lavender;
     animation: none;
@@ -246,14 +256,15 @@
 
   &__timer {
     &__counting {
-      min-width: 70px;
+      min-width: 110px;
       margin-top: 0;
-      padding: 10px;
-      color: $green;
-      font-weight: 900;
-      font-size: 30px;
+      padding: 20px;
+      color: $lavender;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 59px;
       text-align: center;
-      border: solid 5px $green;
+      border: solid 5px $lavender;
       border-radius: 50%;
     }
   }
@@ -270,14 +281,14 @@
 }
 
 .counting {
-  &_red {
-    color: $red;
-    border-color: $red;
+  &_dark-grey {
+    color: $dark-grey;
+    border-color: $dark-grey;
   }
 
-  &_yellow {
-    color: $yellow;
-    border-color: $yellow;
+  &_blue {
+    color: $blue;
+    border-color: $blue;
   }
 }
 
