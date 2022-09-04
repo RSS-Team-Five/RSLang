@@ -158,7 +158,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const dataForLegend = [
     {
-      color: `#224347`,
+      color: `#3c6c79`,
       name: 'изученное слово',
     },
     {
@@ -234,8 +234,10 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     mainWrapper.element.classList.add('section__right-learned');
     const gamesButtons = allButtons.slice(-2);
     gamesButtons.forEach((button) => {
-      button.classList.add('inactive');
-      button.setAttribute('disabled', '');
+      if (button.parentElement) {
+        button.parentElement.style.pointerEvents = 'none';
+        button.classList.add('inactive');
+      }
     });
   }
 
