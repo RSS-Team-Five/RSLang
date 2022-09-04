@@ -84,7 +84,6 @@ export default class View {
           allWordsOnPage = await section.getWordsOnPage();
         }
 
-        console.log('🚀 ~ allWordsOnPage', allWordsOnPage);
         if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
           this.addLearnedStyle();
         }

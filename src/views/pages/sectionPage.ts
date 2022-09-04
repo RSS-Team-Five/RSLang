@@ -81,7 +81,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   });
 
   const buttonsNames = [
-    'Учебник',
+    'Учебник\n',
     ...config.SECTION_CARD.slice(0, config.SECTION_CARD.length - 1).map((el) => el.sectionName.slice(0, 1)),
     'твои слова',
     `${config.GAMES.MAIN[0].gameName}`,

@@ -43,8 +43,8 @@ const config = {
   },
 
   WORD: {
-    markAsLearned: 'Слово изучено',
-    markAsUnlearned: 'Слово не изучено',
+    markAsLearned: 'ИЗУЧЕНО',
+    markAsUnlearned: 'НЕ ИЗУЧЕНО',
   },
 
   DEFAULT_HEADERS: {

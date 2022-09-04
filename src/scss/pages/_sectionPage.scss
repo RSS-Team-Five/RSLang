@@ -6,8 +6,107 @@
   margin-bottom: 45px;
   background-color: $cream;
 
-  &__image {
-    width: 100%;
+  &__block {
+    position: relative;
+    width: 200px;
+    height: 135px;
+    margin: 10px auto;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    
+    p {
+      margin-block-start: 0.1em;
+      margin-block-end: 0.1em;
+    }
+
+    &-image {
+      max-width: 210px;
+      max-height: 145px;
+      display: block;
+      position: relative;
+    }
+
+    &-winlose {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      flex-direction: row;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+
+      &-win {
+        color: $blue;
+      }
+
+      &-slash {
+        color: $dark-grey;
+      }
+
+      &-lose {
+        color: $dark-orange;
+      }
+    }
+  }
+
+  &__icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 200px;
+    margin: 6px auto;
+
+    &-sound,
+    &-star {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    &-difficult {
+      background-color: $orange;
+      opacity: 0.98;
+    }
+
+    &-learned {
+      background-color: $blue;
+      opacity: 0.98;
+    }
+
+    &-learned-mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 115px;
+      height: 30px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      background-color: transparent;
+      border: solid 1px $blue;
+      color: $blue;
+      cursor: pointer;
+    }
+
+    &-learned-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 115px;
+      height: 30px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      background-color: $dark-orange;
+      border: solid 1px $blue;
+      color: $white;
+      cursor: pointer;
+    }
+
   }
 
   &__info {
@@ -18,35 +117,6 @@
       margin-block-start: 0.1em;
       margin-block-end: 0.5em;
     }
-  }
-
-  &__sound {
-    width: 50px;
-  }
-
-  &__star {
-    width: 50px;
-  }
-
-  &__difficult {
-    background-color: $orange;
-    opacity: 0.98;
-  }
-
-  &__learned {
-    background-color: $blue;
-    opacity: 0.98;
-  }
-
-  &__learned-mark {
-    border: solid 1px $dark-grey;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  &__winlose {
-    display: flex;
-    flex-flow: row wrap;
   }
 }
 
@@ -82,7 +152,7 @@
       text-align: left;
       margin-bottom: 20px;
       width: auto;
-      margin-left: 40px;
+      margin-left: 50px;
 
       &-round {
         width: 50px;
