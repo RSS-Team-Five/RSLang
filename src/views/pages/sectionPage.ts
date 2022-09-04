@@ -126,7 +126,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
       buttonElement.element.onclick = (e) => {
         e.preventDefault();
         if (!state.user?.isAuthorized) {
-          window.location.href = `#/signUp`;
+          state.router?.view('/signUp');
         } else {
           window.location.href = `#/section/${index}/0`;
         }

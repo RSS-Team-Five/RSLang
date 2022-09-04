@@ -147,7 +147,7 @@ class WordCard {
 
     const eventOnStar = async () => {
       if (!this.isAuthorized) {
-        window.location.href = `#/signUp`;
+        state.router?.view('/signUp');
         return;
       }
       userWord = state.user?.user.userWords
@@ -230,7 +230,7 @@ class WordCard {
     let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
     const eventOnLearned = async () => {
       if (!this.isAuthorized) {
-        window.location.href = `#/signUp`;
+        state.router?.view('/signUp');
         return;
       }
       userWord = state.user?.user.userWords
