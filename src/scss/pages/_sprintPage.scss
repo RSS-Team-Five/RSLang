@@ -18,21 +18,21 @@
   }
 
   &__name {
+    margin: 0;
+    color: $white;
     font-weight: 500;
     font-size: 64px;
     line-height: 78px;
-    color: $white;
-    margin: 0;
   }
 
   &__description,
   &__level-description,
   &__level,
   &__keys {
+    color: $white;
     font-weight: 400;
     font-size: 20px;
     line-height: 24px;
-    color: $white;
   }
 
   &__level-box {
@@ -42,8 +42,8 @@
 
   &__level {
     padding: 10px 17px;
-    border: 1px solid $white;
     background-color: transparent;
+    border: 1px solid $white;
     cursor: pointer;
     transition: 0.3s;
   }
@@ -51,9 +51,9 @@
   &__start {
     &_button {
       padding: 10px 34px;
-      border: 1px solid $white;
       color: $white;
       background-color: transparent;
+      border: 1px solid $white;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -76,13 +76,13 @@
     opacity: 0.5;
 
     &:hover {
-      border: 1px solid $white;
       color: $white;
+      background-color: transparent;
+      border: 1px solid $white;
       box-shadow: none;
       transform: none;
       cursor: default;
       transition: none;
-      background-color: transparent;
     }
   }
 
