@@ -10,14 +10,15 @@
     flex-direction: row;
     align-items: center;
     margin-top: 95px;
-    column-gap: 158px;
+    margin-bottom: 250px;
+    column-gap: 120px;
 
     &_text {
-      max-width: 584px;
+      max-width: 620px;
 
       &_ac {
         order: 0;
-        max-width: 592px;
+        max-width: 620px;
       }
     }
   }
@@ -93,7 +94,7 @@
 
   &__line {
     position: absolute;
-    bottom: -113px;
+    bottom: -70px;
     width: 100%;
     height: 1px;
     background-color: $white;
