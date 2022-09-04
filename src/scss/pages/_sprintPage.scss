@@ -1,7 +1,103 @@
 .game {
   @include flex;
 
-  height: calc(100% - 94px);
+  justify-content: flex-start;
+  height: calc(100% - 121px);
+
+  &__intro {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 95px;
+    column-gap: 158px;
+
+    &_text {
+      max-width: 584px;
+
+      &_ac {
+        order: 0;
+        max-width: 592px;
+      }
+    }
+  }
+
+  &__name {
+    margin: 0;
+    color: $white;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+  }
+
+  &__description,
+  &__level-description,
+  &__level,
+  &__keys {
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__level-box {
+    display: flex;
+    column-gap: 10px;
+  }
+
+  &__level {
+    padding: 10px 17px;
+    background-color: transparent;
+    border: 1px solid $white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__start {
+    &_button {
+      padding: 10px 34px;
+      color: $white;
+      background-color: transparent;
+      border: 1px solid $white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+  }
+
+  &__level:hover,
+  &__start_button:hover {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
+
+  .active {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
+
+  &__start_button:disabled {
+    opacity: 0.5;
+
+    &:hover {
+      color: $white;
+      background-color: transparent;
+      border: 1px solid $white;
+      box-shadow: none;
+      transform: none;
+      cursor: default;
+      transition: none;
+    }
+  }
+
+  &__line {
+    position: absolute;
+    bottom: -113px;
+    width: 100%;
+    height: 1px;
+    background-color: $white;
+  }
 
   &__word {
     margin: 10px 0;
@@ -166,6 +262,10 @@
 
     user-select: none;
   }
+}
+
+.ac {
+  order: 1;
 }
 
 .counting {
