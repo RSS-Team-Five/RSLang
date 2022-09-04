@@ -138,7 +138,16 @@
 .section {
   display: flex;
   flex-direction: row;
+  position: relative;
   margin-bottom: 200px;
+
+  &__balls {
+    position: absolute;
+    top: -85px;
+    scale: 2;
+    left: 24px;
+    background-color: $dark-cream;
+  }
 
   &__left {
     display: flex;
@@ -196,6 +205,7 @@
   &__right {
     display: flex;
     flex-direction: column;
+    z-index: 1;
     align-items: center;
     width: 80%;
 

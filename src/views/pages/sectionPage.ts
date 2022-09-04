@@ -10,6 +10,7 @@ import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
 import arrowLeft from '../../assets/icons/Arrow-left.svg';
 import arrowRight from '../../assets/icons/Arrow-right.svg';
+import getOuterBall from '../components/outerBall';
 
 function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
@@ -248,7 +249,10 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   }
   rightWrapper.addChildren([sectionName.element, legend.element, cards.element, pagination.element]);
 
-  mainWrapper.addChildren([leftWrapper.element, rightWrapper.element]);
+  const ballImg = getOuterBall(1);
+  ballImg.classList.add('section__balls');
+
+  mainWrapper.addChildren([ballImg, leftWrapper.element, rightWrapper.element]);
   return mainWrapper.element;
 }
 
