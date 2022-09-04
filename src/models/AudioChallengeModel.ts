@@ -1,6 +1,7 @@
 import IWord from '../types/IWord';
 
 export default class AudioChallengeModel {
+  listener?: (this: Document, ev: KeyboardEvent) => void;
   words: IWord[] | null;
   currentWord: number;
   trueAnswer: IWord | null;
