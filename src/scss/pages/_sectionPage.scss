@@ -12,18 +12,18 @@
     height: 135px;
     margin: 10px auto;
     overflow: hidden;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    
+    box-shadow: rgb(60 64 67 / 30%) 0 1px 2px 0, rgb(60 64 67 / 15%) 0 2px 6px 2px;
+
     p {
       margin-block-start: 0.1em;
       margin-block-end: 0.1em;
     }
 
     &-image {
+      position: relative;
+      display: block;
       max-width: 210px;
       max-height: 145px;
-      display: block;
-      position: relative;
     }
 
     &-winlose {
@@ -32,9 +32,9 @@
       right: 4px;
       display: flex;
       flex-direction: row;
-      font-style: normal;
       font-weight: 400;
       font-size: 20px;
+      font-style: normal;
       line-height: 24px;
 
       &-win {
@@ -81,13 +81,13 @@
       justify-content: center;
       width: 115px;
       height: 30px;
-      font-style: normal;
+      color: $blue;
       font-weight: 400;
       font-size: 12px;
+      font-style: normal;
       line-height: 15px;
       background-color: transparent;
       border: solid 1px $blue;
-      color: $blue;
       cursor: pointer;
     }
 
@@ -97,25 +97,40 @@
       justify-content: center;
       width: 115px;
       height: 30px;
-      font-style: normal;
+      color: $white;
       font-weight: 400;
       font-size: 12px;
+      font-style: normal;
       line-height: 15px;
       background-color: $dark-orange;
       border: solid 1px $blue;
-      color: $white;
       cursor: pointer;
     }
-
   }
 
   &__info {
     display: flex;
     flex-flow: row wrap;
+    margin: 10px 15px auto;
+    color: $light-shadow;
+    font-weight: 400;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 13px;
 
     p {
       margin-block-start: 0.1em;
       margin-block-end: 0.5em;
+    }
+
+    &-field {
+      margin-right: 10px;
+
+      &-0 {
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
     }
   }
 }
@@ -128,55 +143,53 @@
   &__left {
     display: flex;
     flex-direction: column;
-    width: 25%;
     align-items: center;
+    width: 25%;
 
     &-navigation {
       position: sticky;
       top: 20px;
-      width: 75%;
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
+      width: 75%;
       margin-top: 200px;
     }
 
     &-button {
-      background-color: transparent;
-      border: none;
+      width: auto;
+      margin-bottom: 20px;
+      margin-left: 50px;
       color: $blue;
-      font-style: normal;
       font-weight: 400;
       font-size: 19px;
+      font-style: normal;
       line-height: 29px;
       text-align: left;
-      margin-bottom: 20px;
-      width: auto;
-      margin-left: 50px;
+      background-color: transparent;
+      border: none;
 
       &-round {
         width: 50px;
         height: 50px;
+        text-align: center;
         border: solid 1px $blue;
         border-radius: 50%;
-        text-align: center;
 
         &-active {
-          background-color: $blue;
           color: $white;
+          background-color: $blue;
         }
       }
 
       &:hover {
         font-weight: 700;
-        transition: 0.5s;
         cursor: pointer;
+        transition: 0.5s;
       }
 
-      &:active{
+      &:active {
         font-weight: 700;
       }
-
     }
   }
 
@@ -187,11 +200,11 @@
     width: 80%;
 
     &-name {
-      font-style: normal;
+      color: $light-shadow;
       font-weight: 500;
       font-size: 64px;
+      font-style: normal;
       line-height: 78px;
-      color: $light-shadow;
       margin-block-end: 0.1em;
       margin-block-start: 0.1em;
     }
@@ -200,13 +213,11 @@
       display: flex;
       flex-flow: row wrap;
       justify-content: space-between;
-      // width: 80%;
       margin-bottom: 40px;
 
       &-unit {
         display: flex;
         flex-flow: row;
-        // width: 50%;
         align-items: center;
         margin-right: 50px;
 
@@ -218,12 +229,11 @@
         }
 
         &-name {
-          font-style: normal;
+          color: $dark-grey;
           font-weight: 400;
           font-size: 20px;
+          font-style: normal;
           line-height: 24px;
-          color: $dark-grey;
-          // width: 100%;
         }
       }
     }
@@ -232,17 +242,18 @@
       display: flex;
       flex-flow: row wrap;
       justify-content: space-evenly;
+      width: 100%;
 
       &-info {
         width: 80%;
-        font-style: normal;
+        color: #224347;
         font-weight: 400;
         font-size: 20px;
+        font-style: normal;
         line-height: 24px;
-        color: #224347;
       }
     }
-  
+
     &-pages-current-learned {
       width: 115px;
       height: 30px;
@@ -261,12 +272,12 @@
       justify-content: center;
       width: 115px;
       height: 30px;
-      background-color: transparent;
       color: $blue;
-      font-style: normal;
       font-weight: 400;
       font-size: 12px;
+      font-style: normal;
       line-height: 15px;
+      background-color: transparent;
       cursor: default;
     }
   }
