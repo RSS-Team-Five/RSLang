@@ -162,11 +162,15 @@
       display: flex;
       flex-flow: row wrap;
       justify-content: space-evenly;
-    }
-  
-    &-learned {
-      background-color: $blue;
-      opacity: 20%;
+
+      &-info {
+        width: 80%;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        color: #224347;
+      }
     }
   
     &-pages-current-learned {
