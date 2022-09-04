@@ -46,7 +46,7 @@ function createBurgerMenu(burger: HTMLElement): void {
       linkElement.element.style.cursor = 'pointer';
       linkElement.element.onclick = (e) => {
         e.preventDefault();
-        window.location.href = `#/signUp`;
+        state.router?.view('/signUp');
       };
     }
     linkElement.element.addEventListener('click', () => {
