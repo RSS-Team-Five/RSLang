@@ -53,6 +53,10 @@ async function drawResults(
       header.firstElementChild?.classList.remove('blue-color');
       header.firstElementChild?.classList.add('orange-color');
     }
+    const main = Array.from(document.body.children).filter((e) => e.classList.contains('main'))[0];
+    if (main instanceof HTMLElement) {
+      main.firstElementChild?.firstElementChild?.classList.remove('sprint');
+    }
     const footer = Array.from(document.body.children).filter((e) => e.classList.contains('footer'))[0];
     if (footer instanceof HTMLElement) {
       footer.hidden = false;
