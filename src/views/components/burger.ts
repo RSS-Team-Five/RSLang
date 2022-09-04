@@ -4,8 +4,8 @@ import CustomElement from '../../utils/customElement';
 let count: number = 1;
 
 function createBurgerMenu(burger: HTMLElement): void {
-  if (document.body.firstElementChild?.classList.contains('burger__wrapper')) {
-    document.body.firstElementChild?.remove();
+  if (burger.firstElementChild?.classList.contains('burger__wrapper')) {
+    burger.firstElementChild?.remove();
   }
 
   const burgerWrapper = new CustomElement('div', {
@@ -37,7 +37,7 @@ function createBurgerMenu(burger: HTMLElement): void {
   allLinks.map((item, i) => {
     const link = `#/${item.name}`;
     const linkElement = new CustomElement('a', {
-      className: 'burger__link',
+      className: 'burger__wrapper-link',
       href: link,
       innerHTML: `${names[i].name}   `,
     });
@@ -70,7 +70,7 @@ function createBurgerMenu(burger: HTMLElement): void {
     document.body.removeEventListener('click', clickOutsideMenu);
   }
 
-  document.body.prepend(burgerWrapper.element);
+  burger.prepend(burgerWrapper.element);
 }
 
 export default createBurgerMenu;

@@ -13,15 +13,28 @@
   /* !!!позиционировать относительно значка меню */
   &__wrapper {
     position: absolute;
-    top: 141px;
-    right: 55px;
+    top: 53px;
+    right: 46px;
     z-index: 4;
+    width: 350px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-color: $lavender;
-    border: solid 1px $light-shadow;
-    border-radius: 5px;
+    color: $blue;
+    background-color: $white;
+    padding: 43px;
+    justify-content: space-between;
+    transition: 1s ease-in-out;
+
+    &-link {
+      text-decoration: none;
+      color: $blue;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 29px;
+    }
   }
 }
 
