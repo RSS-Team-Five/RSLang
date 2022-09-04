@@ -18,7 +18,7 @@ function createBookPage() {
 
   config.SECTION_CARD.forEach((card, index) => {
     const cardWrapper = new CustomElement('div', {
-      className: `section__wrapper section section__${card.alt}`,
+      className: `sectionS__wrapper sectionS sectionS__${card.alt}`,
     });
 
     if (!state.user?.isAuthorized && card.sectionName === config.SECTION_CARD[config.BOOK.maxGroup].sectionName) {
@@ -26,7 +26,7 @@ function createBookPage() {
     }
 
     const cardName = new CustomElement('p', {
-      className: 'section__wrapper-name wrapper-name',
+      className: 'sectionS__wrapper-name wrapper-name',
       innerText: card.sectionName.toUpperCase(),
     });
     cardWrapper.addChildren([cardName.element]);
