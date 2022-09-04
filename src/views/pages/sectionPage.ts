@@ -8,6 +8,8 @@ import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
 import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
+import arrowLeft from '../../assets/icons/Arrow-left.svg';
+import arrowRight from '../../assets/icons/Arrow-right.svg';
 
 function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
@@ -19,16 +21,17 @@ function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLear
     href: `#/section/${groupPag}/${pagePag - 1}`,
   });
 
-  const buttonElementLeft = new CustomElement('button', {
+  const buttonElementLeft = new CustomElement('img', {
     className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Previous page',
+    src: arrowLeft,
+    alt: 'arrow',
   });
   buttonLinkLeft.addChildren([buttonElementLeft.element]);
 
-  const currentPage = new CustomElement('p', {
+  const text = `Страница ${pagePag + 1}`;
+  const currentPage = new CustomElement('div', {
     className: 'section__pages-current',
-    innerText: `Page ${pagePag + 1}`,
+    innerText: text.toUpperCase(),
   });
 
   if (isAllWordsLearned) {
@@ -40,21 +43,21 @@ function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLear
     href: `#/section/${groupPag}/${pagePag + 1}`,
   });
 
-  const buttonElementRight = new CustomElement('button', {
+  const buttonElementRight = new CustomElement('img', {
     className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Next page',
+    src: arrowRight,
+    alt: 'arrow',
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
   if (pagePag === 0) {
     buttonLinkLeft.element.classList.add('inactive');
-    buttonElementLeft.element.setAttribute('disabled', '');
+    buttonLinkLeft.element.style.pointerEvents = 'none';
   }
 
   if (pagePag === config.BOOK.maxPage) {
     buttonLinkRight.element.classList.add('inactive');
-    buttonElementRight.element.setAttribute('disabled', '');
+    buttonLinkRight.element.style.pointerEvents = 'none';
   }
 
   navigationBetweenPages.addChildren([buttonLinkLeft.element, currentPage.element, buttonLinkRight.element]);
@@ -139,8 +142,40 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   // section name
   const sectionName = new CustomElement('p', {
     className: 'section__right-name',
-    innerHTML: config.SECTION_CARD[group].sectionName.slice(1),
+    innerHTML: config.SECTION_CARD[group].sectionName.slice(1).toUpperCase(),
   });
+
+  // legend
+  const legend = new CustomElement('div', {
+    className: 'section__right-legend',
+  });
+
+  const dataForLegend = [
+    {
+      color: `#224347`,
+      name: 'изученное слово',
+    },
+    {
+      color: `#d69d66`,
+      name: 'твоё сложное слово',
+    },
+  ];
+
+  for (let i = 0; i < 2; i += 1) {
+    const legendUnit = new CustomElement('div', {
+      className: 'section__right-legend-unit',
+    });
+    const ball = new CustomElement('div', {
+      className: 'section__right-legend-unit-ball',
+    });
+    ball.element.style.backgroundColor = dataForLegend[i].color;
+    const name = new CustomElement('p', {
+      className: 'section__right-legend-unit-name',
+      innerHTML: dataForLegend[i].name.toUpperCase(),
+    });
+    legendUnit.addChildren([ball.element, name.element]);
+    legend.addChildren([legendUnit.element]);
+  }
 
   // word cards
   const cards = new CustomElement('div', {
@@ -202,7 +237,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
-  rightWrapper.addChildren([sectionName.element, cards.element, pagination.element]);
+  rightWrapper.addChildren([sectionName.element, legend.element, cards.element, pagination.element]);
 
   mainWrapper.addChildren([leftWrapper.element, rightWrapper.element]);
   return mainWrapper.element;
