@@ -8,6 +8,9 @@ import { UserWordsType } from '../../types/UserWordParameters';
 import CustomElement from '../../utils/customElement';
 import isAllLearned from '../../utils/isAllLearned';
 import WordCard from '../components/WordCardClass';
+import arrowLeft from '../../assets/icons/Arrow-left.svg';
+import arrowRight from '../../assets/icons/Arrow-right.svg';
+import getOuterBall from '../components/outerBall';
 
 function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLearned: boolean) {
   const navigationBetweenPages = new CustomElement('div', {
@@ -19,16 +22,17 @@ function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLear
     href: `#/section/${groupPag}/${pagePag - 1}`,
   });
 
-  const buttonElementLeft = new CustomElement('button', {
+  const buttonElementLeft = new CustomElement('img', {
     className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Previous page',
+    src: arrowLeft,
+    alt: 'arrow',
   });
   buttonLinkLeft.addChildren([buttonElementLeft.element]);
 
-  const currentPage = new CustomElement('p', {
+  const text = `Страница ${pagePag + 1}`;
+  const currentPage = new CustomElement('div', {
     className: 'section__pages-current',
-    innerText: `Page ${pagePag + 1}`,
+    innerText: text.toUpperCase(),
   });
 
   if (isAllWordsLearned) {
@@ -40,21 +44,21 @@ function createPagination(groupPag: GroupType, pagePag: PageType, isAllWordsLear
     href: `#/section/${groupPag}/${pagePag + 1}`,
   });
 
-  const buttonElementRight = new CustomElement('button', {
+  const buttonElementRight = new CustomElement('img', {
     className: 'section__pages-button',
-    type: 'button',
-    innerText: 'Next page',
+    src: arrowRight,
+    alt: 'arrow',
   });
   buttonLinkRight.addChildren([buttonElementRight.element]);
 
   if (pagePag === 0) {
     buttonLinkLeft.element.classList.add('inactive');
-    buttonElementLeft.element.setAttribute('disabled', '');
+    buttonLinkLeft.element.style.pointerEvents = 'none';
   }
 
   if (pagePag === config.BOOK.maxPage) {
     buttonLinkRight.element.classList.add('inactive');
-    buttonElementRight.element.setAttribute('disabled', '');
+    buttonLinkRight.element.style.pointerEvents = 'none';
   }
 
   navigationBetweenPages.addChildren([buttonLinkLeft.element, currentPage.element, buttonLinkRight.element]);
@@ -68,14 +72,19 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     className: 'main__wrapper section',
   });
 
+  // левый блок
   // navigation
+  const leftWrapper = new CustomElement('div', {
+    className: 'section__left',
+  });
   const navigationBetweenSections = new CustomElement('div', {
-    className: 'section__navigation',
+    className: 'section__left-navigation',
   });
 
   const buttonsNames = [
-    'Учебник',
-    ...config.SECTION_CARD.map((el) => el.sectionName),
+    'Учебник\n',
+    ...config.SECTION_CARD.slice(0, config.SECTION_CARD.length - 1).map((el) => el.sectionName.slice(0, 1)),
+    'твои слова',
     `${config.GAMES.MAIN[0].gameName}`,
     `${config.GAMES.MAIN[1].gameName}`,
   ];
@@ -96,18 +105,24 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   const allButtons: HTMLButtonElement[] = [];
   buttonsNames.forEach((button, index) => {
     const buttonLink = new CustomElement('a', {
-      className: 'section__button-link',
+      className: 'section__left-button-link',
       href: `${buttonsLinks[index]}`,
     });
 
     buttonElement = new CustomElement('button', {
-      className: `section__button section__button-${buttonsLinks[index]}`,
+      className: `section__left-button section__left-button-${buttonsLinks[index]}`,
       type: 'button',
-      innerHTML: `${button}`,
+      innerHTML: `<nobr>${button.toUpperCase()}</nobr>`,
     });
     allButtons.push(buttonElement.element);
+    if (index > 0 && index < 7) {
+      buttonElement.element.classList.add('section__left-button-round');
+    }
 
-    if (!state.user?.isAuthorized && buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}`) {
+    if (
+      !state.user?.isAuthorized &&
+      buttonElement.element.classList.contains(`section__left-button-${buttonsLinks[7]}`)
+    ) {
       buttonElement.element.classList.add('inactive');
       buttonElement.element.onclick = (e) => {
         e.preventDefault();
@@ -118,14 +133,60 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
         }
       };
     }
-
+    if (button === (group + 1).toString()) {
+      buttonElement.element.classList.add('section__left-button-round-active');
+    }
     buttonLink.addChildren([buttonElement.element]);
     navigationBetweenSections.addChildren([buttonLink.element]);
   });
+  leftWrapper.addChildren([navigationBetweenSections.element]);
+
+  // правый блок
+  const rightWrapper = new CustomElement('div', {
+    className: 'section__right',
+  });
+
+  // section name
+  const sectionName = new CustomElement('p', {
+    className: 'section__right-name',
+    innerHTML: config.SECTION_CARD[group].sectionName.slice(1).toUpperCase(),
+  });
+
+  // legend
+  const legend = new CustomElement('div', {
+    className: 'section__right-legend',
+  });
+
+  const dataForLegend = [
+    {
+      color: `#3c6c79`,
+      name: 'изученное слово',
+    },
+    {
+      color: `#d69d66`,
+      name: 'твоё сложное слово',
+    },
+  ];
+
+  for (let i = 0; i < 2; i += 1) {
+    const legendUnit = new CustomElement('div', {
+      className: 'section__right-legend-unit',
+    });
+    const ball = new CustomElement('div', {
+      className: 'section__right-legend-unit-ball',
+    });
+    ball.element.style.backgroundColor = dataForLegend[i].color;
+    const name = new CustomElement('p', {
+      className: 'section__right-legend-unit-name',
+      innerHTML: dataForLegend[i].name.toUpperCase(),
+    });
+    legendUnit.addChildren([ball.element, name.element]);
+    legend.addChildren([legendUnit.element]);
+  }
 
   // word cards
   const cards = new CustomElement('div', {
-    className: 'section__cards',
+    className: 'section__right-cards',
   });
 
   const section = new Section(group, page);
@@ -140,10 +201,11 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     }
     if (allUserWordsOnPage?.length === 0) {
       const infoForUser = new CustomElement('p', {
-        className: 'section__cards-info',
-        innerHTML: `Добро пожаловать!
-        В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
-        Давай попробуем сделать это прямо сейчас! Удачи!`,
+        className: 'section__right-cards-info',
+        innerText: `Добро пожаловать!\n
+        В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на звезду на карточке слова. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить!\n
+        Давай попробуем сделать это прямо сейчас!\n
+        Удачи!`,
       });
       cards.addChildren([infoForUser.element]);
     } else if (allUserWordsOnPage) {
@@ -170,11 +232,13 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   let isAllWordsLearned: boolean = false;
   if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
     isAllWordsLearned = true;
-    mainWrapper.element.classList.add('section__learned');
+    mainWrapper.element.classList.add('section__right-learned');
     const gamesButtons = allButtons.slice(-2);
     gamesButtons.forEach((button) => {
-      button.classList.add('inactive');
-      button.setAttribute('disabled', '');
+      if (button.parentElement) {
+        button.parentElement.style.pointerEvents = 'none';
+        button.classList.add('inactive');
+      }
     });
   }
 
@@ -183,9 +247,12 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
+  rightWrapper.addChildren([sectionName.element, legend.element, cards.element, pagination.element]);
 
-  mainWrapper.addChildren([navigationBetweenSections.element, cards.element, pagination.element]);
+  const ballImg = getOuterBall(1);
+  ballImg.classList.add('section__balls');
 
+  mainWrapper.addChildren([ballImg, leftWrapper.element, rightWrapper.element]);
   return mainWrapper.element;
 }
 

@@ -43,8 +43,8 @@ const config = {
   },
 
   WORD: {
-    markAsLearned: 'Слово изучено',
-    markAsUnlearned: 'Слово не изучено',
+    markAsLearned: 'ИЗУЧЕНО',
+    markAsUnlearned: 'НЕ ИЗУЧЕНО',
   },
 
   DEFAULT_HEADERS: {
@@ -86,7 +86,7 @@ const config = {
     {
       imgUrl: section6,
       alt: '06-difficult',
-      sectionName: 'твои\nсложные\nслова',
+      sectionName: '7\nтвои\nсложные\nслова',
     },
   ],
 
