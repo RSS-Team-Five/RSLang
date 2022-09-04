@@ -16,24 +16,23 @@
     top: 53px;
     right: 46px;
     z-index: 4;
-    width: 350px;
-    height: 350px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    justify-content: space-between;
+    width: 350px;
+    height: 350px;
+    padding: 43px;
     color: $blue;
     background-color: $white;
-    padding: 43px;
-    justify-content: space-between;
     transition: 1s ease-in-out;
 
     &-link {
-      text-decoration: none;
       color: $blue;
-      font-style: normal;
       font-weight: 400;
       font-size: 24px;
+      font-style: normal;
       line-height: 29px;
+      text-decoration: none;
     }
   }
 }
