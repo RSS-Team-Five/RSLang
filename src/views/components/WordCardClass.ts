@@ -79,6 +79,7 @@ class WordCard {
         }
       }
     }
+    winLoseElement.element.setAttribute('title', 'Верные и неверные ответы');
     return winLoseElement;
   }
 
