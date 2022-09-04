@@ -3,6 +3,7 @@ import state from '../../models/State';
 import IGameWord from '../../types/IGameWord';
 import IWord from '../../types/IWord';
 import CustomElement from '../../utils/customElement';
+import getOuterBall from './outerBall';
 import drawResults from './sprintResults';
 
 async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], gameIntro: CustomElement<'div'>) {
@@ -18,6 +19,13 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   }
 
   gameIntro.element.classList.add('none');
+
+  const line = new CustomElement('span', {
+    className: 'sprint__line',
+  });
+
+  const sprintBall = getOuterBall(1);
+  sprintBall.classList.add('bottom');
 
   const gameField = new CustomElement('div', {
     className: 'game__field',
@@ -297,7 +305,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   gameContainer.addChildren([gameInfoTable.element, gameCard.element]);
 
-  gameField.addChildren([gameTimer.element, gameContainer.element]);
+  gameField.addChildren([gameTimer.element, gameContainer.element, sprintBall, line.element]);
 
   return gameField;
 }

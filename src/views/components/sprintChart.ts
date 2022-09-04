@@ -19,15 +19,16 @@ function drawChart(gameWords: IGameWord[], diagramChart: CustomElement<'canvas'>
   if (repeat > inRow) inRow = repeat;
 
   const ctx = diagramChart.element as ChartItem;
+  Chart.defaults.color = '#224347';
   const myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['Ошибки', 'Правильно отвечено', 'Серия правильных ответов подряд'],
+      labels: ['Ошибки'.toUpperCase(), 'Верно'.toUpperCase(), 'Серия верных ответов'.toUpperCase()],
       datasets: [
         {
           label: 'Sprint results',
           data: [wrongAnswers, correctAnswers, inRow],
-          backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
+          backgroundColor: ['#d69d66', '#3c6c79', '#bab8bb'],
         },
       ],
     },
@@ -39,8 +40,9 @@ function drawChart(gameWords: IGameWord[], diagramChart: CustomElement<'canvas'>
           position: 'right',
           labels: {
             font: {
-              size: 15,
+              size: 20,
             },
+            padding: 38,
           },
         },
       },

@@ -4,6 +4,7 @@ import IGameWord from '../../types/IGameWord';
 import { GameStatisticType, UserStatisticsOptionalInterface } from '../../types/UserStatisticsType';
 import CustomElement from '../../utils/customElement';
 import dateNow from '../../utils/dateNow';
+import getOuterBall from './outerBall';
 import drawChart from './sprintChart';
 
 async function drawResults(
@@ -15,6 +16,14 @@ async function drawResults(
 ) {
   clearTimeout(timer);
   gameField.element.innerHTML = '';
+
+  const line = new CustomElement('span', {
+    className: 'sprint__line',
+  });
+
+  const sprintBall = getOuterBall(1);
+  sprintBall.classList.add('bottom');
+
   const resultTable = new CustomElement('div', {
     className: 'game__result__table',
   });
@@ -26,12 +35,12 @@ async function drawResults(
 
   const resultTitle = new CustomElement('h2', {
     className: 'header__title',
-    textContent: 'Результаты',
+    textContent: 'Результаты'.toUpperCase(),
   });
 
   const resultAgainButton = new CustomElement('button', {
     className: 'header__again-button',
-    textContent: 'Повторить',
+    textContent: 'Повторить'.toUpperCase(),
   });
 
   resultAgainButton.element.addEventListener('click', () => {
@@ -64,7 +73,7 @@ async function drawResults(
 
   const resultScoreFirst = new CustomElement('p', {
     className: 'total-score__text',
-    textContent: 'Вы набрали ',
+    textContent: 'Вы набрали '.toUpperCase(),
   });
 
   const resultScorePoints = new CustomElement('p', {
@@ -74,7 +83,7 @@ async function drawResults(
 
   const resultScoreSecond = new CustomElement('p', {
     className: 'total-score__text',
-    textContent: ' баллов',
+    textContent: ' баллов'.toUpperCase(),
   });
 
   resultTotalScore.addChildren([resultScoreFirst.element, resultScorePoints.element, resultScoreSecond.element]);
@@ -91,27 +100,39 @@ async function drawResults(
 
   drawChart(gameWords, diagramChart);
 
-  resultMain.addChildren([resultTotalScore.element, resultDiagram.element]);
+  const points = new CustomElement('div', {
+    className: 'game__result__points',
+  });
 
-  gameWords.forEach((word) => {
-    if (word.guess !== null) {
+  for (let i = 0; i < 3; i += 1) {
+    const dotProgress = new CustomElement('div', {
+      className: `game__result__points_dot${i}`,
+    });
+    points.addChildren([dotProgress.element]);
+  }
+
+  resultMain.addChildren([resultTotalScore.element, resultDiagram.element, points.element]);
+
+  const correctWords = gameWords.filter((e) => e.guess !== null && e.guess);
+  const incorrectWords = gameWords.filter((e) => e.guess !== null && !e.guess);
+
+  function drawWords(arr: IGameWord[]) {
+    arr.forEach((word) => {
       const wordLine = new CustomElement('div', {
         className: 'game__result__word-line',
       });
 
-      const correctness = new CustomElement('div', {
-        className: 'game__result__word__correctness',
-      });
+      const correctness = new CustomElement('div', {});
 
       if (word.guess) {
-        correctness.element.classList.add('correct_green');
+        correctness.element.classList.add('game__result__points_dot2');
       } else {
-        correctness.element.classList.add('correct_red');
+        correctness.element.classList.add('game__result__points_dot1');
       }
 
       const wordName = new CustomElement('p', {
         className: 'game__result__word',
-        textContent: word.word,
+        textContent: word.word.toUpperCase(),
       });
 
       const wordDash = new CustomElement('p', {
@@ -121,14 +142,31 @@ async function drawResults(
 
       const wordTranslation = new CustomElement('p', {
         className: 'game__result__word_translation',
-        textContent: word.wordTranslate,
+        textContent: word.wordTranslate.toUpperCase(),
       });
 
       wordLine.addChildren([correctness.element, wordName.element, wordDash.element, wordTranslation.element]);
-
       resultTable.addChildren([wordLine.element]);
-    }
+    });
+  }
+
+  const correctTitle = new CustomElement('div', {
+    className: 'game__result__title_cor',
+    textContent: 'верно'.toUpperCase(),
   });
+
+  resultTable.addChildren([correctTitle.element]);
+  drawWords(correctWords);
+
+  const incorrectTitle = new CustomElement('div', {
+    className: 'game__result__title_incor',
+    textContent: 'ошибки'.toUpperCase(),
+  });
+
+  resultTable.addChildren([incorrectTitle.element]);
+  drawWords(incorrectWords);
+
+  resultTable.addChildren([sprintBall, line.element]);
 
   async function addLoseAndWinWords(wordsWord: IGameWord) {
     if (state.user?.isAuthorized) {

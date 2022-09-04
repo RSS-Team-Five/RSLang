@@ -1,6 +1,7 @@
 .game {
   @include flex;
 
+  position: relative;
   justify-content: flex-start;
   height: calc(100% - 121px);
 
@@ -107,18 +108,18 @@
 
     &_first-row {
       display: flex;
-      justify-content: space-between;
       align-self: flex-end;
-      width: calc(50% + 25px);
+      justify-content: flex-end;
+      width: 100%;
     }
   }
 
   &__word {
     margin: 28px 0;
+    color: $dark-grey;
     font-weight: 700;
     font-size: 32px;
     line-height: 39px;
-    color: $dark-grey;
 
     &_translate {
       margin: 0 0 33px;
@@ -136,10 +137,10 @@
     &_wrong {
       padding: 20px 43px;
       color: $dark-grey;
-      background-color: $orange;
       font-weight: 400;
       font-size: 20px;
       line-height: 24px;
+      background-color: $orange;
       border: none;
       cursor: pointer;
       transition: 0.3s;
@@ -156,10 +157,10 @@
     &_right {
       padding: 20px 58px;
       color: $white;
-      background-color: $dark-grey;
       font-weight: 400;
       font-size: 20px;
       line-height: 24px;
+      background-color: $dark-grey;
       border: none;
       cursor: pointer;
       transition: 0.3s;
@@ -197,16 +198,17 @@
   }
 
   &__points {
-    width: 40vw;
-    margin: 0;
-    padding: 15px 0;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
     font-size: 20px;
     text-align: center;
   }
 
   &__score {
     align-self: center;
-    margin: 0 10px;
+    width: 100%;
+    margin: 20px 10px 0;
     color: $blue;
     font-weight: 700;
     font-size: 48px;
@@ -217,7 +219,7 @@
   &__container {
     @include flex;
 
-    max-width: 774px;
+    width: 774px;
     margin: 0 auto;
     background-color: $lavender;
     animation: none;
@@ -225,55 +227,112 @@
 
   &__result {
     &__table {
-      width: 70vh;
-      height: 60vh;
+      width: 774px;
+      height: 507px;
+      margin-top: 70px;
       padding: 10px;
       overflow-y: scroll;
       background-color: $lavender;
-      box-shadow: 0 5px 10px 2px $light-shadow;
     }
 
     &__word-line {
       display: flex;
+      align-items: center;
+      margin-left: 42px;
       font-size: 20px;
       column-gap: 10px;
     }
 
     &__word {
       color: $dark-grey;
-      font-weight: 900;
-    }
+      font-weight: 700;
+      line-height: 24px;
 
-    &__word__correctness {
-      align-self: center;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+      &_translation {
+        align-self: center;
+      }
     }
 
     &__diagram {
-      width: 504px;
-      height: 304px;
+      width: 700px;
+      height: 285px;
+      margin-left: 13px;
+      cursor: pointer;
     }
 
     &__total-score {
       display: flex;
+      margin-left: 44px;
+      color: $light-shadow;
+      font-weight: 400;
       font-size: 20px;
+      line-height: 24px;
       column-gap: 5px;
+    }
+
+    &__points {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+      column-gap: 15px;
+
+      &_dot0,
+      &_dot1,
+      &_dot2 {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+        border-radius: 50%;
+      }
+
+      &_dot0 {
+        background-color: $middle-grey;
+      }
+
+      &_dot1 {
+        background-color: $dark-orange;
+      }
+
+      &_dot2 {
+        background-color: $blue;
+      }
+    }
+
+    &__title {
+      &_cor {
+        margin: 20px;
+        color: $blue;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
+
+      &_incor {
+        margin: 20px;
+        color: $dark-orange;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
     }
   }
 
   &__sound_on,
   &__sound_of {
+    position: absolute;
     align-self: center;
-    margin: 20px;
     width: 114px;
+    margin: 20px 20px 0 0;
     color: $white;
-    background-color: $middle-grey;
-    border: 1px solid $middle-grey;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
+    background-color: $middle-grey;
+    border: 1px solid $middle-grey;
     cursor: pointer;
     transition: 0.3s;
   }
@@ -304,6 +363,28 @@
 
     user-select: none;
   }
+}
+
+.sprint {
+  position: relative;
+  height: calc(100vh - 121px);
+
+  &__line {
+    position: absolute;
+    top: 706px;
+    right: 270px;
+    z-index: 2;
+    width: 870px;
+    height: 1px;
+    background-color: $white;
+  }
+}
+
+.bottom {
+  position: absolute;
+  top: 650px;
+  right: 69px;
+  z-index: 3;
 }
 
 .ac {
@@ -402,8 +483,8 @@
 
 .total-score {
   &__points {
-    color: $green;
-    font-weight: 600;
+    color: $light-shadow;
+    font-weight: 700;
   }
 }
 
@@ -418,13 +499,16 @@
 
 .header {
   &__again-button {
+    align-self: flex-end;
     height: fit-content;
-    margin-top: 10px;
-    padding: 10px;
+    margin: 10px 31px 0 0;
+    padding: 19px 29px;
     color: $white;
-    background-color: $green;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    background-color: $dark-grey;
     border: none;
-    border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
 
@@ -433,17 +517,15 @@
     }
 
     &:hover {
-      scale: 1.1;
+      background-color: $orange;
     }
   }
-}
 
-.correct {
-  &_green {
-    background-color: $green;
-  }
-
-  &_red {
-    background-color: $red;
+  &__title {
+    margin: 35px 0 0 44px;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
   }
 }
