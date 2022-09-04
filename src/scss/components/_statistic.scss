@@ -1,3 +1,23 @@
+.statistic {
+  height: 100%;
+
+  &__error {
+    max-width: 1440px;
+    height: 100%;
+    margin: 0 auto;
+    color: $white;
+    text-align: center;
+  }
+}
+
+.error {
+  @include flex();
+
+  &__header {
+    display: inline-block;
+  }
+}
+
 .today {
   padding: 80px 0 65px;
   background-color: $dark-orange;

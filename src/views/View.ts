@@ -170,7 +170,7 @@ export default class View {
       const model = new AudioChallengeModel();
       const controller = new AudioChallengeController(model);
       const view = new AudioChallengeView(controller);
-      const game: HTMLElement = view.start(model);
+      const game: HTMLElement = view.start();
 
       state.events?.subscribe('audioChallengeModelUpd', () => view.renderGame(model));
       state.events?.subscribe('audioChallengeResult', () => view.renderResult(model));

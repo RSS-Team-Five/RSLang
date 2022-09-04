@@ -33,7 +33,7 @@ function createBookPage() {
 
     cardWrapper.element.addEventListener('click', () => {
       if (index === config.BOOK.maxGroup && !state.user?.isAuthorized) {
-        window.location.href = `#/signUp`;
+        state.router?.view('/signUp');
       } else {
         window.location.href = `#/section/${index}/0`;
       }
