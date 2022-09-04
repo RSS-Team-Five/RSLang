@@ -33,9 +33,13 @@
   }
 
   &__link {
-    color: $red;
+    color: $blue;
     font-weight: 600;
     font-size: 16px;
     line-height: 20px;
+
+    &:hover {
+      color: $dark-orange;
+    }
   }
 }
