@@ -1,9 +1,10 @@
 .footer {
   position: relative;
+  z-index: 5;
 
   &__dots {
     position: absolute;
-    bottom: 23px;
+    bottom: 0;
     left: 354px;
   }
 
@@ -33,7 +34,7 @@
   &__links,
   &__members,
   &__date {
-    z-index: 2;
+    z-index: 10;
     align-self: center;
     color: $blue;
     transition: 0.3s;

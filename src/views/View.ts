@@ -17,7 +17,7 @@ import AudioChallengeView from './AudioChallengeView';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import AudioChallengeController from '../controllers/AudioChallengeController';
 import createAudioChallengePage from './pages/audioChallengePage';
-import spinnerPath from '../assets/icons/spinner.gif';
+import spinnerWhite from '../assets/icons/spinner-white.svg';
 
 export default class View {
   content: HTMLElement | null;
@@ -126,10 +126,16 @@ export default class View {
   async renderStatistics() {
     if (this.content) {
       this.content.innerHTML = '';
-      this.addStatisticStyle();
-      const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
+      this.addDarkOrangeStyle();
+
+      const spinner = new CustomElement('dialog', { className: 'spinner' });
+      const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
+      spinner.addChildren([spinnerImg.element]);
       this.content.append(spinner.element);
+      spinner.element.showModal();
+
       const statisticPage: HTMLElement = await createStatisticPage();
+      this.addStatisticStyle();
       this.content.innerHTML = '';
       this.content?.append(statisticPage);
       document.body.append(this.footerElement);
@@ -178,6 +184,9 @@ export default class View {
 
       if (group && page) {
         this.content?.append(game);
+        if (game.firstChild instanceof HTMLDialogElement) {
+          game.firstChild.showModal();
+        }
         await controller.getWords(group, page);
       } else {
         const audioChallengePage: HTMLElement = await createAudioChallengePage();
@@ -192,6 +201,7 @@ export default class View {
     this.deleteStatisticStyle();
     document.body.classList.remove('blue-background');
     document.body.classList.remove('orange-background');
+    document.body.classList.remove('dark-orange-background');
     document.body.classList.remove('grey-background');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('orange-color');
@@ -207,6 +217,13 @@ export default class View {
   addGreyStyle() {
     this.deleteStyle();
     document.body.classList.add('grey-background');
+    this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
+    this.footerElement.classList.add('orange-triangle');
+  }
+
+  addDarkOrangeStyle() {
+    this.deleteStyle();
+    document.body.classList.add('dark-orange-background');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.add('blue-color');
     this.footerElement.classList.add('orange-triangle');
   }
