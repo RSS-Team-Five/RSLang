@@ -107,7 +107,8 @@ export default class View {
       this.addBlueStyle();
       const sprintPage: HTMLElement = await createSprintPage(group, page);
       this.content?.append(sprintPage);
-      this.footerElement.hidden = true;
+      document.body.append(this.footerElement);
+      this.footerElement.hidden = false;
     }
   }
 
@@ -190,7 +191,8 @@ export default class View {
       } else {
         const audioChallengePage: HTMLElement = await createAudioChallengePage();
         this.content?.append(audioChallengePage);
-        this.footerElement.hidden = true;
+        document.body.append(this.footerElement);
+        this.footerElement.hidden = false;
       }
     }
   }

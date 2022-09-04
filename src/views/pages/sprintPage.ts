@@ -3,6 +3,7 @@ import CustomElement from '../../utils/customElement';
 import startSprintGame from '../components/sprintGameStart';
 import getSprintWords from '../components/sprintWords';
 import spinnerWhite from '../../assets/icons/spinner-white.svg';
+import getOuterBall from '../components/outerBall';
 
 async function createSprintPage(group: string | undefined, page: string | undefined) {
   let level: number | undefined;
@@ -18,15 +19,25 @@ async function createSprintPage(group: string | undefined, page: string | undefi
     className: 'game__intro',
   });
 
+  const gameText = new CustomElement('div', {
+    className: 'game__intro_text',
+  });
+
   const gameName = new CustomElement('h2', {
     className: 'game__name',
-    textContent: `${config.GAMES.MAIN[0].gameName}`,
+    textContent: `${config.GAMES.MAIN[0].gameName}`.toUpperCase(),
   });
 
   const gameDescription = new CustomElement('p', {
     className: 'game__description',
     innerText:
       'Это игра на время.\nТвоя задача - выбрать правильный перевод слов.\nЧем больше ты дашь правильных ответов за 60 секунд, тем больше баллов получишь.',
+  });
+
+  const gameKeys = new CustomElement('p', {
+    className: 'game__keys',
+    innerText:
+      'Чтобы играть с помощью клавиатуры, используй:\nстрелку влево - чтобы дать ответ "неверно",\nстрелку вправо - чтобы дать ответ "верно".',
   });
 
   const gameLevelDescription = new CustomElement('h3', {
@@ -40,28 +51,41 @@ async function createSprintPage(group: string | undefined, page: string | undefi
 
   const gameStartButton = new CustomElement('button', {
     className: 'game__start_button',
-    textContent: 'Играть',
+    textContent: 'Играть'.toUpperCase(),
   });
+
+  const gameImg = getOuterBall(1, gameStartButton.element);
 
   if (level === undefined) {
     gameStartButton.element.classList.add('inactive');
+    gameStartButton.element.disabled = true;
+    const levelsCollection: CustomElement<'button'>[] = [];
     config.SECTION_CARD.forEach((card, index) => {
       if (index < config.BOOK.maxGroup) {
         const gameLevel = new CustomElement('button', {
           className: 'game__level',
           textContent: (index + 1).toString(),
         });
-        gameLevel.element.addEventListener('click', () => {
-          level = index;
-          gameStartButton.element.classList.remove('inactive');
-        });
 
         gameLevelBox.addChildren([gameLevel.element]);
+        levelsCollection.push(gameLevel);
+
+        gameLevel.element.addEventListener('click', () => {
+          level = index;
+          gameLevel.element.classList.add('active');
+          levelsCollection.forEach((e) => {
+            if (e.element.innerText !== (index + 1).toString()) e.element.classList.remove('active');
+          });
+          gameStartButton.element.classList.remove('inactive');
+          gameStartButton.element.disabled = false;
+        });
       }
     });
   } else {
     gameLevelDescription.element.innerHTML = '';
   }
+
+  gameLevelBox.addChildren([gameStartButton.element]);
 
   gameStartButton.element.addEventListener('click', async () => {
     const spinner = new CustomElement('dialog', { className: 'spinner' });
@@ -69,6 +93,10 @@ async function createSprintPage(group: string | undefined, page: string | undefi
     spinner.addChildren([spinnerImg.element]);
 
     if (level !== undefined) {
+      if (document.body.lastElementChild && document.body.lastElementChild instanceof HTMLElement) {
+        const footer = document.body.lastElementChild;
+        footer.hidden = true;
+      }
       gameIntro.element.classList.add('none');
       mainWrapper.element.append(spinner.element);
       spinner.element.showModal();
@@ -92,7 +120,6 @@ async function createSprintPage(group: string | undefined, page: string | undefi
         mainWrapper.addChildren([sorry.element]);
       } else {
         gameIntro.element.classList.add('none');
-        mainWrapper.element.append(spinner.element);
         const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
         spinner.element.remove();
         mainWrapper.addChildren([gameField.element]);
@@ -101,13 +128,19 @@ async function createSprintPage(group: string | undefined, page: string | undefi
     }
   });
 
-  gameIntro.addChildren([
+  gameText.addChildren([
     gameName.element,
     gameDescription.element,
+    gameKeys.element,
     gameLevelDescription.element,
     gameLevelBox.element,
-    gameStartButton.element,
   ]);
+
+  const line = new CustomElement('span', {
+    className: 'game__line',
+  });
+
+  gameIntro.addChildren([gameImg, gameText.element, line.element]);
 
   mainWrapper.addChildren([gameIntro.element]);
 

@@ -1,6 +1,6 @@
 import CustomElement from '../../utils/customElement';
 import config from '../../models/Config';
-import arrow from '../../assets/icons/Arrow 1.png';
+import getOuterBall from '../components/outerBall';
 
 function createGamesPage() {
   const mainWrapper = new CustomElement('div', {
@@ -25,26 +25,6 @@ function createGamesPage() {
       className: 'games__wrapper game_item',
     });
 
-    const gameImg = new CustomElement('div', {
-      className: `outer-ball${index + 1}`,
-    });
-
-    const InnerBall = new CustomElement('div', {
-      className: `inner-ball${index + 1}_first`,
-    });
-
-    const secondInnerBall = new CustomElement('div', {
-      className: `inner-ball${index + 1}_second`,
-    });
-
-    const innerArrow = new CustomElement('img', {
-      className: `inner-arrow${index + 1}`,
-      src: arrow,
-      alt: 'arrow-icon',
-    });
-
-    gameImg.addChildren([InnerBall.element, secondInnerBall.element, innerArrow.element]);
-
     const gameInfo = new CustomElement('div', {
       className: 'game-info',
     });
@@ -64,21 +44,15 @@ function createGamesPage() {
       textContent: 'Далее'.toUpperCase(),
     });
 
+    const gameImg = getOuterBall(index + 1, gameBtn.element);
+
     gameBtn.element.addEventListener('click', () => {
       window.location.href = `#/games/${game.gameUrl}`;
     });
 
-    gameBtn.element.addEventListener('mouseover', () => {
-      gameBtn.element.parentElement?.previousElementSibling?.classList.add('move');
-    });
-
-    gameBtn.element.addEventListener('mouseout', () => {
-      gameBtn.element.parentElement?.previousElementSibling?.classList.remove('move');
-    });
-
     gameInfo.addChildren([gameName.element, gameDescription.element, gameBtn.element, gameBtn.element]);
 
-    gameWrapper.addChildren([gameImg.element, gameInfo.element]);
+    gameWrapper.addChildren([gameImg, gameInfo.element]);
 
     gamesWrapper.addChildren([gameWrapper.element, gamesLine.element]);
   });
