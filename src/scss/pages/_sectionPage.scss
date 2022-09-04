@@ -52,17 +52,32 @@
 }
 
 .section {
-  &__cards {
+  display: flex;
+  flex-direction: row;
+
+  &__left {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 20%;
   }
 
-  &__learned {
-    background-image: url('../assets/images/learned-page.jpg');
-  }
+  &__right {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
 
-  &__pages-current-learned {
-    background-color: $green;
+    &-cards {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+    }
+  
+    &-learned {
+      background-image: url('../assets/images/learned-page.jpg');
+    }
+  
+    &-pages-current-learned {
+      background-color: $green;
+    }
   }
 }

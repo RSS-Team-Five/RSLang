@@ -68,9 +68,13 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     className: 'main__wrapper section',
   });
 
+  // левый блок
   // navigation
+  const leftWrapper = new CustomElement('div', {
+    className: 'section__left',
+  });
   const navigationBetweenSections = new CustomElement('div', {
-    className: 'section__navigation',
+    className: 'section__left-navigation',
   });
 
   const buttonsNames = [
@@ -96,18 +100,21 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   const allButtons: HTMLButtonElement[] = [];
   buttonsNames.forEach((button, index) => {
     const buttonLink = new CustomElement('a', {
-      className: 'section__button-link',
+      className: 'section__left-button-link',
       href: `${buttonsLinks[index]}`,
     });
 
     buttonElement = new CustomElement('button', {
-      className: `section__button section__button-${buttonsLinks[index]}`,
+      className: `section__left-button section__left-button-${buttonsLinks[index]}`,
       type: 'button',
       innerHTML: `${button}`,
     });
     allButtons.push(buttonElement.element);
 
-    if (!state.user?.isAuthorized && buttonElement.element.innerHTML === `${config.SECTION_CARD[6].sectionName}`) {
+    if (
+      !state.user?.isAuthorized &&
+      buttonElement.element.innerHTML === `${config.SECTION_CARD[config.BOOK.maxGroup].sectionName}`
+    ) {
       buttonElement.element.classList.add('inactive');
       buttonElement.element.onclick = (e) => {
         e.preventDefault();
@@ -122,10 +129,22 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     buttonLink.addChildren([buttonElement.element]);
     navigationBetweenSections.addChildren([buttonLink.element]);
   });
+  leftWrapper.addChildren([navigationBetweenSections.element]);
+
+  // правый блок
+  const rightWrapper = new CustomElement('div', {
+    className: 'section__right',
+  });
+
+  // section name
+  const sectionName = new CustomElement('p', {
+    className: 'section__right-name',
+    innerHTML: config.SECTION_CARD[group].sectionName.slice(1),
+  });
 
   // word cards
   const cards = new CustomElement('div', {
-    className: 'section__cards',
+    className: 'section__right-cards',
   });
 
   const section = new Section(group, page);
@@ -140,7 +159,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     }
     if (allUserWordsOnPage?.length === 0) {
       const infoForUser = new CustomElement('p', {
-        className: 'section__cards-info',
+        className: 'section__right-cards-info',
         innerHTML: `Добро пожаловать!
         В этом разделе будут находиться твои сложные слова. Чтобы добавить слово в этот раздел, тебе следует нажать на специальный значок на карточке слова из любого раздела. Добавив слова, ты сможешь их усиленно тренировать, чтобы выучить! 
         Давай попробуем сделать это прямо сейчас! Удачи!`,
@@ -167,7 +186,7 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   let isAllWordsLearned: boolean = false;
   if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
     isAllWordsLearned = true;
-    mainWrapper.element.classList.add('section__learned');
+    mainWrapper.element.classList.add('section__right-learned');
     const gamesButtons = allButtons.slice(-2);
     gamesButtons.forEach((button) => {
       button.classList.add('inactive');
@@ -180,9 +199,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
   if (group === config.BOOK.maxGroup) {
     pagination.element.style.display = 'none';
   }
+  rightWrapper.addChildren([sectionName.element, cards.element, pagination.element]);
 
-  mainWrapper.addChildren([navigationBetweenSections.element, cards.element, pagination.element]);
-
+  mainWrapper.addChildren([leftWrapper.element, rightWrapper.element]);
   return mainWrapper.element;
 }
 
