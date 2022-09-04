@@ -105,6 +105,14 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     textContent: 'Верно'.toUpperCase(),
   });
 
+  // eslint ругается на доступ к ф-цям до их объявления
+  /* eslint-disable */
+  function eventHandler(e: KeyboardEvent) {
+    if (e.key === 'ArrowRight') getRightAnswer();
+    if (e.key === 'ArrowLeft') getWrongAnswer();
+  }
+  /* eslint-enable */
+
   function refreshWords() {
     gameWord.element.textContent = gameWords[count].word;
     gameWordTranslate.element.textContent = gameWords[count].wordTranslate;
@@ -214,6 +222,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     }
     if (counting === 0) {
       clearTimeout(timer);
+      document.removeEventListener('keydown', eventHandler);
       await drawResults(gameField, gameIntro, gameWords, timer, score);
     } else {
       timer = setTimeout(startTimer, 1000);
@@ -235,6 +244,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
       refreshWords();
     } else {
       clearTimeout(timer);
+      document.removeEventListener('keydown', eventHandler);
       await drawResults(gameField, gameIntro, gameWords, timer, score);
     }
   }
@@ -253,6 +263,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
       refreshWords();
     } else {
       clearTimeout(timer);
+      document.removeEventListener('keydown', eventHandler);
       await drawResults(gameField, gameIntro, gameWords, timer, score);
     }
   }
@@ -260,10 +271,8 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   gameButtonWrong.element.addEventListener('click', () => getWrongAnswer());
   gameButtonRight.element.addEventListener('click', () => getRightAnswer());
 
-  document.onkeydown = (e) => {
-    if (e.key === 'ArrowRight') getRightAnswer();
-    if (e.key === 'ArrowLeft') getWrongAnswer();
-  };
+  document.addEventListener('keydown', eventHandler);
+  window.addEventListener('hashchange', () => document.removeEventListener('keydown', eventHandler));
 
   gameButtons.addChildren([gameButtonWrong.element, gameButtonRight.element]);
 

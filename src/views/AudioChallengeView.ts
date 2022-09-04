@@ -13,44 +13,11 @@ export default class AudioChallengeView {
     this.view = new CustomElement('div', { className: 'game' });
   }
 
-  start(model: AudioChallengeModel) {
+  start() {
     const spinner = new CustomElement('dialog', { className: 'spinner' });
     const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
     spinner.addChildren([spinnerImg.element]);
     this.view.addChildren([spinner.element]);
-
-    document.addEventListener('keypress', (e) => {
-      if (model.words && model.answers) {
-        if (e.code === 'Space') {
-          const word = model.words[model.currentWord];
-          const wordAudio = new Audio(`${config.API.URL}/${word.audio}`);
-          wordAudio.play();
-        }
-        if (e.code === 'Enter') {
-          this.controller.next();
-        }
-        if (e.code === 'Digit1') {
-          const answer = model.answers[0];
-          this.controller.try(answer);
-        }
-        if (e.code === 'Digit2') {
-          const answer = model.answers[1];
-          this.controller.try(answer);
-        }
-        if (e.code === 'Digit3') {
-          const answer = model.answers[2];
-          this.controller.try(answer);
-        }
-        if (e.code === 'Digit4') {
-          const answer = model.answers[3];
-          this.controller.try(answer);
-        }
-        if (e.code === 'Digit5') {
-          const answer = model.answers[4];
-          this.controller.try(answer);
-        }
-      }
-    });
 
     return this.view.element;
   }
