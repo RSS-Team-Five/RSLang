@@ -123,6 +123,8 @@ async function createSprintPage(group: string | undefined, page: string | undefi
         const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
         spinner.element.remove();
         mainWrapper.addChildren([gameField.element]);
+        // document.body.classList.add('dark-orange-background');
+        // document.body.firstElementChild?.firstElementChild?.classList.add('blue-color');
       }
       mainWrapper.element.classList.add('sprint');
     }

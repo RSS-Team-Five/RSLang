@@ -111,80 +111,82 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   }
 
   function refreshPoints() {
-    gameContainer.element.classList.add('animate_green');
-    setTimeout(() => gameContainer.element.classList.remove('animate_green'), 800);
-    count += 1;
-    pointsCounter += 1;
-    if (pointsCounter > 0 && pointsCounter < 4) {
-      dots[pointsCounter - 1].classList.add('dot_actual');
-    }
-    if (pointsCounter === 4) {
-      gameAnimal.element.src = config.GAMES.SPRINT[points / 10].imgUrl;
-      gameAnimal.element.alt = config.GAMES.SPRINT[points / 10].alt;
-      points += 10;
-      pointsCounter = 0;
-      gamePoints.element.textContent = `+${points} очков`;
-      switch (points) {
-        case 20:
-          gamePoints.element.classList.add('points_red');
-          break;
-        case 30:
-          gamePoints.element.classList.remove('points_red');
-          gamePoints.element.classList.add('points_orange');
-          break;
-        case 40:
-          gamePoints.element.classList.remove('points_orange');
-          gamePoints.element.classList.add('points_yellow');
-          break;
-        case 50:
-          gamePoints.element.classList.remove('points_yellow');
-          gamePoints.element.classList.add('points_green');
-          break;
-        case 60:
-          gamePoints.element.classList.remove('points_green');
-          gamePoints.element.classList.add('points_blue');
-          break;
-        case 70:
-          gamePoints.element.classList.remove('points_blue');
-          gamePoints.element.classList.add('points_dark-blue');
-          break;
-        case 80:
-          gamePoints.element.classList.remove('points_dark-blue');
-          gamePoints.element.classList.add('points_purple');
-          break;
-        case 90:
-          gamePoints.element.classList.remove('points_purple');
-          gamePoints.element.classList.add('points_red');
-          break;
-        case 100:
-          gamePoints.element.classList.remove('points_red');
-          gamePoints.element.classList.add('points_orange');
-          break;
-        case 110:
-          gamePoints.element.classList.remove('points_orange');
-          gamePoints.element.classList.add('points_yellow');
-          break;
-        case 120:
-          gamePoints.element.classList.remove('points_yellow');
-          gamePoints.element.classList.add('points_green');
-          break;
-        case 130:
-          gamePoints.element.classList.remove('points_green');
-          gamePoints.element.classList.add('points_blue');
-          break;
-        case 140:
-          gamePoints.element.classList.remove('points_blue');
-          gamePoints.element.classList.add('points_dark-blue');
-          break;
-        default:
-          gamePoints.element.classList.remove('points_dark-blue');
-          gamePoints.element.classList.add('points_purple');
-          break;
+    if (count < gameWords.length) {
+      gameContainer.element.classList.add('animate_green');
+      setTimeout(() => gameContainer.element.classList.remove('animate_green'), 800);
+      count += 1;
+      pointsCounter += 1;
+      if (pointsCounter > 0 && pointsCounter < 4) {
+        dots[pointsCounter - 1].classList.add('dot_actual');
       }
-      dots.forEach((dot) => dot.classList.remove('dot_actual'));
+      if (pointsCounter === 4) {
+        gameAnimal.element.src = config.GAMES.SPRINT[points / 10].imgUrl;
+        gameAnimal.element.alt = config.GAMES.SPRINT[points / 10].alt;
+        points += 10;
+        pointsCounter = 0;
+        gamePoints.element.textContent = `+${points} очков`;
+        switch (points) {
+          case 20:
+            gamePoints.element.classList.add('points_red');
+            break;
+          case 30:
+            gamePoints.element.classList.remove('points_red');
+            gamePoints.element.classList.add('points_orange');
+            break;
+          case 40:
+            gamePoints.element.classList.remove('points_orange');
+            gamePoints.element.classList.add('points_yellow');
+            break;
+          case 50:
+            gamePoints.element.classList.remove('points_yellow');
+            gamePoints.element.classList.add('points_green');
+            break;
+          case 60:
+            gamePoints.element.classList.remove('points_green');
+            gamePoints.element.classList.add('points_blue');
+            break;
+          case 70:
+            gamePoints.element.classList.remove('points_blue');
+            gamePoints.element.classList.add('points_dark-blue');
+            break;
+          case 80:
+            gamePoints.element.classList.remove('points_dark-blue');
+            gamePoints.element.classList.add('points_purple');
+            break;
+          case 90:
+            gamePoints.element.classList.remove('points_purple');
+            gamePoints.element.classList.add('points_red');
+            break;
+          case 100:
+            gamePoints.element.classList.remove('points_red');
+            gamePoints.element.classList.add('points_orange');
+            break;
+          case 110:
+            gamePoints.element.classList.remove('points_orange');
+            gamePoints.element.classList.add('points_yellow');
+            break;
+          case 120:
+            gamePoints.element.classList.remove('points_yellow');
+            gamePoints.element.classList.add('points_green');
+            break;
+          case 130:
+            gamePoints.element.classList.remove('points_green');
+            gamePoints.element.classList.add('points_blue');
+            break;
+          case 140:
+            gamePoints.element.classList.remove('points_blue');
+            gamePoints.element.classList.add('points_dark-blue');
+            break;
+          default:
+            gamePoints.element.classList.remove('points_dark-blue');
+            gamePoints.element.classList.add('points_purple');
+            break;
+        }
+        dots.forEach((dot) => dot.classList.remove('dot_actual'));
+      }
+      score += points;
+      gameScore.element.textContent = score.toString();
     }
-    score += points;
-    gameScore.element.textContent = score.toString();
   }
 
   async function refreshProgress() {
@@ -260,10 +262,10 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   gameButtonWrong.element.addEventListener('click', () => getWrongAnswer());
   gameButtonRight.element.addEventListener('click', () => getRightAnswer());
 
-  document.onkeydown = (e) => {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') getRightAnswer();
     if (e.key === 'ArrowLeft') getWrongAnswer();
-  };
+  });
 
   gameButtons.addChildren([gameButtonWrong.element, gameButtonRight.element]);
 

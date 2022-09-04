@@ -246,7 +246,7 @@
 
   &__timer {
     &__counting {
-      width: 38px;
+      min-width: 70px;
       margin-top: 0;
       padding: 10px;
       color: $green;
