@@ -17,7 +17,48 @@ export default class AudioChallengeController {
     this.model = model;
   }
 
+  eventHandler(e: KeyboardEvent) {
+    if (this.model.words && this.model.answers) {
+      if (e.code === 'Space') {
+        const word = this.model.words[this.model.currentWord];
+        const wordAudio = new Audio(`${config.API.URL}/${word.audio}`);
+        wordAudio.play();
+      }
+      if (e.code === 'Enter') {
+        this.next();
+      }
+      if (e.code === 'Digit1') {
+        const answer = this.model.answers[0];
+        this.try(answer);
+      }
+      if (e.code === 'Digit2') {
+        const answer = this.model.answers[1];
+        this.try(answer);
+      }
+      if (e.code === 'Digit3') {
+        const answer = this.model.answers[2];
+        this.try(answer);
+      }
+      if (e.code === 'Digit4') {
+        const answer = this.model.answers[3];
+        this.try(answer);
+      }
+      if (e.code === 'Digit5') {
+        const answer = this.model.answers[4];
+        this.try(answer);
+      }
+    }
+  }
+
   async getWords(g: string, p: string) {
+    this.model.listener = this.eventHandler.bind(this);
+    document.addEventListener('keypress', this.model.listener);
+    window.addEventListener('hashchange', () => {
+      if (this.model.listener) {
+        document.removeEventListener('keypress', this.model.listener);
+      }
+    });
+
     const group: GroupType = Number(g) < 0 || Number(g) >= config.BOOK.maxGroup ? 0 : (Number(g) as GroupType);
 
     let words;
@@ -98,6 +139,9 @@ export default class AudioChallengeController {
         this.model.currentWord = 0;
         if (state.user?.isAuthorized) {
           this.saveUserStatistic();
+        }
+        if (this.model.listener) {
+          document.removeEventListener('keypress', this.model.listener);
         }
         state.events?.notify('audioChallengeResult');
       } else {
