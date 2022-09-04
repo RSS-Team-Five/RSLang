@@ -86,7 +86,7 @@ const config = {
     {
       imgUrl: section6,
       alt: '06-difficult',
-      sectionName: 'твои\nсложные\nслова',
+      sectionName: '7\nтвои\nсложные\nслова',
     },
   ],
 

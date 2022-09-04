@@ -82,7 +82,8 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
 
   const buttonsNames = [
     'Учебник',
-    ...config.SECTION_CARD.map((el) => el.sectionName),
+    ...config.SECTION_CARD.slice(0, config.SECTION_CARD.length - 1).map((el) => el.sectionName.slice(0, 1)),
+    'твои слова',
     `${config.GAMES.MAIN[0].gameName}`,
     `${config.GAMES.MAIN[1].gameName}`,
   ];
@@ -110,13 +111,16 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     buttonElement = new CustomElement('button', {
       className: `section__left-button section__left-button-${buttonsLinks[index]}`,
       type: 'button',
-      innerHTML: `${button}`,
+      innerHTML: `<nobr>${button.toUpperCase()}</nobr>`,
     });
     allButtons.push(buttonElement.element);
+    if (index > 0 && index < 7) {
+      buttonElement.element.classList.add('section__left-button-round');
+    }
 
     if (
       !state.user?.isAuthorized &&
-      buttonElement.element.innerHTML === `${config.SECTION_CARD[config.BOOK.maxGroup].sectionName}`
+      buttonElement.element.classList.contains(`section__left-button-${buttonsLinks[7]}`)
     ) {
       buttonElement.element.classList.add('inactive');
       buttonElement.element.onclick = (e) => {
@@ -128,7 +132,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
         }
       };
     }
-
+    if (button === (group + 1).toString()) {
+      buttonElement.element.classList.add('section__left-button-round-active');
+    }
     buttonLink.addChildren([buttonElement.element]);
     navigationBetweenSections.addChildren([buttonLink.element]);
   });
