@@ -178,6 +178,9 @@ async function createSectionPage(group: GroupType = 0, page: PageType = 0) {
     }
   }
 
+  if (state.user?.isAuthorized) {
+    await state.user?.getAllUserWords(state.user?.user);
+  }
   allWordsOnPage.forEach(async (word: IWord) => {
     const wordCardElement = await new WordCard(word).createCard();
     cards.addChildren([wordCardElement]);

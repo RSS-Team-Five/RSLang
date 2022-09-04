@@ -2,7 +2,7 @@ import config from '../../models/Config';
 import CustomElement from '../../utils/customElement';
 import startSprintGame from '../components/sprintGameStart';
 import getSprintWords from '../components/sprintWords';
-import spinnerPath from '../../assets/icons/spinner-white.svg';
+import spinnerWhite from '../../assets/icons/spinner-white.svg';
 
 async function createSprintPage(group: string | undefined, page: string | undefined) {
   let level: number | undefined;
@@ -64,10 +64,14 @@ async function createSprintPage(group: string | undefined, page: string | undefi
   }
 
   gameStartButton.element.addEventListener('click', async () => {
-    const spinner = new CustomElement('img', { className: 'sprint_spinner', src: spinnerPath, alt: 'Spinner' });
+    const spinner = new CustomElement('dialog', { className: 'spinner' });
+    const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
+    spinner.addChildren([spinnerImg.element]);
+
     if (level !== undefined) {
       gameIntro.element.classList.add('none');
       mainWrapper.element.append(spinner.element);
+      spinner.element.showModal();
       const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
       if (gameWords.length === 0) {
         gameIntro.element.classList.add('none');
@@ -84,7 +88,7 @@ async function createSprintPage(group: string | undefined, page: string | undefi
           href: `#/book`,
         });
         sorry.addChildren([sorryText.element, sorryButton.element]);
-        spinner.element.remove();
+
         mainWrapper.addChildren([sorry.element]);
       } else {
         gameIntro.element.classList.add('none');

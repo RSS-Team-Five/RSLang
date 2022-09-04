@@ -33,7 +33,7 @@ class WordCard {
       className: 'section__cards-card card',
     });
 
-    const winLose = await this.winLose();
+    const winLose = this.winLose();
     const cardImage = this.cardImage();
     const cardInfo = this.info();
     const soundElement = this.soundIcon();
@@ -52,7 +52,7 @@ class WordCard {
     return cardWrapper.element;
   }
 
-  async winLose() {
+  winLose() {
     const winLoseElement = new CustomElement('div', {
       className: 'card__winlose',
     });
@@ -141,15 +141,20 @@ class WordCard {
   }
 
   async starIcon(cardWrapper: HTMLDivElement) {
-    let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
+    let userWord = state.user?.user.userWords?.filter((word) => {
+      return word.wordId === this.word.id;
+    });
+
     const eventOnStar = async () => {
-      userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
+        return;
       }
-      if (!userWord) {
-        throw new Error('Invalid user data!');
-      }
+      userWord = state.user?.user.userWords
+        ? state.user?.user.userWords.filter((word) => {
+            return word.wordId === this.word.id;
+          })
+        : [];
 
       // not user word
       if (!userWord?.length) {
@@ -224,13 +229,16 @@ class WordCard {
   async learnedWord(cardWrapper: HTMLDivElement) {
     let userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
     const eventOnLearned = async () => {
-      userWord = state.user?.user.userWords?.filter((word) => word.wordId === this.word.id);
       if (!this.isAuthorized) {
         window.location.href = `#/signUp`;
+        return;
       }
-      if (!userWord) {
-        throw new Error('Invalid user data!');
-      }
+      userWord = state.user?.user.userWords
+        ? state.user?.user.userWords.filter((word) => {
+            return word.wordId === this.word.id;
+          })
+        : [];
+
       // not user word
       if (!userWord?.length) {
         await state.user?.createUserWord(state.user.user, this.word.id, {

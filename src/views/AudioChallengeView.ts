@@ -1,6 +1,6 @@
 import AudioChallengeController from '../controllers/AudioChallengeController';
 import CustomElement from '../utils/customElement';
-import spinnerPath from '../assets/icons/spinner.gif';
+import spinnerWhite from '../assets/icons/spinner-white.svg';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import config from '../models/Config';
 
@@ -14,7 +14,9 @@ export default class AudioChallengeView {
   }
 
   start(model: AudioChallengeModel) {
-    const spinner = new CustomElement('img', { className: 'spinner', src: spinnerPath, alt: 'Spinner' });
+    const spinner = new CustomElement('dialog', { className: 'spinner' });
+    const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
+    spinner.addChildren([spinnerImg.element]);
     this.view.addChildren([spinner.element]);
 
     document.addEventListener('keypress', (e) => {
