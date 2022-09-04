@@ -27,7 +27,7 @@ function createBookPage() {
 
     const cardName = new CustomElement('p', {
       className: 'section__wrapper-name wrapper-name',
-      innerHTML: card.sectionName.toUpperCase(),
+      innerText: card.sectionName.toUpperCase(),
     });
     cardWrapper.addChildren([cardName.element]);
 
