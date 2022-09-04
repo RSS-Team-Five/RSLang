@@ -1,20 +1,24 @@
 import state from '../../models/State';
 import CustomElement from '../../utils/customElement';
+import photo from '../../assets/images/happy-girl.png';
 
 function createMainPage() {
   const mainWrapper = new CustomElement('div', {
-    className: 'main__wrapper',
+    className: 'main__wrapper main-page',
   });
 
+  const menuWrapper = new CustomElement('div', {
+    className: 'main__menu-wrapper',
+  });
+  const menu = new CustomElement('div', { className: 'main__menu menu' });
+
   const mainFuncCalls = [{ name: 'book' }, { name: 'games' }, { name: 'aboutUs' }, { name: 'statistics' }];
-
   const names = [{ name: 'УЧЕБНИК' }, { name: 'ИГРЫ' }, { name: 'О НАС' }, { name: 'СТАТИСТИКА' }];
-
-  mainFuncCalls.map((item, i) => {
-    const link = `#/${item.name}`;
+  mainFuncCalls.forEach((item, i) => {
+    const menuBall = new CustomElement('div', { className: 'menu__ball' });
     const linkElement = new CustomElement('a', {
-      className: 'main__link',
-      href: link,
+      className: 'menu__link',
+      href: `#/${item.name}`,
       innerText: `${names[i].name}   `,
     });
     if (!state.user?.isAuthorized && linkElement.element.innerHTML === 'СТАТИСТИКА   ') {
@@ -25,18 +29,46 @@ function createMainPage() {
         state.router?.view('/signUp');
       };
     }
-    mainWrapper.addChildren([linkElement.element]);
-    return mainWrapper.element;
+    menuBall.addChildren([linkElement.element]);
+    menu.addChildren([menuBall.element]);
   });
 
-  const about = new CustomElement('p', {
-    className: 'main__about',
-    innerHTML: `Дорогой друг! Добро пожаловать в невероятно интересную страну английского языка!
-    Здесь ты можешь учиться в УЧЕБНИКЕ на разных уровнях сложности, играть в ИГРАХ, наблюдать за своим ростом в СТАТИСТИКЕ и получать удовольствие от жизни!
-    Рады, что ты с нами! А познакомиться с нами поближе можно на странице О НАС.`,
+  const aboutWrapper = new CustomElement('div', {
+    className: 'main__about-wrapper',
+  });
+  const about = new CustomElement('div', {
+    className: 'main__about about',
   });
 
-  mainWrapper.addChildren([about.element]);
+  const aboutHeader = new CustomElement('div', {
+    className: 'about__header',
+    innerHTML: 'English',
+  });
+
+  const aboutPhotoBlock = new CustomElement('div', {
+    className: 'about__photo-block',
+  });
+  const aboutPhoto = new CustomElement('img', {
+    className: 'about__photo',
+    src: photo,
+    alt: 'photo',
+  });
+  aboutPhotoBlock.addChildren([aboutPhoto.element]);
+
+  const aboutContent = new CustomElement('div', {
+    className: 'about__content',
+    innerHTML: `<p>Дорогой друг!</p>
+    <p>Добро пожаловать в невероятно интересную страну английского языка!</p>
+    <p>Здесь ты можешь учиться в УЧЕБНИКЕ на разных уровнях сложности, играть в ИГРАХ, наблюдать за своим ростом в СТАТИСТИКЕ и получать удовольствие от жизни!</p>
+    <p>Рады, что ты с нами! А познакомиться с нами поближе можно на странице О НАС.</p>
+    <p>Удачи в учебе!</p>`,
+  });
+
+  about.addChildren([aboutHeader.element, aboutPhotoBlock.element, aboutContent.element]);
+
+  aboutWrapper.addChildren([about.element]);
+  menuWrapper.addChildren([menu.element]);
+  mainWrapper.addChildren([aboutWrapper.element, menuWrapper.element]);
 
   return mainWrapper.element;
 }
