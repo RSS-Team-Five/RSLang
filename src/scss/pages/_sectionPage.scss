@@ -136,9 +136,9 @@
 }
 
 .section {
+  position: relative;
   display: flex;
   flex-direction: row;
-  position: relative;
   margin-bottom: 200px;
 
   &__balls {
@@ -203,9 +203,9 @@
   }
 
   &__right {
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    z-index: 1;
     align-items: center;
     width: 80%;
 
