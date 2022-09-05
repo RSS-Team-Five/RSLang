@@ -4,24 +4,53 @@ import igor from '../../assets/images/Igor.jpg';
 import yuliya from '../../assets/images/Yuliya.jpg';
 
 function createAboutUsPage() {
+  const aboutUsPanels = new CustomElement('div', {
+    className: 'about-us__panels panel',
+  });
+  const introPanel = new CustomElement('div', {
+    className: 'panel__intro',
+  });
+  const cardsPanel = new CustomElement('div', {
+    className: 'panel__cards',
+  });
+  aboutUsPanels.addChildren([introPanel.element, cardsPanel.element]);
+
   const aboutUsWrapper = new CustomElement('div', {
-    className: 'about-us__wrapper',
+    className: 'about-us__wrapper about-page',
+  });
+  const introWrapper = new CustomElement('div', {
+    className: 'about-page__intro-wrapper',
+  });
+  const cardsWrapper = new CustomElement('div', {
+    className: 'about-page__cards-wrapper',
   });
 
-  const intro = new CustomElement('p', {
-    className: 'aboutUs__intro',
-    innerHTML: `Приятно познакомиться! Мы - Игорь, Аня и Юля - команда молодых frontend разработчиков, выпускников курса JavaScript/Front-end онлайн школы <b>RS School</b>.
-    Этот познавательный сайт - наша совместная финальная работа. Во время реализации данного проекта мы применили все полученные знания и постарались сделать его удобным, интересным, быстрым и качественным.
-    В своей работе мы использовали следующие инструменты разработки: TypeScript, Webpack, SASS, EsLint, Prettier, StyleLint, Canvas.
-    Организацию процесса работы вели в соответствии с принципами Agile по гибкой методологии Kanban. Старались сбалансировать работу каждого разработчика, равномерно распределить задачи.
+  const intro = new CustomElement('div', {
+    className: 'about-page__intro intro',
+  });
+  const introHeader = new CustomElement('h2', {
+    className: 'intro__header',
+    innerText: 'О нас',
+  });
+  const introContent = new CustomElement('p', {
+    className: 'intro__content',
+    innerHTML: `<p>Приятно познакомиться! Мы - Игорь, Аня и Юля - команда молодых frontend разработчиков, выпускников курса JavaScript/Front-end онлайн школы <b>RS School</b>.</p>
+    <p>Этот познавательный сайт - наша совместная финальная работа.</p>
+    <p>Во время реализации данного проекта мы применили все полученные знания и постарались сделать его удобным, интересным, быстрым и качественным.
+    В своей работе мы использовали следующие инструменты разработки: TypeScript, Webpack, SASS, EsLint, Prettier, StyleLint, CanvasTypeScript, Webpack, SASS, EsLint, Prettier, StyleLint, Canvas, Git, GitHub-actions.</p>
+    <p>Организацию процесса работы вели в соответствии с принципами Agile по гибкой методологии Kanban. Старались сбалансировать работу каждого разработчика, равномерно распределить задачи.
     У нас не было роли владельца продукта и scrum-мастера ввиду небольшого проекта. Процесс работы делился не на универсальные спринты, а на стадии выполнения конкретной задачи.
     Для визуализации наших процессов использовали такие инструменты, как Trello, Miro.
-    Каждую неделю проводили статусные звонки с ведением лога и ежедневно - короткие онлайн митинги.
-    Командная работа сложная, но очень познавательная и продуктивная.
-    Надеемся, что изучение английского языка с нашим приложением будет для Вас увлекательным.`,
+    Каждую неделю проводили статусные звонки с ведением лога и ежедневно - короткие онлайн митинги.</p>
+    <p>Командная работа сложная, но очень познавательная и продуктивная.</p>
+    <p>Надеемся, что изучение английского языка с нашим приложением будет для Вас увлекательным.</p>`,
   });
-  aboutUsWrapper.addChildren([intro.element]);
+  intro.addChildren([introHeader.element, introContent.element]);
+  introWrapper.addChildren([intro.element]);
 
+  const cards = new CustomElement('div', {
+    className: 'about-page__cards about-cards',
+  });
   const we = [
     {
       name: 'Игорь',
@@ -45,41 +74,50 @@ function createAboutUsPage() {
         'Год назад полностью поменяла жизнь - работу, страну. Учусь выживать в океане программирования, надеюсь, не утону :)',
     },
   ];
-  const allCards = new CustomElement('div', {
-    className: 'about-us__cards',
-  });
 
   we.forEach((unit) => {
     const cardWrapper = new CustomElement('div', {
-      className: 'about-us__card',
+      className: 'about-card',
     });
 
+    const cardImgWrapper = new CustomElement('div', {
+      className: 'about-card__img-wrapper',
+    });
     const cardImg = new CustomElement('img', {
-      className: 'about-us__img',
+      className: 'about-card__img',
       src: unit.photo,
       alt: unit.name,
     });
+    cardImgWrapper.addChildren([cardImg.element]);
+
+    const cardContentWrapper = new CustomElement('div', {
+      className: 'about-card__content-wrapper',
+    });
     const cardName = new CustomElement('p', {
-      className: 'about-us__name',
+      className: 'about-card__name',
       innerHTML: unit.name,
     });
-
     const cardCity = new CustomElement('p', {
-      className: 'about-us__city',
+      className: 'about-card__city',
       innerHTML: unit.from,
     });
-
     const cardAbout = new CustomElement('p', {
-      className: 'about-us__about',
+      className: 'about-card__about',
       innerHTML: unit.about,
     });
+    cardContentWrapper.addChildren([cardName.element, cardCity.element, cardAbout.element]);
 
-    cardWrapper.addChildren([cardImg.element, cardName.element, cardCity.element, cardAbout.element]);
-    allCards.addChildren([cardWrapper.element]);
+    cardWrapper.addChildren([cardImgWrapper.element, cardContentWrapper.element]);
+    cards.addChildren([cardWrapper.element]);
   });
 
-  aboutUsWrapper.addChildren([allCards.element]);
-  return aboutUsWrapper.element;
+  cardsWrapper.addChildren([cards.element]);
+
+  aboutUsWrapper.addChildren([introWrapper.element, cardsWrapper.element]);
+
+  const fragment = document.createDocumentFragment();
+  fragment.append(aboutUsPanels.element, aboutUsWrapper.element);
+  return fragment;
 }
 
 export default createAboutUsPage;
