@@ -62,6 +62,7 @@ function header(): HTMLElement {
   const burgerIcon = new CustomElement('div', {
     className: 'header__burger burger',
   });
+
   const callBurger = createBurgerMenu.bind(null, burgerIcon.element);
   burgerIcon.element.addEventListener('click', callBurger);
   rightContainer.addChildren([burgerIcon.element]);

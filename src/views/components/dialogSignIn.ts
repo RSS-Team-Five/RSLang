@@ -30,7 +30,7 @@ function dialogSignIn() {
   const password = new CustomElement('div', { className: 'form__wrapper' });
   const passwordInput = new CustomElement('input', {
     className: 'form__password',
-    type: 'text',
+    type: 'password',
     placeholder: 'Пароль',
     required: true,
     minLength: 8,
