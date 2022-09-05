@@ -15,6 +15,7 @@ function createBurgerMenu(burger: HTMLElement): void {
   const clickOutsideMenu = (e: MouseEvent) => {
     if (e.target !== burgerWrapper.element && e.target !== burger && burgerWrapper.element.style.display === 'flex') {
       burgerWrapper.element.style.display = 'none';
+      burger.classList.remove('burger-active');
       count += 1;
     }
   };
@@ -41,6 +42,8 @@ function createBurgerMenu(burger: HTMLElement): void {
       href: link,
       innerHTML: `${names[i].name}   `,
     });
+    linkElement.element.classList.add('invisible');
+    setTimeout(() => linkElement.element.classList.remove('invisible'), 100 * i);
     if (!state.user?.isAuthorized && linkElement.element.innerHTML === 'СТАТИСТИКА   ') {
       linkElement.element.classList.add('inactive');
       linkElement.element.style.cursor = 'pointer';
@@ -63,10 +66,12 @@ function createBurgerMenu(burger: HTMLElement): void {
   if (count % 2) {
     burgerWrapper.element.style.display = 'flex';
     count += 1;
+    burger.classList.add('burger-active');
     document.body.addEventListener('click', clickOutsideMenu);
   } else {
     burgerWrapper.element.style.display = 'none';
     count += 1;
+    burger.classList.remove('burger-active');
     document.body.removeEventListener('click', clickOutsideMenu);
   }
 
