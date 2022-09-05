@@ -4,6 +4,7 @@ import spinnerWhite from '../assets/icons/spinner-white.svg';
 import AudioChallengeModel from '../models/AudioChallengeModel';
 import config from '../models/Config';
 import sound from '../assets/icons/GREEN-sound.png';
+import getOuterBall from './components/outerBall';
 
 export default class AudioChallengeView {
   controller: AudioChallengeController;
@@ -26,7 +27,12 @@ export default class AudioChallengeView {
   renderGame(model: AudioChallengeModel) {
     this.view.element.innerHTML = '';
     const gameContainer = new CustomElement('div', { className: 'game__container__ac' });
-    this.view.addChildren([gameContainer.element]);
+    const line = new CustomElement('span', {
+      className: 'ac__line',
+    });
+    const acBall = getOuterBall(1);
+    acBall.classList.add('bottom');
+    this.view.addChildren([gameContainer.element, line.element, acBall]);
     if (model.words && model.answers) {
       const word = model.words[model.currentWord];
       const wordBlock = new CustomElement('div', { className: 'game__ac__block' });
@@ -41,18 +47,31 @@ export default class AudioChallengeView {
         btnSpeech.element.style.display = 'none';
       }
 
-      const wordImg = new CustomElement('img', { src: `${config.API.URL}/${word.image}` });
-      const wordTitle = new CustomElement('div', {});
-      const wordText = new CustomElement('span', { innerText: `${word.word}` });
-      const wordSpeech = new CustomElement('button', { innerText: 'Прослушать' });
+      const imgContainer = new CustomElement('div', { className: 'game__ac__block__container' });
+      const wordImg = new CustomElement('img', {
+        src: `${config.API.URL}/${word.image}`,
+        alt: 'word-image',
+        className: 'game__ac__block__container_image',
+      });
+      imgContainer.addChildren([wordImg.element]);
+      const wordTitle = new CustomElement('div', { className: 'game__ac__block__word' });
+      const wordText = new CustomElement('span', {
+        innerText: `${word.word.toUpperCase()}`,
+        className: 'game__ac__block__word_text',
+      });
+      const wordSpeech = new CustomElement('img', {
+        src: sound,
+        alt: 'sound-icon',
+        className: 'game__ac__block__word_sound',
+      });
       wordSpeech.element.addEventListener('click', () => wordAudio.play());
       wordTitle.addChildren([wordText.element, wordSpeech.element]);
       if (model.attempts) {
-        wordImg.element.style.display = 'none';
+        imgContainer.element.style.display = 'none';
         wordTitle.element.style.display = 'none';
       }
 
-      wordBlock.addChildren([btnSpeech.element, wordImg.element, wordTitle.element]);
+      wordBlock.addChildren([btnSpeech.element, imgContainer.element, wordTitle.element]);
 
       const answersBlock = new CustomElement('div', { className: 'game__ac__answer_block' });
       const nextBtn = new CustomElement('button', {
@@ -60,18 +79,21 @@ export default class AudioChallengeView {
         className: 'game__ac__answer_next',
       });
 
+      const btnArr: CustomElement<'button'>[] = [];
+
       model.answers.forEach((answer, idx) => {
         const btnAnswer = new CustomElement('button', {
           innerText: `${idx + 1} ${answer.wordTranslate.toUpperCase()}`,
           className: 'game__ac__answer_btn',
         });
+        btnArr.push(btnAnswer);
         if (model.attempts) {
           btnAnswer.element.addEventListener('click', () => this.controller.try(answer));
         } else if (answer === model.userAnswer) {
           if (answer === word) {
-            btnAnswer.element.style.color = 'yellow';
+            btnAnswer.element.classList.add('blue_back');
           } else {
-            btnAnswer.element.style.color = 'red';
+            btnAnswer.element.classList.add('orange_back');
           }
         }
 
