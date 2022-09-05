@@ -5,6 +5,7 @@ import soundIcon from '../../assets/icons/GREEN-sound.png';
 import starBlank from '../../assets/icons/02icon-star.png';
 import orangeStarBlank from '../../assets/icons/Star-orange-blank.png';
 import starFill from '../../assets/icons/02icon-star-red.png';
+import bookmarkIcon from '../../assets/icons/bookmark1.png';
 import state from '../../models/State';
 import CustomClickableElement from '../../utils/customClickableElement';
 import isAllLearned from '../../utils/isAllLearned';
@@ -95,6 +96,16 @@ class WordCard {
     });
 
     const winLose = this.winLose();
+
+    if (state.user?.isAuthorized) {
+      const bookmark = new CustomElement('img', {
+        className: 'card__block-bookmark',
+        src: bookmarkIcon,
+        alt: 'bookmark',
+      });
+      imageWrapper.addChildren([bookmark.element]);
+    }
+
     imageWrapper.addChildren([image.element, winLose.element]);
     return imageWrapper;
   }

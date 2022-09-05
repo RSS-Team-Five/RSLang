@@ -190,6 +190,7 @@ function dialogSignUp() {
         showError('email-exists');
       }
     }
+    window.location.reload();
   });
 
   window.addEventListener('hashchange', () => dialog.element.close());

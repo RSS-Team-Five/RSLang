@@ -132,6 +132,7 @@ function dialogSignIn() {
         throw new Error('Ошибка авторизации');
       }
     }
+    window.location.reload();
   });
 
   window.addEventListener('hashchange', () => dialog.element.close());
