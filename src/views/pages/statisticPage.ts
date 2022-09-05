@@ -190,7 +190,12 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
   labels.length = 12;
 
   const newWordsData = dates.map((item) => statistic[+item].DAY?.newWordsPerDay);
-  const learnedWordsData = dates.map((item) => statistic[+item].DAY?.learned);
+  const learnedWordsData: number[] = [];
+  dates.reduce((acc, item) => {
+    const result = acc + (statistic[+item].DAY?.learned ?? 0);
+    learnedWordsData.push(result);
+    return result;
+  }, 0);
 
   const allCharts = new CustomElement('div', { className: 'all__charts' });
   const newWords = new CustomElement('div', { className: 'all__new-words new-words' });
