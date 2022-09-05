@@ -9,6 +9,8 @@ import { UserWordsForGame } from '../types/UserWordParameters';
 import dateNow from '../utils/dateNow';
 import { getUserStatistic, upsertUserStatistic } from '../api/users/usersStatisticApi';
 import { GameStatisticType, UserStatisticsOptionalInterface } from '../types/UserStatisticsType';
+import winSample from '../assets/sounds/win.mp3';
+import loseSample from '../assets/sounds/lose.mp3';
 
 export default class AudioChallengeController {
   model: AudioChallengeModel;
@@ -120,6 +122,15 @@ export default class AudioChallengeController {
       if (state.user?.isAuthorized) {
         this.userStatistic();
       }
+
+      if (this.model.trueAnswer === this.model.userAnswer) {
+        const winSound = new Audio(winSample);
+        winSound.play();
+      } else {
+        const loseSound = new Audio(loseSample);
+        loseSound.play();
+      }
+
       state.events?.notify('audioChallengeModelUpd');
     }
   }
@@ -131,6 +142,13 @@ export default class AudioChallengeController {
         this.gameStatistic();
         if (state.user?.isAuthorized) {
           this.userStatistic();
+        }
+        if (this.model.trueAnswer === this.model.userAnswer) {
+          const winSound = new Audio(winSample);
+          winSound.play();
+        } else {
+          const loseSound = new Audio(loseSample);
+          loseSound.play();
         }
       }
       this.model.currentWord += 1;

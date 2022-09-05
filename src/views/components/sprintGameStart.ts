@@ -5,6 +5,8 @@ import IWord from '../../types/IWord';
 import CustomElement from '../../utils/customElement';
 import getOuterBall from './outerBall';
 import drawResults from './sprintResults';
+import winSample from '../../assets/sounds/win.mp3';
+import loseSample from '../../assets/sounds/lose.mp3';
 
 async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], gameIntro: CustomElement<'div'>) {
   let count = 0;
@@ -263,9 +265,13 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     );
     const wordIndex = gameWords.findIndex((word) => word.word.toLowerCase() === actualWord?.word.toLowerCase());
     if (actualWord && gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate.toLowerCase()) {
+      const loseSound = new Audio(loseSample);
+      loseSound.play();
       gameWords[wordIndex].guess = false;
       refreshProgress();
     } else {
+      const winSound = new Audio(winSample);
+      winSound.play();
       gameWords[wordIndex].guess = true;
       refreshPoints();
     }
@@ -287,9 +293,13 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
       actualWord &&
       gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate?.toLowerCase()
     ) {
+      const winSound = new Audio(winSample);
+      winSound.play();
       gameWords[wordIndex].guess = true;
       refreshPoints();
     } else {
+      const loseSound = new Audio(loseSample);
+      loseSound.play();
       gameWords[wordIndex].guess = false;
       refreshProgress();
     }
