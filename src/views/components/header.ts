@@ -19,6 +19,13 @@ function renderButton(rightContainer: CustomElement<'div'>) {
         state.user.refreshToken = null;
         state.user.isAuthorized = false;
         state.events?.notify('userAuthorized');
+
+        console.log('🚀 ~ window.location.hash === #/section/6/0', window.location.hash === '#/section/6/0');
+        if (window.location.hash === '#/section/6/0') {
+          state.router?.view('/');
+        } else {
+          window.location.reload();
+        }
       }
     });
     rightContainer.element.prepend(btnSignOut.element);
