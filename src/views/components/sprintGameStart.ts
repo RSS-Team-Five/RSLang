@@ -266,11 +266,15 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     const wordIndex = gameWords.findIndex((word) => word.word.toLowerCase() === actualWord?.word.toLowerCase());
     if (actualWord && gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate.toLowerCase()) {
       const loseSound = new Audio(loseSample);
+      if (soundButton.element.classList.contains('game__sound_of')) loseSound.volume = 0;
+      else loseSound.volume = 0.2;
       loseSound.play();
       gameWords[wordIndex].guess = false;
       refreshProgress();
     } else {
       const winSound = new Audio(winSample);
+      if (soundButton.element.classList.contains('game__sound_of')) winSound.volume = 0;
+      else winSound.volume = 0.2;
       winSound.play();
       gameWords[wordIndex].guess = true;
       refreshPoints();
@@ -294,11 +298,15 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
       gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate?.toLowerCase()
     ) {
       const winSound = new Audio(winSample);
+      if (soundButton.element.classList.contains('game__sound_of')) winSound.volume = 0;
+      else winSound.volume = 0.2;
       winSound.play();
       gameWords[wordIndex].guess = true;
       refreshPoints();
     } else {
       const loseSound = new Audio(loseSample);
+      if (soundButton.element.classList.contains('game__sound_of')) loseSound.volume = 0;
+      else loseSound.volume = 0.2;
       loseSound.play();
       gameWords[wordIndex].guess = false;
       refreshProgress();
