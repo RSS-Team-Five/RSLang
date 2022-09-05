@@ -15,6 +15,7 @@ export default class AudioChallengeView {
   constructor(controller: AudioChallengeController) {
     this.controller = controller;
     this.view = new CustomElement('div', { className: 'game__field' });
+    this.view.element.classList.add('audio');
   }
 
   start() {

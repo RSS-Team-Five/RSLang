@@ -108,7 +108,7 @@
 .ac {
   &__line {
     position: absolute;
-    top: 835px;
+    top: 706px;
     right: 270px;
     z-index: 2;
     width: 870px;
@@ -118,8 +118,12 @@
 
   &__bottom {
     position: absolute;
-    top: 745px;
+    top: 650px;
     right: 69px;
     z-index: 3;
   }
+}
+
+.audio {
+  position: relative;
 }
