@@ -56,6 +56,9 @@ function createMainPage() {
     innerHTML: 'English',
   });
 
+  const aboutContentWrapper = new CustomElement('div', {
+    className: 'about__content-wrapper',
+  });
   const aboutPhotoBlock = new CustomElement('div', {
     className: 'about__photo-block',
   });
@@ -74,8 +77,9 @@ function createMainPage() {
     <p>Мы, команда молодых разработчиков, будем рады познакомиться с тобой поближе на странице О нас.</p>
     <p>Удачи в учебе!</p>`,
   });
+  aboutContentWrapper.addChildren([aboutPhotoBlock.element, aboutContent.element]);
 
-  about.addChildren([aboutHeader.element, aboutPhotoBlock.element, aboutContent.element]);
+  about.addChildren([aboutHeader.element, aboutContentWrapper.element]);
 
   aboutWrapper.addChildren([about.element]);
   menuWrapper.addChildren([menu.element]);

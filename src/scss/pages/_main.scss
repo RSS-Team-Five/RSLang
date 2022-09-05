@@ -30,21 +30,26 @@
 }
 
 .about {
-  display: grid;
-  grid-template-rows: 1fr 600px;
-  grid-template-columns: 1fr 1fr;
+  @include flex();
+
+  justify-content: flex-end;
   height: 100%;
 
   &__header {
     grid-area: 1/1/2/3;
     width: 100%;
-    margin: auto 0;
-    padding-left: 70px;
+    padding: 50px 0 100px 50px;
     color: $dark-orange;
     font-weight: 600;
     font-size: 96px;
     line-height: 117px;
     text-transform: uppercase;
+  }
+
+  &__content-wrapper {
+    @include flex(row);
+
+    align-items: stretch;
   }
 
   &__photo-block {
