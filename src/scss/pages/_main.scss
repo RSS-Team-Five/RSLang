@@ -1,4 +1,8 @@
 .main {
+  &__content {
+    height: 100%;
+  }
+
   &__about-wrapper,
   &__menu-wrapper {
     @include flex();
@@ -21,10 +25,6 @@
   &__menu {
     max-width: 720px;
   }
-}
-
-.content {
-  height: 100%;
 }
 
 .main-page {
