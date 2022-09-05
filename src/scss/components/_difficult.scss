@@ -1,0 +1,12 @@
+.difficult {
+  @include flex(row);
+
+  gap: 10px;
+
+  &__link {
+    width: 150px;
+    height: 50px;
+    border: 1px solid $dark-grey;
+    border-radius: 5px;
+  }
+}

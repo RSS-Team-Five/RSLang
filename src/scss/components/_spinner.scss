@@ -1,0 +1,8 @@
+.spinner {
+  background: none;
+  border: none;
+
+  &::backdrop {
+    background: none;
+  }
+}

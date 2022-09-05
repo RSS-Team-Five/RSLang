@@ -1,0 +1,521 @@
+.game {
+  @include flex;
+
+  position: relative;
+  justify-content: flex-start;
+  height: calc(100% - 121px);
+
+  &__intro {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 95px;
+    margin-bottom: 250px;
+    column-gap: 120px;
+
+    &_text {
+      max-width: 620px;
+
+      &_ac {
+        order: 0;
+        max-width: 620px;
+      }
+    }
+  }
+
+  &__name {
+    margin: 0;
+    color: $white;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+  }
+
+  &__description,
+  &__level-description,
+  &__level,
+  &__keys {
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__level-box {
+    display: flex;
+    column-gap: 10px;
+  }
+
+  &__level {
+    padding: 10px 17px;
+    background-color: transparent;
+    border: 1px solid $white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__start {
+    &_button {
+      padding: 10px 34px;
+      color: $white;
+      background-color: transparent;
+      border: 1px solid $white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+  }
+
+  &__level:hover,
+  &__start_button:hover {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
+
+  .active {
+    color: $blue;
+    background-color: $orange;
+    border-color: $orange;
+  }
+
+  &__start_button:disabled {
+    opacity: 0.5;
+
+    &:hover {
+      color: $white;
+      background-color: transparent;
+      border: 1px solid $white;
+      box-shadow: none;
+      transform: none;
+      cursor: default;
+      transition: none;
+    }
+  }
+
+  &__line {
+    position: absolute;
+    bottom: -70px;
+    width: 100%;
+    height: 1px;
+    background-color: $white;
+  }
+
+  &__info-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &_first-row {
+      display: flex;
+      align-self: flex-end;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+
+  &__word {
+    margin: 28px 0;
+    color: $dark-grey;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+
+    &_translate {
+      margin: 0 0 33px;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    margin-bottom: 20px;
+    column-gap: 30px;
+
+    &_wrong {
+      padding: 20px 43px;
+      color: $dark-grey;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      background-color: $orange;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:focus {
+        border: none;
+      }
+
+      &:hover {
+        scale: 1.05;
+      }
+    }
+
+    &_right {
+      padding: 20px 58px;
+      color: $white;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      background-color: $dark-grey;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:focus {
+        border: none;
+      }
+
+      &:hover {
+        scale: 1.05;
+      }
+    }
+  }
+
+  &__card {
+    @include flex;
+  }
+
+  &__animal {
+    height: 93px;
+  }
+
+  &__points_progress {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    column-gap: 5px;
+
+    &_dot {
+      width: 30px;
+      height: 30px;
+      background-color: $middle-grey;
+      border-radius: 50%;
+    }
+  }
+
+  &__points {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  &__score {
+    align-self: center;
+    width: 100%;
+    margin: 20px 10px 0;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
+    text-align: center;
+  }
+
+  &__container {
+    @include flex;
+
+    width: 774px;
+    margin: 0 auto;
+    background-color: $lavender;
+    animation: none;
+  }
+
+  &__result {
+    &__table {
+      width: 774px;
+      height: 507px;
+      margin-top: 70px;
+      padding: 10px;
+      overflow-y: scroll;
+      background-color: $lavender;
+
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $lavender;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $blue;
+        border: 3px solid $lavender;
+        border-radius: 20px;
+      }
+    }
+
+    &__word-line {
+      display: flex;
+      align-items: center;
+      margin-left: 42px;
+      font-size: 20px;
+      column-gap: 10px;
+    }
+
+    &__word {
+      color: $dark-grey;
+      font-weight: 700;
+      line-height: 24px;
+
+      &_translation {
+        align-self: center;
+      }
+    }
+
+    &__diagram {
+      width: 700px;
+      height: 285px;
+      margin-left: 13px;
+      cursor: pointer;
+    }
+
+    &__total-score {
+      display: flex;
+      margin-left: 44px;
+      color: $light-shadow;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      column-gap: 5px;
+    }
+
+    &__points {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+      column-gap: 15px;
+
+      &_dot0,
+      &_dot1,
+      &_dot2 {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+        border-radius: 50%;
+      }
+
+      &_dot0 {
+        background-color: $middle-grey;
+      }
+
+      &_dot1 {
+        background-color: $dark-orange;
+      }
+
+      &_dot2 {
+        background-color: $blue;
+      }
+    }
+
+    &__title {
+      &_cor {
+        margin: 20px;
+        color: $blue;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
+
+      &_incor {
+        margin: 20px;
+        color: $dark-orange;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  &__sound_on,
+  &__sound_of {
+    position: absolute;
+    align-self: center;
+    width: 114px;
+    margin: 20px 20px 0 0;
+    color: $white;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: $middle-grey;
+    border: 1px solid $middle-grey;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__sound_on:hover,
+  &__sound_of:hover {
+    background-color: $blue;
+  }
+
+  &__timer {
+    &__counting {
+      min-width: 110px;
+      margin-top: 0;
+      margin-bottom: 30px;
+      padding: 20px;
+      color: $lavender;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 59px;
+      text-align: center;
+      border: solid 5px $lavender;
+      border-radius: 50%;
+    }
+  }
+
+  &__field {
+    @include flex;
+
+    user-select: none;
+  }
+}
+
+.sprint {
+  position: relative;
+  height: calc(100vh - 121px);
+
+  &__line {
+    position: absolute;
+    top: 706px;
+    right: 270px;
+    z-index: 2;
+    width: 870px;
+    height: 1px;
+    background-color: $white;
+  }
+}
+
+.bottom {
+  position: absolute;
+  top: 650px;
+  right: 69px;
+  z-index: 3;
+}
+
+.ac {
+  order: 1;
+}
+
+.counting {
+  &_dark-grey {
+    color: $dark-grey;
+    border-color: $dark-grey;
+  }
+
+  &_blue {
+    color: $blue;
+    border-color: $blue;
+  }
+}
+
+.animate {
+  &_red {
+    animation: pulse-red 1s;
+  }
+
+  &_green {
+    animation: pulse-green 1s;
+  }
+
+  &_blue {
+    animation: pulse-blue 1s;
+  }
+}
+
+.points {
+  &_red {
+    background-color: $transparent-red;
+  }
+
+  &_orange {
+    background-color: $transparent-orange;
+  }
+
+  &_yellow {
+    background-color: $transparent-yellow;
+  }
+
+  &_green {
+    background-color: $transparent-green;
+  }
+
+  &_blue {
+    background-color: $transparent-blue;
+  }
+
+  &_dark-blue {
+    background-color: $transparent-dark-blue;
+  }
+
+  &_purple {
+    background-color: $transparent-purple;
+  }
+}
+
+.dot {
+  &_actual {
+    background-color: $orange;
+  }
+}
+
+.none {
+  display: none;
+}
+
+.total-score {
+  &__points {
+    color: $light-shadow;
+    font-weight: 700;
+  }
+}
+
+.result {
+  &__table {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.header {
+  &__again-button {
+    align-self: flex-end;
+    height: fit-content;
+    margin: 10px 31px 0 0;
+    padding: 19px 29px;
+    color: $white;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    background-color: $dark-grey;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:focus {
+      border: none;
+    }
+
+    &:hover {
+      background-color: $orange;
+    }
+  }
+
+  &__title {
+    margin: 35px 0 0 44px;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
+  }
+}

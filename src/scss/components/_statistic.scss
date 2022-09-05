@@ -1,0 +1,179 @@
+.statistic {
+  height: 100%;
+
+  &__error {
+    max-width: 1440px;
+    height: 100%;
+    margin: 0 auto;
+    color: $white;
+    text-align: center;
+
+    h2 {
+      font-weight: 200;
+      font-size: 20px;
+    }
+  }
+}
+
+.error {
+  @include flex();
+
+  &__header {
+    display: inline-block;
+  }
+}
+
+.today {
+  padding: 80px 0 65px;
+  background-color: $dark-orange;
+
+  &__wrapper {
+    @include flex(row);
+
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    display: inline-block;
+    width: 330px;
+    margin: 0 80px 0 53px;
+    color: $blue;
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 78px;
+    text-transform: uppercase;
+  }
+
+  &__info {
+    flex-grow: 1;
+    margin-right: 70px;
+    color: $white;
+  }
+}
+
+.words-stats {
+  border-bottom: 1px solid $white;
+
+  &__wrapper {
+    margin-bottom: 20px;
+  }
+}
+
+.sprint-stats {
+  @include flex(row);
+
+  gap: 100px;
+  justify-content: flex-start;
+  padding: 15px 0;
+  border-bottom: 1px solid $white;
+
+  &__header {
+    margin: 0;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+    text-transform: uppercase;
+  }
+}
+
+.audio-stats {
+  @include flex(row);
+
+  gap: 100px;
+  justify-content: flex-start;
+  padding: 15px 0;
+  border-bottom: 1px solid $white;
+
+  &__header {
+    margin: 0;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 78px;
+    text-transform: uppercase;
+  }
+}
+
+.line {
+  @include flex(row);
+
+  justify-content: flex-start;
+
+  &__text {
+    width: 350px;
+    padding: 10px 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  &__data {
+    color: $blue;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .sprint-stats &__text,
+  .audio-stats &__text {
+    padding: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .sprint-stats &__data,
+  .audio-stats &__data {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.all {
+  padding: 80px 0 65px;
+  background-color: $blue;
+
+  &__wrapper {
+    @include flex(row);
+
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    display: inline-block;
+    width: 330px;
+    margin: 0 80px 0 53px;
+    color: $dark-orange;
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 78px;
+    text-transform: uppercase;
+  }
+
+  &__charts {
+    margin-bottom: 100px;
+  }
+
+  &__new-words,
+  &__learned-words {
+    margin: 0 auto;
+  }
+}
+
+.learned-words,
+.new-words {
+  width: 700px;
+  height: 350px;
+  margin-bottom: 50px;
+
+  &__ctx {
+    width: 700px;
+    height: 350px;
+  }
+}

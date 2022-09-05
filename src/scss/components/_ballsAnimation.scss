@@ -1,0 +1,215 @@
+.move {
+  .inner-ball1 {
+    &_first {
+      animation: 0.5s forwards moving-ball1-first;
+    }
+
+    &_second {
+      animation: 0.5s forwards moving-ball1-second;
+    }
+  }
+
+  .inner-ball2 {
+    &_first {
+      animation: 0.5s forwards moving-ball2-first;
+    }
+
+    &_second {
+      animation: 0.5s forwards moving-ball2-second;
+    }
+  }
+
+  .inner-arrow1 {
+    animation: 0.5s forwards moving-arrow1;
+  }
+
+  .inner-arrow2 {
+    animation: 0.5s forwards moving-arrow2;
+  }
+}
+
+@keyframes moving-arrow1 {
+  0%,
+  7% {
+    transform: rotateZ(0);
+  }
+
+  15% {
+    transform: rotateZ(-15deg);
+  }
+
+  20% {
+    transform: rotateZ(10deg);
+  }
+
+  25% {
+    transform: rotateZ(-10deg);
+  }
+
+  30% {
+    transform: rotateZ(6deg);
+  }
+
+  35% {
+    transform: rotateZ(-4deg);
+  }
+
+  40%,
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+@keyframes moving-arrow2 {
+  0%,
+  7% {
+    transform: rotateZ(180deg);
+  }
+
+  15% {
+    transform: rotateZ(165deg);
+  }
+
+  20% {
+    transform: rotateZ(190deg);
+  }
+
+  25% {
+    transform: rotateZ(170deg);
+  }
+
+  30% {
+    transform: rotateZ(186deg);
+  }
+
+  35% {
+    transform: rotateZ(176deg);
+  }
+
+  40%,
+  100% {
+    transform: rotateZ(180deg);
+  }
+}
+
+@keyframes moving-ball1-first {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  65% {
+    transform: translate(-10px, -27px);
+  }
+
+  100% {
+    transform: translate(0 0);
+  }
+}
+
+@keyframes moving-ball2-first {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  65% {
+    transform: translate(10px, 27px);
+  }
+
+  100% {
+    transform: translate(0 0);
+  }
+}
+
+@keyframes moving-ball1-second {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  65% {
+    transform: translate(7px, 4px);
+  }
+
+  100% {
+    transform: translate(0 0);
+  }
+}
+
+@keyframes moving-ball2-second {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  65% {
+    transform: translate(-7px, -4px);
+  }
+
+  100% {
+    transform: translate(0 0);
+  }
+}
+
+.animate {
+  .menu {
+    &__ball {
+      &:nth-child(1) {
+        animation: 1.7s ease-in 0.5s infinite balance1;
+      }
+
+      &:nth-child(2) {
+        animation: 1.7s ease-in 0.4s infinite balance2;
+      }
+
+      &:nth-child(3) {
+        animation: 1.9s ease-in 0.4s infinite balance3;
+      }
+
+      &:nth-child(4) {
+        animation: 1.7s ease-in 0.3s infinite balance4;
+      }
+    }
+  }
+}
+
+@keyframes balance1 {
+  0%,
+  100% {
+    transform: rotate(3deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-3deg) translate(3px, 3px);
+  }
+}
+
+@keyframes balance2 {
+  0%,
+  100% {
+    transform: rotate(3deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-3deg) translate(-3px, -2px);
+  }
+}
+
+@keyframes balance3 {
+  0%,
+  100% {
+    transform: rotate(2deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-2deg) translate(-5px, -1px);
+  }
+}
+
+@keyframes balance4 {
+  0%,
+  100% {
+    transform: rotate(2deg) translate(0, 0);
+  }
+
+  50% {
+    transform: rotate(-2deg) translate(0, -1px);
+  }
+}
