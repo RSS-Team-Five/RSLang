@@ -9,6 +9,20 @@ body {
   flex-direction: column;
   height: 100vh;
   font-family: Montserrat, sans-serif;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $lavender;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $blue;
+    border: 3px solid $lavender;
+    border-radius: 20px;
+  }
 }
 
 .header {

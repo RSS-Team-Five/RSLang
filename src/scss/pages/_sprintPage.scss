@@ -233,6 +233,20 @@
       padding: 10px;
       overflow-y: scroll;
       background-color: $lavender;
+
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $lavender;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $blue;
+        border: 3px solid $lavender;
+        border-radius: 20px;
+      }
     }
 
     &__word-line {
