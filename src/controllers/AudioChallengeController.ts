@@ -125,9 +125,13 @@ export default class AudioChallengeController {
 
       if (this.model.trueAnswer === this.model.userAnswer) {
         const winSound = new Audio(winSample);
+        if (this.model.sound) winSound.volume = 0.2;
+        else winSound.volume = 0;
         winSound.play();
       } else {
         const loseSound = new Audio(loseSample);
+        if (this.model.sound) loseSound.volume = 0.2;
+        else loseSound.volume = 0;
         loseSound.play();
       }
 
@@ -145,9 +149,13 @@ export default class AudioChallengeController {
         }
         if (this.model.trueAnswer === this.model.userAnswer) {
           const winSound = new Audio(winSample);
+          if (this.model.sound) winSound.volume = 0.2;
+          else winSound.volume = 0;
           winSound.play();
         } else {
           const loseSound = new Audio(loseSample);
+          if (this.model.sound) loseSound.volume = 0.2;
+          else loseSound.volume = 0;
           loseSound.play();
         }
       }

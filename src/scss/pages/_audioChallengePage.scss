@@ -9,6 +9,8 @@
     }
 
     &__block {
+      height: 316px;
+
       &__container {
         width: 310px;
         height: 201px;
@@ -122,8 +124,35 @@
     right: 69px;
     z-index: 3;
   }
+
+  &_sound {
+    position: static;
+    align-self: flex-end;
+  }
 }
 
 .audio {
   position: relative;
+}
+
+.sound {
+  &_on,
+  &_of {
+    align-self: flex-end;
+    width: 114px;
+    margin: 20px 20px 0 0;
+    color: $white;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: $middle-grey;
+    border: 1px solid $middle-grey;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &_on:hover,
+  &_of:hover {
+    background-color: $blue;
+  }
 }

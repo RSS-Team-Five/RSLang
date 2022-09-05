@@ -13,6 +13,7 @@ export default class AudioChallengeModel {
   newWords: number;
   learnedWords: number;
   gameStatistic: { win: IWord[]; lose: IWord[]; winSeries: number; score: number };
+  sound: boolean;
 
   constructor() {
     this.words = null;
@@ -26,5 +27,6 @@ export default class AudioChallengeModel {
     this.newWords = 0;
     this.learnedWords = 0;
     this.gameStatistic = { win: [], lose: [], winSeries: 0, score: 0 };
+    this.sound = true;
   }
 }

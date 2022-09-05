@@ -36,6 +36,34 @@ export default class AudioChallengeView {
     const acBall = getOuterBall(2);
     acBall.classList.add('ac__bottom');
     this.view.addChildren([gameContainer.element, line.element, acBall]);
+    const soundButton = new CustomElement('button', { className: 'ac_sound' });
+
+    function turnOn() {
+      soundButton.element.classList.add('sound_on');
+      soundButton.element.classList.remove('sound_of');
+      soundButton.element.textContent = 'только голос'.toUpperCase();
+    }
+
+    function turnOff() {
+      soundButton.element.textContent = 'включить звуки'.toUpperCase();
+      soundButton.element.classList.remove('sound_on');
+      soundButton.element.classList.add('sound_of');
+    }
+
+    if (model.sound) {
+      turnOn();
+    } else {
+      turnOff();
+    }
+    soundButton.element.addEventListener('click', () => {
+      if (soundButton.element.classList.contains('sound_on')) {
+        turnOff();
+        model.sound = false;
+      } else {
+        turnOn();
+        model.sound = true;
+      }
+    });
     if (model.words && model.answers) {
       const word = model.words[model.currentWord];
       const wordBlock = new CustomElement('div', { className: 'game__ac__block' });
@@ -106,7 +134,7 @@ export default class AudioChallengeView {
       nextBtn.element.addEventListener('click', () => this.controller.next());
       answersBlock.addChildren([nextBtn.element]);
 
-      gameContainer.addChildren([wordBlock.element, answersBlock.element]);
+      gameContainer.addChildren([soundButton.element, wordBlock.element, answersBlock.element]);
     }
   }
 
