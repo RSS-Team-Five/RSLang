@@ -39,8 +39,10 @@
 }
 
 .orange-color {
-  .header__links {
-    color: $orange;
+  .header {
+    &__links {
+      color: $orange;
+    }
   }
 
   button {
@@ -49,8 +51,10 @@
 }
 
 .blue-color {
-  .header__links {
-    color: $blue;
+  .header {
+    &__links {
+      color: $blue;
+    }
   }
 
   button {
