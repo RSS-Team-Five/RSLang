@@ -44,6 +44,14 @@ function createMainPage() {
     menu.addChildren([menuBall.element]);
   });
 
+  menuWrapper.element.addEventListener('mouseover', () => {
+    menu.element.classList.add(`animate`);
+  });
+
+  menuWrapper.element.addEventListener('mouseout', () => {
+    menu.element.classList.remove(`animate`);
+  });
+
   const aboutWrapper = new CustomElement('div', {
     className: 'main__about-wrapper',
   });

@@ -147,3 +147,60 @@
     transform: translate(0 0);
   }
 }
+
+.animate {
+  .menu__ball {
+    &:nth-child(1) {
+      animation: 1.7s ease-in 0.5s infinite balance1;
+    }
+
+    &:nth-child(2) {
+      animation: 1.7s ease-in 0.4s infinite balance2;
+    }
+
+    &:nth-child(3) {
+      animation: 1.9s ease-in 0.4s infinite balance3;
+    }
+
+    &:nth-child(4) {
+      animation: 1.7s ease-in 0.3s infinite balance4;
+    }
+  }
+}
+
+@keyframes balance1 {
+	0%, 100% {
+		transform: rotate(3deg) translate(0, 0)
+	}	
+	50% {
+		transform: rotate(-3deg) translate(3px, 3px);
+	}	
+}
+
+@keyframes balance2 {
+  0%, 100% {
+		transform: rotate(3deg) translate(0, 0)
+	}	
+	50% {
+		transform: rotate(-3deg) translate(-3px, -2px);
+	}	
+}
+
+@keyframes balance3 {
+  0%, 100% {
+		transform: rotate(2deg) translate(0, 0)
+	}	
+	50% {
+		transform: rotate(-2deg) translate(-5px, -1px);
+	}	
+}
+
+@keyframes balance4 {
+  0%, 100% {
+		transform: rotate(2deg) translate(0px, 0)
+	}	
+	50% {
+		transform: rotate(-2deg) translate(0px, -1px);
+	}	
+}
+
