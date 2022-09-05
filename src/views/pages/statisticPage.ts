@@ -311,7 +311,6 @@ async function createStatisticPage() {
 
   if (statisticResponse) {
     if ('optional' in statisticResponse) {
-      console.log(statisticResponse);
       const date = dateNow();
       if (date in statisticResponse.optional) {
         const statisticToday = renderStatisticToday(statisticResponse.optional[date]);

@@ -327,8 +327,6 @@ export default class AudioChallengeController {
         } else if ('isBad' in responseUpdStatistic) {
           // Этого не должно происходить
           console.log(responseUpdStatistic);
-        } else {
-          console.log('Statistic updated');
         }
       }
     }
