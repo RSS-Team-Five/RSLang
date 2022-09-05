@@ -5,9 +5,9 @@
 
 body {
   position: relative;
-  display: flex;
+  display: grid;
   flex-direction: column;
-  height: 100vh;
+  grid-template-rows: 150px 2fr 50px;
   font-family: Montserrat, sans-serif;
 
   &::-webkit-scrollbar {
@@ -32,6 +32,8 @@ body {
 .main {
   z-index: 3;
   flex: 1 0 auto;
+  height: 100%;
+  min-height: calc(100vh - 200px);
 }
 
 .footer {
@@ -40,6 +42,7 @@ body {
 
 .container {
   max-width: 1440px;
+  height: 100%;
   margin: 0 auto;
   padding: 0 20px;
 }

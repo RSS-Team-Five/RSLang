@@ -55,7 +55,7 @@ export default class View {
       this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.add(
         'blue-color'
       );
-      const mainPage: HTMLElement = createMainPage();
+      const mainPage: DocumentFragment = createMainPage();
       this.content?.append(mainPage);
       document.body.append(this.footerElement);
       this.footerElement.hidden = false;
@@ -124,8 +124,11 @@ export default class View {
   renderAboutUs() {
     if (this.content) {
       this.content.innerHTML = '';
-      this.deleteStyle();
-      const aboutUsPage: HTMLElement = createAboutUsPage();
+      this.addBlueStyle();
+      this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.add(
+        'blue-color'
+      );
+      const aboutUsPage: DocumentFragment = createAboutUsPage();
       this.content?.append(aboutUsPage);
       document.body.append(this.footerElement);
       this.footerElement.hidden = false;
