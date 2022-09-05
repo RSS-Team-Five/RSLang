@@ -102,16 +102,17 @@ async function createSprintPage(group: string | undefined, page: string | undefi
       spinner.element.showModal();
       const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
       if (gameWords.length === 0) {
+        spinner.element.remove();
         gameIntro.element.classList.add('none');
         const sorry = new CustomElement('div', {
-          className: 'game__sorry',
+          className: 'sorry',
         });
         const sorryText = new CustomElement('div', {
-          className: 'game__sorry_text',
+          className: 'sorry__text',
           innerText: 'Ты уже выучил все слова с этой и предыдущей страницы учебника.\nВыбери другу страницу.',
         });
         const sorryButton = new CustomElement('a', {
-          className: 'game__sorry_button',
+          className: 'sorry__button',
           textContent: 'Вернуться к учебнику',
           href: `#/book`,
         });
