@@ -33,11 +33,11 @@
       z-index: 2;
       display: flex;
       flex-direction: row;
+      margin-right: 10px;
       font-weight: 400;
       font-size: 10px;
       font-style: normal;
       line-height: 24px;
-      margin-right: 10px;
       cursor: default;
 
       &-win {
@@ -56,7 +56,7 @@
     &-bookmark {
       position: absolute;
       top: -4px;
-      right: 0px;
+      right: 0;
       z-index: 1;
       width: 43px;
     }
