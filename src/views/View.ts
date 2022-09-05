@@ -178,6 +178,7 @@ export default class View {
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();
+      window.scroll(0, 0);
     }
   }
 
@@ -187,6 +188,7 @@ export default class View {
       this.content.append(dialog);
       document.body.style.overflow = 'hidden';
       dialog.showModal();
+      window.scroll(0, 0);
     }
   }
 
