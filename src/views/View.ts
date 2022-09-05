@@ -21,6 +21,7 @@ import spinnerWhite from '../assets/icons/spinner-white.svg';
 import isAllLearned from '../utils/isAllLearned';
 import Section from '../controllers/Section';
 import IWord from '../types/IWord';
+import spinnerGreen from '../assets/icons/spinner-green.svg';
 
 export default class View {
   content: HTMLElement | null;
@@ -77,6 +78,13 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.addGreyStyle();
+
+      const spinner = new CustomElement('dialog', { className: 'spinner' });
+      const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerGreen, alt: 'Spinner' });
+      spinner.addChildren([spinnerImg.element]);
+      this.content.append(spinner.element);
+      spinner.element.showModal();
+
       if (+group <= config.BOOK.maxGroup && +page <= config.BOOK.maxPage) {
         const groupAdd = +group as GroupType;
         const pageAdd = +page as PageType;
@@ -90,6 +98,7 @@ export default class View {
         if (state.group !== config.BOOK.maxGroup && isAllLearned(allWordsOnPage).isTrue) {
           this.addLearnedStyle();
         }
+        this.content.innerHTML = '';
         this.content?.append(sectionPage);
         document.body.append(this.footerElement);
         this.footerElement.hidden = false;
