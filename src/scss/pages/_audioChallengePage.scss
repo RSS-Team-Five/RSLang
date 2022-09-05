@@ -108,11 +108,18 @@
 .ac {
   &__line {
     position: absolute;
-    top: 756px;
+    top: 835px;
     right: 270px;
     z-index: 2;
     width: 870px;
     height: 1px;
     background-color: $white;
+  }
+
+  &__bottom {
+    position: absolute;
+    top: 745px;
+    right: 69px;
+    z-index: 3;
   }
 }
