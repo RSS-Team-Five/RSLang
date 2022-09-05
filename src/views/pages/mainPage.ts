@@ -3,6 +3,17 @@ import CustomElement from '../../utils/customElement';
 import photo from '../../assets/images/happy-girl.png';
 
 function createMainPage() {
+  const mainPanels = new CustomElement('div', {
+    className: 'main__panels panel',
+  });
+  const introPanel = new CustomElement('div', {
+    className: 'panel__intro',
+  });
+  const cardsPanel = new CustomElement('div', {
+    className: 'panel__cards',
+  });
+  mainPanels.addChildren([introPanel.element, cardsPanel.element]);
+
   const mainWrapper = new CustomElement('div', {
     className: 'main__wrapper main-page',
   });
@@ -70,7 +81,9 @@ function createMainPage() {
   menuWrapper.addChildren([menu.element]);
   mainWrapper.addChildren([aboutWrapper.element, menuWrapper.element]);
 
-  return mainWrapper.element;
+  const fragment = document.createDocumentFragment();
+  fragment.append(mainPanels.element, mainWrapper.element);
+  return fragment;
 }
 
 export default createMainPage;

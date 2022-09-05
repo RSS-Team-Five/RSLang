@@ -3,6 +3,7 @@
   &__menu-wrapper {
     @include flex();
 
+    z-index: 1;
     align-items: flex-end;
     justify-content: flex-end;
     width: 50%;
@@ -25,10 +26,6 @@
 .main-page {
   @include flex(row);
 
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
   height: 100%;
 }
 
@@ -54,6 +51,7 @@
     @include flex();
 
     justify-content: flex-end;
+    margin-bottom: -50px;
     background-color: $dark-orange;
   }
 
