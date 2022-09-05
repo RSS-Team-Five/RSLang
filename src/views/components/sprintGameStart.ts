@@ -3,6 +3,7 @@ import state from '../../models/State';
 import IGameWord from '../../types/IGameWord';
 import IWord from '../../types/IWord';
 import CustomElement from '../../utils/customElement';
+import getOuterBall from './outerBall';
 import drawResults from './sprintResults';
 
 async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], gameIntro: CustomElement<'div'>) {
@@ -18,6 +19,13 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   }
 
   gameIntro.element.classList.add('none');
+
+  const line = new CustomElement('span', {
+    className: 'sprint__line',
+  });
+
+  const sprintBall = getOuterBall(1);
+  sprintBall.classList.add('bottom');
 
   const gameField = new CustomElement('div', {
     className: 'game__field',
@@ -38,13 +46,29 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     className: 'game__container',
   });
 
-  const soundButton = new CustomElement('button', {
-    className: 'game__sound',
-    textContent: 'mute',
-  });
-
   const gameInfoTable = new CustomElement('div', {
     className: 'game__info-table',
+  });
+
+  const infoTableFirstRow = new CustomElement('div', {
+    className: 'game__info-table_first-row',
+  });
+
+  const soundButton = new CustomElement('button', {
+    className: 'game__sound_on',
+    textContent: 'убрать звук'.toUpperCase(),
+  });
+
+  soundButton.element.addEventListener('click', () => {
+    if (soundButton.element.classList.contains('game__sound_on')) {
+      soundButton.element.textContent = 'включить звук'.toUpperCase();
+      soundButton.element.classList.remove('game__sound_on');
+      soundButton.element.classList.add('game__sound_of');
+    } else {
+      soundButton.element.textContent = 'убрать звук'.toUpperCase();
+      soundButton.element.classList.remove('game__sound_of');
+      soundButton.element.classList.add('game__sound_on');
+    }
   });
 
   const gameScore = new CustomElement('p', {
@@ -52,9 +76,11 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     textContent: score.toString(),
   });
 
+  infoTableFirstRow.addChildren([gameScore.element, soundButton.element]);
+
   const gamePoints = new CustomElement('p', {
     className: 'game__points',
-    textContent: `+${points} очков`,
+    textContent: `+${points} очков`.toUpperCase(),
   });
 
   const gamePointsProgress = new CustomElement('div', {
@@ -69,7 +95,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   }
   const dots = Array.from(gamePointsProgress.element.children);
 
-  gameInfoTable.addChildren([gameScore.element, gamePoints.element, gamePointsProgress.element]);
+  gameInfoTable.addChildren([infoTableFirstRow.element, gamePoints.element, gamePointsProgress.element]);
 
   const gameCard = new CustomElement('div', {
     className: 'game__card',
@@ -83,12 +109,12 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   const gameWord = new CustomElement('p', {
     className: 'game__word',
-    textContent: gameWords[count].word,
+    textContent: gameWords[count].word.toUpperCase(),
   });
 
   const gameWordTranslate = new CustomElement('p', {
     className: 'game__word_translate',
-    textContent: gameWords[count].wordTranslate,
+    textContent: gameWords[count].wordTranslate.toUpperCase(),
   });
 
   const gameButtons = new CustomElement('div', {
@@ -114,8 +140,8 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   /* eslint-enable */
 
   function refreshWords() {
-    gameWord.element.textContent = gameWords[count].word;
-    gameWordTranslate.element.textContent = gameWords[count].wordTranslate;
+    gameWord.element.textContent = gameWords[count].word.toUpperCase();
+    gameWordTranslate.element.textContent = gameWords[count].wordTranslate.toUpperCase();
   }
 
   function refreshPoints() {
@@ -131,7 +157,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
       gameAnimal.element.alt = config.GAMES.SPRINT[points / 10].alt;
       points += 10;
       pointsCounter = 0;
-      gamePoints.element.textContent = `+${points} очков`;
+      gamePoints.element.textContent = `+${points} очков`.toUpperCase();
       switch (points) {
         case 20:
           gamePoints.element.classList.add('points_red');
@@ -201,7 +227,7 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     count += 1;
     pointsCounter = 0;
     points = 10;
-    gamePoints.element.textContent = `+${points} очков`;
+    gamePoints.element.textContent = `+${points} очков`.toUpperCase();
     dots.forEach((dot) => dot.classList.remove('dot_actual'));
     const regex = 'points_[a-zA-Z-]+';
     const classArray = Array.from(gamePoints.element.classList);
@@ -215,10 +241,11 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
     counting -= 1;
     gameCounting.element.textContent = counting.toString();
     if (counting === 40) {
-      gameCounting.element.classList.add('counting_yellow');
+      gameCounting.element.classList.add('counting_blue');
     }
     if (counting < 27) {
-      gameCounting.element.classList.add('counting_red');
+      gameCounting.element.classList.remove('counting_blue');
+      gameCounting.element.classList.add('counting_dark-grey');
     }
     if (counting === 0) {
       clearTimeout(timer);
@@ -231,9 +258,11 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   startTimer();
 
   async function getWrongAnswer() {
-    const actualWord = wordsArray.find((word) => word.word === gameWord.element.textContent);
-    const wordIndex = gameWords.findIndex((word) => word.word === actualWord?.word);
-    if (actualWord && gameWordTranslate.element.textContent === actualWord.wordTranslate) {
+    const actualWord = wordsArray.find(
+      (word) => word.word.toLowerCase() === gameWord.element.textContent?.toLowerCase()
+    );
+    const wordIndex = gameWords.findIndex((word) => word.word.toLowerCase() === actualWord?.word.toLowerCase());
+    if (actualWord && gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate.toLowerCase()) {
       gameWords[wordIndex].guess = false;
       refreshProgress();
     } else {
@@ -250,9 +279,14 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
   }
 
   async function getRightAnswer() {
-    const actualWord = wordsArray.find((word) => word.word === gameWord.element.textContent);
-    const wordIndex = gameWords.findIndex((word) => word.word === actualWord?.word);
-    if (actualWord && gameWordTranslate.element.textContent === actualWord.wordTranslate) {
+    const actualWord = wordsArray.find(
+      (word) => word.word.toLowerCase() === gameWord.element.textContent?.toLowerCase()
+    );
+    const wordIndex = gameWords.findIndex((word) => word.word.toLowerCase() === actualWord?.word.toLowerCase());
+    if (
+      actualWord &&
+      gameWordTranslate.element.textContent?.toLowerCase() === actualWord.wordTranslate?.toLowerCase()
+    ) {
       gameWords[wordIndex].guess = true;
       refreshPoints();
     } else {
@@ -278,9 +312,9 @@ async function startSprintGame(gameWords: IGameWord[], wordsArray: IWord[], game
 
   gameCard.addChildren([gameAnimal.element, gameWord.element, gameWordTranslate.element, gameButtons.element]);
 
-  gameContainer.addChildren([soundButton.element, gameInfoTable.element, gameCard.element]);
+  gameContainer.addChildren([gameInfoTable.element, gameCard.element]);
 
-  gameField.addChildren([gameTimer.element, gameContainer.element]);
+  gameField.addChildren([gameTimer.element, gameContainer.element, sprintBall, line.element]);
 
   return gameField;
 }

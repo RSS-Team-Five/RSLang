@@ -1,0 +1,129 @@
+.game {
+  &__ac {
+    &__sound {
+      width: 219px;
+      height: 219px;
+      margin: 38px 0 55px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    &__block {
+      &__container {
+        width: 310px;
+        height: 201px;
+        margin: 26px 0 31px;
+
+        &_image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      &__word {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        column-gap: 14px;
+
+        &_sound {
+          width: 43px;
+          height: 43px;
+          cursor: pointer;
+        }
+
+        &_text {
+          color: $dark-grey;
+          font-weight: 700;
+          font-size: 32px;
+          line-height: 39px;
+        }
+      }
+    }
+
+    &__answer {
+      color: $dark-grey;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+
+      &_block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 42px 81px;
+        column-gap: 37px;
+        row-gap: 24px;
+      }
+
+      &_btn {
+        padding: 10px 36px;
+        background-color: transparent;
+        border: 1px solid $dark-grey;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      &_next {
+        padding: 10px 24px;
+        background-color: transparent;
+        border: 4px solid $dark-grey;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      &_next:hover {
+        scale: 1.05;
+      }
+    }
+  }
+
+  &__container {
+    &__ac {
+      @include flex;
+
+      width: 774px;
+      height: 573px;
+      margin: 80px auto 0;
+      background-color: $lavender;
+      animation: none;
+    }
+  }
+}
+
+.orange-back {
+  background-color: $dark-orange;
+  border-color: $dark-orange;
+  cursor: default;
+}
+
+.blue-back {
+  color: $white;
+  background-color: $dark-grey;
+  border-color: $dark-grey;
+  cursor: default;
+}
+
+.ac {
+  &__line {
+    position: absolute;
+    top: 706px;
+    right: 270px;
+    z-index: 2;
+    width: 870px;
+    height: 1px;
+    background-color: $white;
+  }
+
+  &__bottom {
+    position: absolute;
+    top: 650px;
+    right: 69px;
+    z-index: 3;
+  }
+}
+
+.audio {
+  position: relative;
+}

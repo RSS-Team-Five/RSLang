@@ -1,0 +1,41 @@
+@keyframes pulse-green {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-green;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-red;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}
+
+@keyframes pulse-blue {
+  0% {
+    box-shadow: 0 0 0 0 $transparent-blue;
+  }
+
+  70% {
+    box-shadow: 0 0 0 30px $animate-end;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 $animate-end;
+  }
+}

@@ -1,0 +1,31 @@
+.sorry {
+  @include flex;
+
+  max-width: 1440px;
+  height: 90%;
+  margin: 0 auto;
+  color: $white;
+  text-align: center;
+
+  &__text {
+    margin-bottom: 40px;
+    font-weight: 200;
+    font-size: 20px;
+  }
+
+  &__button,
+  &__link {
+    padding: 20px;
+    color: $white;
+    font-weight: 200;
+    font-size: 20px;
+    border: 2px solid $white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__button:hover,
+  &__link:hover {
+    background-color: $dark-orange;
+  }
+}

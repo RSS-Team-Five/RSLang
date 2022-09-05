@@ -1,22 +1,13 @@
 import { Chart, ChartItem, registerables } from 'chart.js';
-import IGameWord from '../../types/IGameWord';
+import AudioChallengeModel from '../../models/AudioChallengeModel';
 import CustomElement from '../../utils/customElement';
 
 Chart.register(...registerables);
 
-function drawChart(gameWords: IGameWord[], diagramChart: CustomElement<'canvas'>) {
-  const correctAnswers = gameWords.filter((word) => word.guess).length;
-  const wrongAnswers = gameWords.filter((word) => word.guess !== null && !word.guess).length;
-  let inRow = 0;
-  let repeat = 0;
-  gameWords.forEach((word) => {
-    if (word.guess) repeat += 1;
-    else {
-      if (repeat > inRow) inRow = repeat;
-      repeat = 0;
-    }
-  });
-  if (repeat > inRow) inRow = repeat;
+function drawChart(model: AudioChallengeModel, diagramChart: CustomElement<'canvas'>) {
+  const correctAnswers = model.gameStatistic.win.length;
+  const wrongAnswers = model.gameStatistic.lose.length;
+  const inRow = model.gameStatistic.winSeries;
 
   const ctx = diagramChart.element as ChartItem;
   Chart.defaults.color = '#224347';

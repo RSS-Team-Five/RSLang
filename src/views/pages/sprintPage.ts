@@ -91,27 +91,28 @@ async function createSprintPage(group: string | undefined, page: string | undefi
     const spinner = new CustomElement('dialog', { className: 'spinner' });
     const spinnerImg = new CustomElement('img', { className: 'spinner__img', src: spinnerWhite, alt: 'Spinner' });
     spinner.addChildren([spinnerImg.element]);
+    const footer = Array.from(document.body.children).filter((e) => e.classList.contains('footer'))[0];
+    if (footer instanceof HTMLElement) {
+      footer.hidden = true;
+    }
 
     if (level !== undefined) {
-      if (document.body.lastElementChild && document.body.lastElementChild instanceof HTMLElement) {
-        const footer = document.body.lastElementChild;
-        footer.hidden = true;
-      }
       gameIntro.element.classList.add('none');
       mainWrapper.element.append(spinner.element);
       spinner.element.showModal();
       const { gameWords, wordsArray } = await getSprintWords(level, pageLevel);
       if (gameWords.length === 0) {
+        spinner.element.remove();
         gameIntro.element.classList.add('none');
         const sorry = new CustomElement('div', {
-          className: 'game__sorry',
+          className: 'sorry',
         });
         const sorryText = new CustomElement('div', {
-          className: 'game__sorry_text',
+          className: 'sorry__text',
           innerText: 'Ты уже выучил все слова с этой и предыдущей страницы учебника.\nВыбери другу страницу.',
         });
         const sorryButton = new CustomElement('a', {
-          className: 'game__sorry_button',
+          className: 'sorry__button',
           textContent: 'Вернуться к учебнику',
           href: `#/book`,
         });
@@ -123,6 +124,13 @@ async function createSprintPage(group: string | undefined, page: string | undefi
         const gameField = await startSprintGame(gameWords, wordsArray, gameIntro);
         spinner.element.remove();
         mainWrapper.addChildren([gameField.element]);
+        document.body.classList.remove('blue-background');
+        const header = Array.from(document.body.children).filter((e) => e.classList.contains('header'))[0];
+        document.body.classList.add('dark-orange-background');
+        if (header instanceof HTMLElement) {
+          header.firstElementChild?.classList.remove('orange-color');
+          header.firstElementChild?.classList.add('blue-color');
+        }
       }
       mainWrapper.element.classList.add('sprint');
     }

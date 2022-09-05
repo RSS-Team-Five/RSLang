@@ -1,6 +1,7 @@
 .game {
   @include flex;
 
+  position: relative;
   justify-content: flex-start;
   height: calc(100% - 121px);
 
@@ -100,27 +101,47 @@
     background-color: $white;
   }
 
+  &__info-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &_first-row {
+      display: flex;
+      align-self: flex-end;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+
   &__word {
-    margin: 10px 0;
-    font-size: 30px;
+    margin: 28px 0;
+    color: $dark-grey;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
 
     &_translate {
-      margin-top: 0;
+      margin: 0 0 33px;
+      font-weight: 400;
       font-size: 20px;
+      line-height: 24px;
     }
   }
 
   &__button {
     display: flex;
     margin-bottom: 20px;
-    column-gap: 10px;
+    column-gap: 30px;
 
     &_wrong {
-      padding: 10px;
-      color: $white;
-      background-color: $red;
+      padding: 20px 43px;
+      color: $dark-grey;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      background-color: $orange;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
 
@@ -129,16 +150,18 @@
       }
 
       &:hover {
-        scale: 1.1;
+        scale: 1.05;
       }
     }
 
     &_right {
-      padding: 10px;
+      padding: 20px 58px;
       color: $white;
-      background-color: $green;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
+      background-color: $dark-grey;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
 
@@ -147,7 +170,7 @@
       }
 
       &:hover {
-        scale: 1.1;
+        scale: 1.05;
       }
     }
   }
@@ -157,43 +180,46 @@
   }
 
   &__animal {
-    height: 60px;
+    height: 93px;
   }
 
   &__points_progress {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     column-gap: 5px;
 
     &_dot {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background-color: $middle-grey;
       border-radius: 50%;
     }
   }
 
   &__points {
-    width: 40vw;
-    margin: 10px;
-    padding: 10px 0;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
     font-size: 20px;
     text-align: center;
   }
 
   &__score {
-    margin: 0 10px;
-    color: $green;
-    font-weight: 900;
-    font-size: 30px;
+    align-self: center;
+    width: 100%;
+    margin: 20px 10px 0;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
     text-align: center;
   }
 
   &__container {
     @include flex;
 
-    width: 40vw;
+    width: 774px;
     margin: 0 auto;
     background-color: $lavender;
     animation: none;
@@ -201,59 +227,133 @@
 
   &__result {
     &__table {
-      width: 70vh;
-      height: 60vh;
+      width: 774px;
+      height: 507px;
+      margin-top: 70px;
       padding: 10px;
       overflow-y: scroll;
       background-color: $lavender;
-      box-shadow: 0 5px 10px 2px $light-shadow;
     }
 
     &__word-line {
       display: flex;
+      align-items: center;
+      margin-left: 42px;
       font-size: 20px;
       column-gap: 10px;
     }
 
     &__word {
       color: $dark-grey;
-      font-weight: 900;
-    }
+      font-weight: 700;
+      line-height: 24px;
 
-    &__word__correctness {
-      align-self: center;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+      &_translation {
+        align-self: center;
+      }
     }
 
     &__diagram {
-      width: 504px;
-      height: 304px;
+      width: 700px;
+      height: 285px;
+      margin-left: 13px;
+      cursor: pointer;
     }
 
     &__total-score {
       display: flex;
+      margin-left: 44px;
+      color: $light-shadow;
+      font-weight: 400;
       font-size: 20px;
+      line-height: 24px;
       column-gap: 5px;
+    }
+
+    &__points {
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+      column-gap: 15px;
+
+      &_dot0,
+      &_dot1,
+      &_dot2 {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+        border-radius: 50%;
+      }
+
+      &_dot0 {
+        background-color: $middle-grey;
+      }
+
+      &_dot1 {
+        background-color: $dark-orange;
+      }
+
+      &_dot2 {
+        background-color: $blue;
+      }
+    }
+
+    &__title {
+      &_cor {
+        margin: 20px;
+        color: $blue;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
+
+      &_incor {
+        margin: 20px;
+        color: $dark-orange;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 26px;
+      }
     }
   }
 
-  &__sound {
-    align-self: end;
-    margin: 20px 20px 0;
+  &__sound_on,
+  &__sound_of {
+    position: absolute;
+    align-self: center;
+    width: 114px;
+    margin: 20px 20px 0 0;
+    color: $white;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: $middle-grey;
+    border: 1px solid $middle-grey;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  &__sound_on:hover,
+  &__sound_of:hover {
+    background-color: $blue;
   }
 
   &__timer {
     &__counting {
-      width: 38px;
+      min-width: 110px;
       margin-top: 0;
-      padding: 10px;
-      color: $green;
-      font-weight: 900;
-      font-size: 30px;
+      margin-bottom: 30px;
+      padding: 20px;
+      color: $lavender;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 59px;
       text-align: center;
-      border: solid 5px $green;
+      border: solid 5px $lavender;
       border-radius: 50%;
     }
   }
@@ -265,33 +365,41 @@
   }
 }
 
+.sprint {
+  position: relative;
+  height: calc(100vh - 121px);
+
+  &__line {
+    position: absolute;
+    top: 706px;
+    right: 270px;
+    z-index: 2;
+    width: 870px;
+    height: 1px;
+    background-color: $white;
+  }
+}
+
+.bottom {
+  position: absolute;
+  top: 650px;
+  right: 69px;
+  z-index: 3;
+}
+
 .ac {
   order: 1;
 }
 
 .counting {
-  &_red {
-    color: $red;
-    border-color: $red;
+  &_dark-grey {
+    color: $dark-grey;
+    border-color: $dark-grey;
   }
 
-  &_yellow {
-    color: $yellow;
-    border-color: $yellow;
-  }
-}
-
-@keyframes pulse-green {
-  0% {
-    box-shadow: 0 0 0 0 $transparent-green;
-  }
-
-  70% {
-    box-shadow: 0 0 0 30px $animate-end;
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 $animate-end;
+  &_blue {
+    color: $blue;
+    border-color: $blue;
   }
 }
 
@@ -303,19 +411,9 @@
   &_green {
     animation: pulse-green 1s;
   }
-}
 
-@keyframes pulse-red {
-  0% {
-    box-shadow: 0 0 0 0 $transparent-red;
-  }
-
-  70% {
-    box-shadow: 0 0 0 30px $animate-end;
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 $animate-end;
+  &_blue {
+    animation: pulse-blue 1s;
   }
 }
 
@@ -361,8 +459,8 @@
 
 .total-score {
   &__points {
-    color: $green;
-    font-weight: 600;
+    color: $light-shadow;
+    font-weight: 700;
   }
 }
 
@@ -377,13 +475,16 @@
 
 .header {
   &__again-button {
+    align-self: flex-end;
     height: fit-content;
-    margin-top: 10px;
-    padding: 10px;
+    margin: 10px 31px 0 0;
+    padding: 19px 29px;
     color: $white;
-    background-color: $green;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    background-color: $dark-grey;
     border: none;
-    border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
 
@@ -392,17 +493,15 @@
     }
 
     &:hover {
-      scale: 1.1;
+      background-color: $orange;
     }
   }
-}
 
-.correct {
-  &_green {
-    background-color: $green;
-  }
-
-  &_red {
-    background-color: $red;
+  &__title {
+    margin: 35px 0 0 44px;
+    color: $blue;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
   }
 }
