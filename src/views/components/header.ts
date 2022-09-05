@@ -21,7 +21,7 @@ function renderButton(rightContainer: CustomElement<'div'>) {
         state.events?.notify('userAuthorized');
 
         console.log('🚀 ~ window.location.hash === #/section/6/0', window.location.hash === '#/section/6/0');
-        if (window.location.hash === '#/section/6/0') {
+        if (window.location.hash === '#/section/6/0' || window.location.hash === '#/statistics') {
           state.router?.view('/');
         } else {
           window.location.reload();
