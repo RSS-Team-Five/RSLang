@@ -94,9 +94,9 @@ export default class AudioChallengeView {
           btnAnswer.element.addEventListener('click', () => this.controller.try(answer));
         } else if (answer === model.userAnswer) {
           if (answer === word) {
-            btnAnswer.element.classList.add('blue_back');
+            btnAnswer.element.classList.add('blue-back');
           } else {
-            btnAnswer.element.classList.add('orange_back');
+            btnAnswer.element.classList.add('orange-back');
           }
         }
 

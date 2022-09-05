@@ -24,8 +24,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        column-gap: 14px;
         margin-bottom: 10px;
+        column-gap: 14px;
 
         &_sound {
           width: 43px;
@@ -43,10 +43,10 @@
     }
 
     &__answer {
-        color: $dark-grey;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
+      color: $dark-grey;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 24px;
 
       &_block {
         display: flex;
@@ -59,16 +59,16 @@
 
       &_btn {
         padding: 10px 36px;
-        border: 1px solid $dark-grey;
         background-color: transparent;
+        border: 1px solid $dark-grey;
         cursor: pointer;
         transition: 0.3s;
       }
 
       &_next {
         padding: 10px 24px;
-        border: 4px solid $dark-grey;
         background-color: transparent;
+        border: 4px solid $dark-grey;
         cursor: pointer;
         transition: 0.3s;
       }
@@ -85,20 +85,20 @@
 
       width: 774px;
       height: 573px;
-      margin: 80px auto 0 auto;
+      margin: 80px auto 0;
       background-color: $lavender;
       animation: none;
     }
   }
 }
 
-.orange_back {
+.orange-back {
   background-color: $dark-orange;
   border-color: $dark-orange;
   cursor: default;
 }
 
-.blue_back {
+.blue-back {
   color: $white;
   background-color: $dark-grey;
   border-color: $dark-grey;
