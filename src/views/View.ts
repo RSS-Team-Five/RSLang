@@ -192,7 +192,9 @@ export default class View {
       state.events?.subscribe('gameNoWords', () => view.renderNoWords());
 
       if (group && page) {
+        this.addDarkOrangeStyle();
         this.content?.append(game);
+        this.footerElement.hidden = true;
         if (game.firstChild instanceof HTMLDialogElement) {
           game.firstChild.showModal();
         }
