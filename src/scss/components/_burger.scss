@@ -46,9 +46,21 @@
   height: 2px;
   background-color: $blue;
   content: '';
+  transition: 0.5s;
 }
 
 .burger::after {
   top: 39px;
   height: 5px;
+}
+
+.burger-active::before {
+  top: 50%;
+  transform: rotate(135deg) translate(0px, 50%);
+}
+
+.burger-active::after {
+  top: 50%;
+  transform: rotate(-135deg) translate(0px, -50%);
+  height: 2px;
 }
