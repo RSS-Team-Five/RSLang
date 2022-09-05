@@ -34,12 +34,17 @@
       line-height: 29px;
       text-decoration: none;
       transition: 0.3s;
+      opacity: 1;
     }
 
     &-link:hover {
       color: $dark-orange;
     }
   }
+}
+
+.invisible {
+  opacity: 0;
 }
 
 .burger::before,

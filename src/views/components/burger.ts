@@ -42,6 +42,8 @@ function createBurgerMenu(burger: HTMLElement): void {
       href: link,
       innerHTML: `${names[i].name}   `,
     });
+    linkElement.element.classList.add('invisible');
+    setTimeout(() => linkElement.element.classList.remove('invisible'), 100 * i);
     if (!state.user?.isAuthorized && linkElement.element.innerHTML === 'СТАТИСТИКА   ') {
       linkElement.element.classList.add('inactive');
       linkElement.element.style.cursor = 'pointer';
