@@ -182,10 +182,11 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
 
   const dates = Object.keys(statistic)
     .sort((a, b) => Number(a) - Number(b))
-    .slice(0, 10);
+    .slice(-12);
+
   const labels = dates.map((item) => {
     const date = new Date(+item);
-    return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}`;
+    return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
   });
   labels.length = 12;
 
