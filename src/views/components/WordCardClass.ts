@@ -349,6 +349,7 @@ class WordCard {
     this.learnedElement = new CustomClickableElement('div', 'click', eventOnLearned, {
       className: 'card__icons-learned-mark',
       innerText: config.WORD.markAsUnlearned,
+      title: 'Добавить слово в изученные',
     }).element;
 
     if (!this.isAuthorized) {
