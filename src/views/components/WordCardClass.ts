@@ -251,6 +251,7 @@ class WordCard {
       className: 'card__icons-star',
       src: starBlank,
       alt: 'star',
+      title: 'Добавить слово с сложные',
     }).element;
 
     if (userWord && userWord.length && userWord[0].optional.learned) {
