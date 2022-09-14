@@ -20,11 +20,7 @@ export default class App {
     this.state.user = new User(userId, token, refreshToken);
     const resultGetToken = await this.state.user.getToken({ userId, refreshToken });
     if ('userId' in resultGetToken) {
-      console.log(resultGetToken);
-
       this.state.user.isAuthorized = true;
-    } else {
-      console.log(resultGetToken);
     }
 
     const view = new View();

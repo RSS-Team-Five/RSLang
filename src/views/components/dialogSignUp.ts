@@ -175,8 +175,6 @@ function dialogSignUp() {
             console.log(resultCreateStatistic);
           } else if ('isUnsuccess' in resultCreateStatistic) {
             console.log(resultCreateStatistic);
-          } else {
-            console.log(resultCreateStatistic);
           }
 
           if (state.user) state.user.isAuthorized = true;

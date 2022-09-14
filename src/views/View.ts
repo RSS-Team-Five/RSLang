@@ -53,6 +53,7 @@ export default class View {
     if (this.content) {
       this.content.innerHTML = '';
       this.addBlueStyle();
+      this.content.classList.add('main__content');
       this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.add(
         'blue-color'
       );
@@ -229,6 +230,7 @@ export default class View {
     document.body.classList.remove('dark-orange-background');
     document.body.classList.remove('grey-background');
     document.body.classList.remove('learned-background');
+    this.content?.classList.remove('main__content');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('blue-color');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.classList.remove('orange-color');
     this.content?.parentElement?.previousElementSibling?.firstElementChild?.firstElementChild?.lastElementChild?.classList.remove(

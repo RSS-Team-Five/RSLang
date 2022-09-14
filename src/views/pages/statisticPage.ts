@@ -182,15 +182,21 @@ function renderStatisticAll(statistic: Record<number, UserStatisticsOptionalInte
 
   const dates = Object.keys(statistic)
     .sort((a, b) => Number(a) - Number(b))
-    .slice(0, 10);
+    .slice(-12);
+
   const labels = dates.map((item) => {
     const date = new Date(+item);
-    return `${date.getDate().toString().padStart(2, '0')}.${date.getMonth().toString().padStart(2, '0')}`;
+    return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`;
   });
   labels.length = 12;
 
   const newWordsData = dates.map((item) => statistic[+item].DAY?.newWordsPerDay);
-  const learnedWordsData = dates.map((item) => statistic[+item].DAY?.learned);
+  const learnedWordsData: number[] = [];
+  dates.reduce((acc, item) => {
+    const result = acc + (statistic[+item].DAY?.learned ?? 0);
+    learnedWordsData.push(result);
+    return result;
+  }, 0);
 
   const allCharts = new CustomElement('div', { className: 'all__charts' });
   const newWords = new CustomElement('div', { className: 'all__new-words new-words' });
@@ -311,7 +317,6 @@ async function createStatisticPage() {
 
   if (statisticResponse) {
     if ('optional' in statisticResponse) {
-      console.log(statisticResponse);
       const date = dateNow();
       if (date in statisticResponse.optional) {
         const statisticToday = renderStatisticToday(statisticResponse.optional[date]);

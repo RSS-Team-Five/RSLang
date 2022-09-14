@@ -1,4 +1,8 @@
 .main {
+  &__content {
+    height: 100%;
+  }
+
   &__about-wrapper,
   &__menu-wrapper {
     @include flex();

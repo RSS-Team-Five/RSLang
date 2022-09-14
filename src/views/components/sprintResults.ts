@@ -318,8 +318,6 @@ async function drawResults(
         });
         if ('isUnsuccess' in responseUpdStatistic) {
           state.router?.view('/signIn');
-        } else {
-          console.log('Statistic updated');
         }
       }
     }
