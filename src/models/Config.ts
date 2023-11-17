@@ -23,7 +23,7 @@ import animal14 from '../assets/images/14-animal.png';
 
 const config = {
   API: {
-    URL: 'https://team5.site',
+    URL: 'https://team5.space',
     ENDPOINTS: {
       USERS: 'users',
       SIGNIN: 'signin',
